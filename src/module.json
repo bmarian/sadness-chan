@@ -1,0 +1,14 @@
+{
+  "name": "sadness-chan",
+  "title": "Sadness Chan",
+  "description": "How lucky are you, really?",
+  "version": "1.0.0",
+  "author": "Marian",
+  "esmodules": ["sadness-chan.js"],
+  "styles": ["sadness-chan.css"],
+  "minimumCoreVersion": "0.6.4",
+  "compatibleCoreVersion": "0.6.4",
+  "url": "https://github.com/bmarian/sadness-chan",
+  "manifest": "https://raw.githubusercontent.com/bmarian/sadness-chan/master/src/module.json",
+  "changelog": "https://github.com/bmarian/sadness-chan/releases"
+}
