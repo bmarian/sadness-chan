@@ -18,7 +18,12 @@ class Settings {
     }
 
     public getSetting(key: string): any {
-        return JSON.parse(game.settings.get(utils.moduleName, key));
+        const setting = game.settings.get(utils.moduleName, key);
+        try {
+            return JSON.parse(setting);
+        } catch (error) {
+            return null;
+        }
     }
 
     public setSetting(key: string, data: any): Promise<any> {
