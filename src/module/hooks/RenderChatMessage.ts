@@ -25,7 +25,7 @@ class RenderChatMessage {
 
     private async _updateNumberOfOnes(numberOfOnes: number, userData: any): Promise<void> {
         if (!userData) return;
-        const counter = JSON.parse(settings.getSetting(this._counterKey));
+        const counter = settings.getSetting(this._counterKey);
         const user = counter[userData.id];
         if (user) {
             user.numberOfOnes += numberOfOnes;
@@ -37,7 +37,7 @@ class RenderChatMessage {
             }
         }
         utils.debug(counter);
-        return settings.setSetting(this._counterKey, JSON.stringify(counter));
+        return settings.setSetting(this._counterKey, counter);
     }
 
     public async extractSimpleAnalytics(roll: any, user: any): Promise<void> {

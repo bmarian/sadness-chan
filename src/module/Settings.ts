@@ -18,11 +18,16 @@ class Settings {
     }
 
     public getSetting(key: string): any {
-        return game.settings.get(utils.moduleName, key);
+        const setting = game.settings.get(utils.moduleName, key);
+        try {
+            return JSON.parse(setting);
+        } catch (error) {
+            return null;
+        }
     }
 
     public setSetting(key: string, data: any): Promise<any> {
-        return game.settings.set(utils.moduleName, key, data);
+        return game.settings.set(utils.moduleName, key, JSON.stringify(data));
     }
 
     public registerSettings(): void {

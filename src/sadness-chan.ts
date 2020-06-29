@@ -10,7 +10,7 @@ Hooks.once('init', async ():Promise<void> => {
 Hooks.on('preCreateChatMessage', (message: any): void => {
     let content = message?.content;
     if (content && content === '/sadness') {
-        const counter: any = JSON.parse(settings.getSetting('counter'));
+        const counter: any = settings.getSetting('counter');
         if (!counter) return;
 
         message.content = '<ol>';
