@@ -22,12 +22,12 @@ class RenderChatMessage {
         const name = user?.name;
         return id && name ? {id: id, name: name} : null;
     }
-
+    //DO TO: change function name
     private async _updateNumberOfOnes(rollValue: number, numberOfRolls: number, userData: any): Promise<void> {
         if (!userData) return;
         const counter = settings.getSetting(this._counterKey);
         const user = counter[userData.id];
-        const rolls:number[] = new Array(21); 
+        const rolls:number[] = []; 
         if (user) {
             user.rolls[rollValue] += numberOfRolls;
             user.name = userData.name;
@@ -44,14 +44,21 @@ class RenderChatMessage {
     public async extractSimpleAnalytics(roll: any, user: any): Promise<void> {
         const dice = roll._dice;
         if (!dice) return;
-        const numberOfOnes = dice.reduce((numberOfOnes: number, die: Die): number => {
-            if (die.faces !== 20) return numberOfOnes;
-            return numberOfOnes + die.rolls.reduce((numberOfOnes: number, roll: any): number => {
-                return roll.roll === 1 ? numberOfOnes + 1 : numberOfOnes;
-            }, 0);
-        }, 0)
+        console.log(dice[0].faces);
+        const recentRolls:number[] = [];
+        if (dice[0].faces === 20){
+            for (const key in dice[0].rolls){
+                if (recentRolls[dice[0].rolls[key].roll] >= 0){
+                    recentRolls[dice[0].rolls[key].roll]++;
+                }
+                else{
+                    recentRolls[dice[0].rolls[key].roll] = 1;
+                }
+                console.log(recentRolls[dice[0].rolls[key].roll]);
+            }
+        }
 
-        if (numberOfOnes > 0) return this._updateNumberOfOnes(1, numberOfOnes, this._extractUserData(user));
+        return this._updateNumberOfOnes(1, recentRolls[1], this._extractUserData(user));
     }
 
     public async extractBetter5eRollsAnalytics(chatMessage: any, user: string): Promise<void> {
