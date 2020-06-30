@@ -23,15 +23,23 @@ class RenderChatMessage {
         return id && name ? {id: id, name: name} : null;
     }
     //DO TO: change function name
-    private async _updateNumberOfOnes(rollValue: number, numberOfRolls: number, userData: any): Promise<void> {
+    private async _updateNumberOfOnes(recentRolls: number[], userData: any): Promise<void> {
         if (!userData) return;
         const counter = settings.getSetting(this._counterKey);
         const user = counter[userData.id];
-        const rolls:number[] = []; 
         if (user) {
-            user.rolls[rollValue] += numberOfRolls;
+            for (let i=1; i< 21; i++){
+                if (user.rolls[i]){
+                    user.rolls[i] = user.rolls[i] + recentRolls[i];
+                }
+                else {
+                    user.rolls[i] = recentRolls[i];
+                }
+                
+            }
             user.name = userData.name;
         } else {
+            const rolls:number[] = new Array(21); 
             counter[userData.id] = {
                 rolls,
                 ...userData,
@@ -47,7 +55,7 @@ class RenderChatMessage {
         console.log(dice[0].faces);
         const recentRolls:number[] = [];
         if (dice[0].faces === 20){
-            for (const key in dice[0].rolls){
+            for (let key in dice[0].rolls){
                 if (recentRolls[dice[0].rolls[key].roll] >= 0){
                     recentRolls[dice[0].rolls[key].roll]++;
                 }
@@ -58,15 +66,16 @@ class RenderChatMessage {
             }
         }
 
-        return this._updateNumberOfOnes(1, recentRolls[1], this._extractUserData(user));
+        return this._updateNumberOfOnes(recentRolls, this._extractUserData(user));
     }
 
     public async extractBetter5eRollsAnalytics(chatMessage: any, user: string): Promise<void> {
         const dieRegex = /<li.*roll die d20.*>(1)<\/li>/g;
         const oneMatches = chatMessage.match(dieRegex);
         const numberOfOnes = oneMatches ? oneMatches.length : 0;
+        const recentRolls: number[] = [];
 
-        if (numberOfOnes > 0) return this._updateNumberOfOnes(1, numberOfOnes, this._extractUserData(user));
+        if (numberOfOnes > 0) return this._updateNumberOfOnes(recentRolls, this._extractUserData(user));
     }
 
 }
