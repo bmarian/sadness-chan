@@ -23,16 +23,17 @@ class RenderChatMessage {
         return id && name ? {id: id, name: name} : null;
     }
 
-    private async _updateNumberOfOnes(numberOfOnes: number, userData: any): Promise<void> {
+    private async _updateNumberOfOnes(rollValue: number, numberOfRolls: number, userData: any): Promise<void> {
         if (!userData) return;
         const counter = settings.getSetting(this._counterKey);
         const user = counter[userData.id];
+        const rolls:number[] = new Array(21); 
         if (user) {
-            user.numberOfOnes += numberOfOnes;
+            user.rolls[rollValue] += numberOfRolls;
             user.name = userData.name;
         } else {
             counter[userData.id] = {
-                numberOfOnes,
+                rolls,
                 ...userData,
             }
         }
@@ -50,7 +51,7 @@ class RenderChatMessage {
             }, 0);
         }, 0)
 
-        if (numberOfOnes > 0) return this._updateNumberOfOnes(numberOfOnes, this._extractUserData(user));
+        if (numberOfOnes > 0) return this._updateNumberOfOnes(1, numberOfOnes, this._extractUserData(user));
     }
 
     public async extractBetter5eRollsAnalytics(chatMessage: any, user: string): Promise<void> {
@@ -58,7 +59,7 @@ class RenderChatMessage {
         const oneMatches = chatMessage.match(dieRegex);
         const numberOfOnes = oneMatches ? oneMatches.length : 0;
 
-        if (numberOfOnes > 0) return this._updateNumberOfOnes(numberOfOnes, this._extractUserData(user));
+        if (numberOfOnes > 0) return this._updateNumberOfOnes(1, numberOfOnes, this._extractUserData(user));
     }
 
 }

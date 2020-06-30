@@ -17,7 +17,7 @@ Hooks.on('preCreateChatMessage', (message: any): void => {
 
         for (const key in counter) {
             const userData = counter[key];
-            message.content += `<li><span>${userData.name}</span>: <span>${userData.numberOfOnes}</span></li>`
+            message.content += `<li><span>${userData.name}</span>: <span>${userData.rolls[1]}</span></li>`
         }
         message.content += '</ol>';
     }
