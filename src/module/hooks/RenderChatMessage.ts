@@ -28,18 +28,18 @@ class RenderChatMessage {
         const counter = settings.getSetting(this._counterKey);
         const user = counter[userData.id];
         if (user) {
-            for (let i=1; i< 21; i++){
+            for (let i=1; i<=20; i++){
                 if (user.rolls[i]){
                     user.rolls[i] = user.rolls[i] + recentRolls[i];
                 }
                 else {
                     user.rolls[i] = recentRolls[i];
                 }
-                
             }
             user.name = userData.name;
         } else {
             const rolls:number[] = new Array(21); 
+            // counter data structure holds an array where on position x it is stored the number of times x has been rolled
             counter[userData.id] = {
                 rolls,
                 ...userData,
@@ -49,20 +49,21 @@ class RenderChatMessage {
         return settings.setSetting(this._counterKey, counter);
     }
 
+    // recentRolls holds on position x the number of x-es rolled 
     public async extractSimpleAnalytics(roll: any, user: any): Promise<void> {
         const dice = roll._dice;
         if (!dice) return;
-        console.log(dice[0].faces);
         const recentRolls:number[] = [];
         if (dice[0].faces === 20){
-            for (let key in dice[0].rolls){
-                if (recentRolls[dice[0].rolls[key].roll] >= 0){
-                    recentRolls[dice[0].rolls[key].roll]++;
+            const rolls = dice[0]?.rolls
+            for (let key in rolls){
+                const rollValue = dice[0].rolls[key].roll;
+                if (recentRolls[rollValue] >= 0){
+                    recentRolls[rollValue] +=1;
                 }
                 else{
-                    recentRolls[dice[0].rolls[key].roll] = 1;
+                    recentRolls[rollValue] = 1;
                 }
-                console.log(recentRolls[dice[0].rolls[key].roll]);
             }
         }
 
