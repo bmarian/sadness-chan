@@ -71,12 +71,21 @@ class RenderChatMessage {
     }
 
     public async extractBetter5eRollsAnalytics(chatMessage: any, user: string): Promise<void> {
-        const dieRegex = /<li.*roll die d20.*>(1)<\/li>/g;
-        const oneMatches = chatMessage.match(dieRegex);
-        const numberOfOnes = oneMatches ? oneMatches.length : 0;
+        const dieRegex = /<li.*roll die d20.*>([0-9]+)<\/li>/g;
+        const valueRegex = /(\d+)(?!.*\d)/g;
+        const matches = chatMessage.match(dieRegex);
         const recentRolls: number[] = [];
-
-        if (numberOfOnes > 0) return this._updateNumberOfOnes(recentRolls, this._extractUserData(user));
+        let valueMatch: number;
+        for (let i=0; i<matches.length; i++){
+            valueMatch = matches[i].match(valueRegex);
+            if (recentRolls[valueMatch[0]]){
+                recentRolls[valueMatch[0]] += 1;
+            }
+            else {
+                recentRolls[valueMatch[0]] = 1;
+            }
+        }
+        return this._updateNumberOfOnes(recentRolls, this._extractUserData(user));
     }
 
 }
