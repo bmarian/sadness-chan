@@ -93,14 +93,10 @@ class RenderChatMessage {
         }
     }
 
-    public calculateNumberOfRolls (rolls: any){
-        let sum: number = 0;
-        for (let i=1;i<=20;i++){
-            if (rolls[i]){
-                sum += rolls[i];
-            }
-            
-        }
+    public calculateNumberOfRolls (rolls: any){ 
+        const sum = rolls.reduce((total, roll) => {
+            return total + roll;
+        },0);
         return sum;
     }
 
