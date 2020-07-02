@@ -22,19 +22,22 @@ class RenderChatMessage {
         const name = user?.name;
         return id && name ? {id: id, name: name} : null;
     }
-    //DO TO: change function name
-    private async _updateNumberOfOnes(recentRolls: number[], userData: any): Promise<void> {
+
+    private async _updateDiceRolls(recentRolls: number[], userData: any): Promise<void> {
         if (!userData) return;
         const counter = settings.getSetting(this._counterKey);
         const user = counter[userData.id];
         if (user) {
             for (let i=1; i<=20; i++){
-                if (user.rolls[i]){
-                    user.rolls[i] = user.rolls[i] + recentRolls[i];
+                if (recentRolls[i]){
+                    if (user.rolls[i]){
+                        user.rolls[i] += recentRolls[i];
+                    }
+                    else {
+                        user.rolls[i] = recentRolls[i];
+                    }
                 }
-                else {
-                    user.rolls[i] = recentRolls[i];
-                }
+                
             }
             user.name = userData.name;
         } else {
@@ -67,7 +70,7 @@ class RenderChatMessage {
             }
         }
 
-        return this._updateNumberOfOnes(recentRolls, this._extractUserData(user));
+        return this._updateDiceRolls(recentRolls, this._extractUserData(user));
     }
 
     public async extractBetter5eRollsAnalytics(chatMessage: any, user: string): Promise<void> {
@@ -76,16 +79,20 @@ class RenderChatMessage {
         const matches = chatMessage.match(dieRegex);
         const recentRolls: number[] = [];
         let valueMatch: number;
-        for (let i=0; i<matches.length; i++){
-            valueMatch = matches[i].match(valueRegex);
-            if (recentRolls[valueMatch[0]]){
-                recentRolls[valueMatch[0]] += 1;
-            }
-            else {
-                recentRolls[valueMatch[0]] = 1;
+        if (matches){
+            const matchesNumber = matches.length;
+            for (let i=0; i<matchesNumber; i++){
+                valueMatch = matches[i].match(valueRegex);
+                if (recentRolls[valueMatch[0]]){
+                    recentRolls[valueMatch[0]] += 1;
+                }
+                else {
+                    recentRolls[valueMatch[0]] = 1;
+                }
             }
         }
-        return this._updateNumberOfOnes(recentRolls, this._extractUserData(user));
+        
+        return this._updateDiceRolls(recentRolls, this._extractUserData(user));
     }
 
 }
