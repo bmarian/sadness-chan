@@ -4,6 +4,7 @@ import settings from "../Settings"
 class RenderChatMessage {
     private static _instance: RenderChatMessage;
     private readonly _counterKey: string = 'counter';
+    private static playerWhisperChance = 1000000; // out of 100
 
     private constructor() {
     }
@@ -40,7 +41,7 @@ class RenderChatMessage {
             }
             user.name = userData.name;
         } else {
-            const rolls:number[] = recentRolls; 
+            const rolls:number[] = recentRolls; //rolls is initialized with recentRolls to account for a new player's first roll
             // counter data structure holds an array where on position x it is stored the number of times x has been rolled
             counter[userData.id] = {
                 rolls,
@@ -55,7 +56,7 @@ class RenderChatMessage {
     public async extractSimpleAnalytics(roll: any, user: any): Promise<void> {
         const dice = roll._dice;
         if (!dice) return;
-        const recentRolls:number[] = [];
+        const recentRolls:number[] = new Array(21).fill(0);
         if (dice[0].faces === 20){
             const rolls = dice[0]?.rolls
             for (let key in rolls){
@@ -98,6 +99,24 @@ class RenderChatMessage {
             return total + roll;
         },0);
         return sum;
+    }
+
+    public shouldIWhisper (){
+        const players = game.users.filter(u => u.active).map(u => u.id);
+        const randomPlayerIndex = Math.floor(Math.random() * players.length);
+        const random = Math.floor(Math.random() * 100);
+        if (random < RenderChatMessage.playerWhisperChance){
+            this.createWhisperMessage(players[randomPlayerIndex], "mesaj sarcastic");
+        }
+    }
+    public async createWhisperMessage(target: any, content: any){
+        const message = {
+            name: "Sneak pick",
+            content: content,
+            whisper: [target]
+        }
+        let a = await ChatMessage.create(message);
+
     }
 
 }
