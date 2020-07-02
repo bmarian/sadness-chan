@@ -40,7 +40,7 @@ class RenderChatMessage {
             }
             user.name = userData.name;
         } else {
-            const rolls:number[] = new Array(21); 
+            const rolls:number[] = recentRolls; 
             // counter data structure holds an array where on position x it is stored the number of times x has been rolled
             counter[userData.id] = {
                 rolls,
