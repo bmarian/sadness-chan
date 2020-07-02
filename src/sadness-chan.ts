@@ -21,6 +21,8 @@ Hooks.on('preCreateChatMessage', (message: any): void => {
             for (let i=1; i<=20;i++){
                 message.content += `<span>[${i}]: </span><span>${userData.rolls[i]}</span> <br>`;
             }
+            message.content += `<span>Total number of rolls: </span>`
+            message.content += `<span>${renderChatMessageHook.calculateNumberOfRolls(userData.rolls)}</span>`
             message.content += '</li>';
         }
         message.content += '</ol>';
