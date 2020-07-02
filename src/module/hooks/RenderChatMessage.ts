@@ -90,9 +90,8 @@ class RenderChatMessage {
                     recentRolls[valueMatch[0]] = 1;
                 }
             }
+            return this._updateDiceRolls(recentRolls, this._extractUserData(user));
         }
-        
-        return this._updateDiceRolls(recentRolls, this._extractUserData(user));
     }
 
 }
