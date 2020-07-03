@@ -101,16 +101,36 @@ class RenderChatMessage {
         return sum;
     }
 
-    public shouldIWhisper (){
+    public selectMeanComment(){
+
+        
+    }
+
+    public selectReallyMeanComment(){
+
+    }
+
+    // takes all active players ids
+    // generates random index
+    // generates random value 0 -> 100
+    public shouldIWhisper(roll: number){
         const players = game.users.filter(u => u.active).map(u => u.id);
         const randomPlayerIndex = Math.floor(Math.random() * players.length);
         const random = Math.floor(Math.random() * 100);
         if (random < RenderChatMessage.playerWhisperChance){
-            this.createWhisperMessage(players[randomPlayerIndex], "mesaj sarcastic");
+            if (roll === 20){
+                this.createWhisperMessage(players[randomPlayerIndex], "mesaj sarcastic");
+            }
+            else if(roll === 1){
+                this.createWhisperMessage(players[randomPlayerIndex], "alt mesaj sarcastic");                
+            }
         }
     }
+
     public async createWhisperMessage(target: any, content: any){
         const message = {
+            author: "Sadness-chan",
+            alias: "Sadness-chan",
             name: "Sneak pick",
             content: content,
             whisper: [target]
