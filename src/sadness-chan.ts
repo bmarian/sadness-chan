@@ -37,7 +37,6 @@ Hooks.on('createChatMessage', async (chatMessage: any): Promise<void> => {
     const _roll = chatMessage?._roll;
     if (_roll) {
         await renderChatMessageHook.extractSimpleAnalytics(_roll, user);
-        renderChatMessageHook.selectMeanComment()
     } else if (renderChatMessageHook.checkIfBetter5eRollsIsInstalled() && chatMessage?.data?.content) {
         await renderChatMessageHook.extractBetter5eRollsAnalytics(chatMessage.data.content, user);
     }

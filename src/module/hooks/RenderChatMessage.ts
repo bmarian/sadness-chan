@@ -1,5 +1,7 @@
 import utils from "../Utils"
 import settings from "../Settings"
+import {meanComments} from "../meanComments"
+import {reallyMeanComments} from "../reallyMeanComments"
 
 class RenderChatMessage {
     private static _instance: RenderChatMessage;
@@ -102,12 +104,13 @@ class RenderChatMessage {
     }
 
     public selectMeanComment(){
-
-        
+        const commentIndex = Math.floor(Math.random() * meanComments.length);
+        return meanComments[commentIndex];
     }
 
     public selectReallyMeanComment(){
-
+        const commentIndex = Math.floor(Math.random() * reallyMeanComments.length);
+        return reallyMeanComments[commentIndex];
     }
 
     // takes all active players ids
