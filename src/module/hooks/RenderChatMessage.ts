@@ -103,14 +103,17 @@ class RenderChatMessage {
         return sum;
     }
 
+    private selectRandomFromList(list: any){
+        const listIndex = Math.floor(Math.random() * list.length);
+        return list[listIndex];
+    }
+
     public selectMeanComment(){
-        const commentIndex = Math.floor(Math.random() * meanComments.length);
-        return meanComments[commentIndex];
+        return this.selectRandomFromList(meanComments);
     }
 
     public selectReallyMeanComment(){
-        const commentIndex = Math.floor(Math.random() * reallyMeanComments.length);
-        return reallyMeanComments[commentIndex];
+        return this.selectRandomFromList(reallyMeanComments);
     }
 
     // takes all active players ids
