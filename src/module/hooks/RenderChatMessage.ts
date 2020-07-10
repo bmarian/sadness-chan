@@ -1,7 +1,7 @@
 import utils from "../Utils"
 import settings from "../Settings"
-import {meanComments} from "../meanComments"
-import {reallyMeanComments} from "../reallyMeanComments"
+import meanComments from "../meanComments"
+import reallyMeanComments from "../reallyMeanComments"
 
 class RenderChatMessage {
     private static _instance: RenderChatMessage;
@@ -30,10 +30,11 @@ class RenderChatMessage {
         if (!userData) return;
         const counter = settings.getSetting(this._counterKey);
         const user = counter[userData.id];
+
         if (user) {
-            for (let i=1; i<=20; i++){
-                if (recentRolls[i]){
-                    if (user.rolls[i]){
+            for (let i = 1; i <= 20; i++) {
+                if (recentRolls[i]) {
+                    if (user.rolls[i]) {
                         user.rolls[i] += recentRolls[i];
                     }
                     else {
@@ -51,27 +52,22 @@ class RenderChatMessage {
             }
         }
         utils.debug(counter);
-        return settings.setSetting(this._counterKey, counter);
+        return settings.setSetting(this._counterKey, counter);return settings.setSetting(this._counterKey, counter);
     }
 
-    // recentRolls holds on position x the number of x-es rolled 
+    // recentRolls holds on position x the number of times x has been rolled 
     public async extractSimpleAnalytics(roll: any, user: any): Promise<void> {
         const dice = roll._dice;
         if (!dice) return;
-        const recentRolls:number[] = new Array(21).fill(0);
-        if (dice[0].faces === 20){
-            const rolls = dice[0]?.rolls
-            for (let key in rolls){
-                const rollValue = dice[0].rolls[key].roll;
-                if (recentRolls[rollValue] >= 0){
-                    recentRolls[rollValue] +=1;
-                }
-                else{
-                    recentRolls[rollValue] = 1;
-                }
+        
+        const recentRolls = new Array(21).fill(0);
+        if (dice[0].faces === 20) {
+            const rolls = dice[0]?.rolls;
+            for (let key in rolls) {
+                const rollValue = rolls[key].roll;
+                recentRolls[rollValue] += 1;              
             }
         }
-
         return this._updateDiceRolls(recentRolls, this._extractUserData(user));
     }
 
@@ -79,28 +75,22 @@ class RenderChatMessage {
         const dieRegex = /<li.*roll die d20.*>([0-9]+)<\/li>/g;
         const valueRegex = /(\d+)(?!.*\d)/g;
         const matches = chatMessage.match(dieRegex);
-        const recentRolls: number[] = [];
-        let valueMatch: number;
-        if (matches){
-            const matchesNumber = matches.length;
-            for (let i=0; i<matchesNumber; i++){
-                valueMatch = matches[i].match(valueRegex);
-                if (recentRolls[valueMatch[0]]){
-                    recentRolls[valueMatch[0]] += 1;
-                }
-                else {
-                    recentRolls[valueMatch[0]] = 1;
-                }
-            }
-            return this._updateDiceRolls(recentRolls, this._extractUserData(user));
+        if (!matches) return;
+        
+        const recentRolls = [];
+
+        for (let i = 0; i < matches.length; i++) {
+            const valueMatch = matches[i].match(valueRegex);
+            const rollValue = recentRolls[valueMatch[0]];
+            recentRolls[valueMatch[0]] = rollValue ? rollValue + 1 : 1;
         }
+        return this._updateDiceRolls(recentRolls, this._extractUserData(user));
     }
 
-    public calculateNumberOfRolls (rolls: any){ 
-        const sum = rolls.reduce((total, roll) => {
+    public calculateNumberOfRolls (rolls: any) { 
+        return rolls.reduce((total: number, roll: number): number => {
             return total + roll;
-        },0);
-        return sum;
+        }, 0);
     }
 
     private selectRandomFromList(list: any){
