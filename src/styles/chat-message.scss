@@ -1,4 +1,5 @@
-.#{$module-name}-chat-message {
+.#{$module-name}-chat-message,
+.#{$module-name}-chat-stats {
   &-header {
     display: flex;
     align-items: center;
@@ -9,13 +10,45 @@
       margin-bottom: 10px;
       margin-right: 10px;
     }
-
-    &__name {
-
-    }
   }
+}
 
+.#{$module-name}-chat-stats {
   &-body {
+    &__rolls {
+      list-style: none;
+      margin: 5px 0;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
 
+      &-roll {
+        font-size: 16px;
+        color: #000;
+        font-weight: bold;
+        text-align: center;
+        line-height: 24px;
+        margin-right: 1px;
+        width: 50%;
+
+        &-dice {
+          background-image: url("./assets/d20-grey.svg");
+          background-size: 24px 24px;
+          background-repeat: no-repeat;
+          width: 24px;
+
+          margin-right: 5px;
+          display: inline-block;
+          &.min {
+            color: #aa0200;
+            filter: sepia(0.5) hue-rotate(-60deg);
+          }
+          &.max {
+            color: #18520b;
+            filter: sepia(0.5) hue-rotate(60deg);
+          }
+        }
+      }
+    }
   }
 }

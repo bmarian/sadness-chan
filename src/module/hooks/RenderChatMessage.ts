@@ -6,7 +6,7 @@ import reallyMeanComments from "../reallyMeanComments"
 class RenderChatMessage {
     private static _instance: RenderChatMessage;
     private readonly _counterKey: string = 'counter';
-    private static playerWhisperChance = 100; // out of 100
+    private static playerWhisperChance = 50; // out of 100
 
     private constructor() {
     }
@@ -69,7 +69,7 @@ class RenderChatMessage {
         }
         await this._updateDiceRolls(recentRolls, this._extractUserData(user));
 
-        return 20; // DEBUG
+        // return 20; // DEBUG
 
         if (recentRolls[1] > 0) return 1;
         if (recentRolls[20] > 0) return 20;
@@ -91,7 +91,7 @@ class RenderChatMessage {
         }
         await this._updateDiceRolls(recentRolls, this._extractUserData(user));
 
-        return 1; // DEBUG
+        // return 1; // DEBUG
 
         if (recentRolls[1] > 0) return 1;
         if (recentRolls[20] > 0) return 20;
@@ -174,10 +174,58 @@ class RenderChatMessage {
         `;
     }
 
-    getStats(counterElement: any): string {
-        let message = ``;
+    private _getStatsBody(userData: any, statsBodyClass: string):string {
+        let message = `
+            <h2 class="${statsBodyClass}__username">${userData.name}</h2>
+        `;
+
+        const rolls = userData.rolls;
+        if (rolls) {
+            const nat1 = rolls[1];
+            const nat20 = rolls[20];
+            const rollsClass = `${statsBodyClass}__rolls`;
+            const rollClass = `${rollsClass}-roll`;
+
+            message += `
+                <ol class="${rollsClass}">
+                    <li class="${rollClass}">
+                        <span class="${rollClass}-dice min">1</span>    
+                        <span class="${rollClass}-count">${nat1}</span>    
+                    </li>
+                    <li class="${rollClass}">
+                        <span class="${rollClass}-dice max">20</span>    
+                        <span class="${rollClass}-count">${nat20}</span>
+                    </li>
+                </ol>
+            `;
+        }
 
         return message;
+    }
+
+    public getStats(userData: any): string {
+        const imageUrl = "https://cdnb.artstation.com/p/assets/images/images/017/397/657/large/milvinke-madiharpart-dtiys-150-rosado.jpg?1555825697";
+        const statsClass = `${utils.moduleName}-chat-stats`;
+        const statsHeaderClass = `${statsClass}-header`;
+        const statsBodyClass = `${statsClass}-body`
+
+        return `
+            <div class="${statsClass}">
+                <div class="${statsHeaderClass}">
+                    <img 
+                        src="${imageUrl}" 
+                        alt="${utils.moduleName}-portrait"
+                        class="${statsHeaderClass}__portrait"
+                    />
+                    <h3 class="${statsHeaderClass}__name">
+                        ${utils.moduleTitle}
+                    </h3>
+                </div>
+                <div class="${statsBodyClass}">
+                    ${this._getStatsBody(userData, statsBodyClass)}
+                </div>
+            </div>
+        `;
     }
 
     public updateDynamicMessages (message: string, user: any): string {
