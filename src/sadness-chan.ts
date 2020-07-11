@@ -2,36 +2,34 @@ import utils from "./module/Utils"
 import settings from "./module/Settings"
 import renderChatMessageHook from "./module/hooks/RenderChatMessage"
 
-Hooks.once('init', async ():Promise<void> => {
+Hooks.once('init', async (): Promise<void> => {
     settings.registerSettings();
+    // settings.setSetting('counter', {}); // RESET
+
     utils.debug('Preparing to collect tears.');
 });
 
-Hooks.on('preCreateChatMessage', (message: any): void => {
+Hooks.on('preCreateChatMessage', (message: any, options: any): void => {
     let content = message?.content;
-    if (content && content === '/sadness') {
-        const counter: any = settings.getSetting('counter');
-        if (!counter) return;
+    const user = message?.user;
+    if (!(user && content && content === '!sadness')) return;
 
-        message.content = '<ol>';
+    const counter = settings.getSetting('counter');
+    if (!counter) return;
 
-        for (const key in counter) {
-            const userData = counter[key];
-            message.content += `<li><span>${userData.name}</span>: <span>${userData.numberOfOnes}</span></li>`
-        }
-        message.content += '</ol>';
-    }
+    const userData = counter[user];
+    if (!userData) return;
+
+    message.content = renderChatMessageHook.getStats(userData);
+    message.whisper = [user];
+    options.chatBubble = false;
 });
 
 Hooks.on('createChatMessage', async (chatMessage: any): Promise<void> => {
     const user = chatMessage?.user?.data;
     if (!user) return;
-    if(!game?.user?.hasRole(4)) return;
+    if (!game?.user?.hasRole(4)) return;
 
-    const _roll = chatMessage?._roll;
-    if (_roll) {
-        await renderChatMessageHook.extractSimpleAnalytics(_roll, user);
-    } else if (renderChatMessageHook.checkIfBetter5eRollsIsInstalled() && chatMessage?.data?.content) {
-        await renderChatMessageHook.extractBetter5eRollsAnalytics(chatMessage.data.content, user);
-    }
+    const result = await renderChatMessageHook.extractAnalytics(chatMessage?._roll, chatMessage, user);
+    await renderChatMessageHook.shouldIWhisper(result, user);
 });
