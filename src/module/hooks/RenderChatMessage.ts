@@ -69,6 +69,8 @@ class RenderChatMessage {
         }
         await this._updateDiceRolls(recentRolls, this._extractUserData(user));
 
+        return 20; // DEBUG
+
         if (recentRolls[1] > 0) return 1;
         if (recentRolls[20] > 0) return 20;
         return 0;
@@ -88,6 +90,8 @@ class RenderChatMessage {
             recentRolls[valueMatch[0]] = rollValue ? rollValue + 1 : 1;
         }
         await this._updateDiceRolls(recentRolls, this._extractUserData(user));
+
+        return 1; // DEBUG
 
         if (recentRolls[1] > 0) return 1;
         if (recentRolls[20] > 0) return 20;
@@ -113,20 +117,14 @@ class RenderChatMessage {
         return this.selectRandomFromList(reallyMeanComments);
     }
 
-    // takes all active players ids
-    // generates random index
-    // generates random value 0 -> 100
-    public shouldIWhisper(roll: number, user: any) {
-        // const players = game.users.filter(u => u.active).map(u => u.id);
-        // const randomPlayerIndex = Math.floor(Math.random() * players.length);
+    public shouldIWhisper(roll: number, user: any): Promise<void> {
         const random = Math.floor(Math.random() * 100);
-        if (random < RenderChatMessage.playerWhisperChance) {
-            if (roll === 20) {
-                this.createWhisperMessage(user._id, this.selectMeanComment());
-            } else if (roll === 1) {
-                this.createWhisperMessage(user._id, this.selectReallyMeanComment());
-            }
-        }
+        if (random > RenderChatMessage.playerWhisperChance || !roll) return;
+
+        return this.createWhisperMessage(
+            user._id,
+            roll === 20 ? this.selectMeanComment() : this.selectReallyMeanComment()
+        );
     }
 
     public async createWhisperMessage(target: any, content: any): Promise<void> {

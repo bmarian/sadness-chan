@@ -43,5 +43,5 @@ Hooks.on('createChatMessage', async (chatMessage: any): Promise<void> => {
     if (!game?.user?.hasRole(4)) return;
 
     const result = await renderChatMessageHook.extractAnalytics(chatMessage?._roll, chatMessage, user);
-    renderChatMessageHook.shouldIWhisper(result, user);
+    await renderChatMessageHook.shouldIWhisper(result, user);
 });
