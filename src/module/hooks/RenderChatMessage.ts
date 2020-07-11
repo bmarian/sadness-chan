@@ -109,12 +109,16 @@ class RenderChatMessage {
         return list[listIndex];
     }
 
-    public selectMeanComment() {
-        return this.selectRandomFromList(meanComments);
+    public selectMeanComment(user: any) {
+        const message = this.selectRandomFromList(meanComments);
+        const updatedMessage = this.updateDynamicMessages(message, user);
+        return updatedMessage;
     }
 
-    public selectReallyMeanComment() {
-        return this.selectRandomFromList(reallyMeanComments);
+    public selectReallyMeanComment(user: any) {
+        const message = this.selectRandomFromList(reallyMeanComments);
+        const updatedMessage = this.updateDynamicMessages(message, user);
+        return updatedMessage;
     }
 
     public shouldIWhisper(roll: number, user: any): Promise<void> {
@@ -123,7 +127,7 @@ class RenderChatMessage {
 
         return this.createWhisperMessage(
             user._id,
-            roll === 20 ? this.selectMeanComment() : this.selectReallyMeanComment()
+            roll === 20 ? this.selectMeanComment(user) : this.selectReallyMeanComment(user)
         );
     }
 
@@ -177,6 +181,20 @@ class RenderChatMessage {
         let message = ``;
 
         return message;
+    }
+
+    public updateDynamicMessages (message: string, user: any): string {
+        const formatRegex = /\[sc-d([0-9]{1,2})\]/;
+
+        const userData = this._extractUserData(user);
+        const counter = settings.getSetting(this._counterKey);
+        const userStructure = counter[userData.id];
+
+        const updatedMessage = message.replace(formatRegex, (match: string, value: string): string => {
+            return userStructure.rolls[value];
+        });
+
+        return updatedMessage;
     }
 }
 
