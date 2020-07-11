@@ -6,4 +6,5 @@ export default [
     'Look out below!',
     'You meant to do that.',
     'Your true skill shines through!',
+    'Consider being a halfling in your next life...'
 ];

@@ -69,7 +69,7 @@ class RenderChatMessage {
         }
         await this._updateDiceRolls(recentRolls, this._extractUserData(user));
 
-        return 1; // DEBUG
+        return 20; // DEBUG
 
         if (recentRolls[1] > 0) return 1;
         if (recentRolls[20] > 0) return 20;
