@@ -4,6 +4,5 @@ export default [
     'Who needs skill when you have luck...',
     'Don\'t count on ever doing that again',
     'Even a blind dwarf finds a gem once in a while',
-    'It\'s your [sc-d20]th already... Can you stop please?'
-
+    'You already have [sc-d20] of those. Are you collecting them? ... dice goblin ಠ_ಠ',
 ]
