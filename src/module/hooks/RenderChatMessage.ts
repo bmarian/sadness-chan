@@ -177,7 +177,6 @@ class RenderChatMessage {
     }
 
     getStats(counterElement: any): string {
-
         let message = ``;
 
         return message;
