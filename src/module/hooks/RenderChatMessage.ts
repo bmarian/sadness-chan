@@ -6,7 +6,7 @@ import reallyMeanComments from "../reallyMeanComments"
 class RenderChatMessage {
     private static _instance: RenderChatMessage;
     private readonly _counterKey: string = 'counter';
-    private static playerWhisperChance = 30; // out of 100
+    private static playerWhisperChance = 50; // out of 100
 
     private constructor() {
     }
