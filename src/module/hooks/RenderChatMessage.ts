@@ -69,7 +69,7 @@ class RenderChatMessage {
         }
         await this._updateDiceRolls(recentRolls, this._extractUserData(user));
 
-        return 20; // DEBUG
+        return 1; // DEBUG
 
         if (recentRolls[1] > 0) return 1;
         if (recentRolls[20] > 0) return 20;
@@ -109,13 +109,16 @@ class RenderChatMessage {
         return list[listIndex];
     }
 
-    public selectMeanComment() {
-        return this.selectRandomFromList(meanComments);
+    public selectMeanComment(user: any) {
+        const message = this.selectRandomFromList(meanComments);
+        const updatedMessage = this.updateDynamicMessages(message, user);
+        return updatedMessage;
     }
 
-    public selectReallyMeanComment() {
-        this.getSpecialRemark('Wow you are really trash you rolled [sc-d1] nat ones');
-        return this.selectRandomFromList(reallyMeanComments);
+    public selectReallyMeanComment(user: any) {
+        const message = this.selectRandomFromList(reallyMeanComments);
+        const updatedMessage = this.updateDynamicMessages(message, user);
+        return updatedMessage;
     }
 
     public shouldIWhisper(roll: number, user: any): Promise<void> {
@@ -124,7 +127,7 @@ class RenderChatMessage {
 
         return this.createWhisperMessage(
             user._id,
-            roll === 20 ? this.selectMeanComment() : this.selectReallyMeanComment()
+            roll === 20 ? this.selectMeanComment(user) : this.selectReallyMeanComment(user)
         );
     }
 
@@ -165,9 +168,18 @@ class RenderChatMessage {
         `;
     }
 
-    public getSpecialRemark (message: string) {
+    public updateDynamicMessages (message: string, user: any): string {
         const formatRegex = /\[sc-d([0-9]{1,2})\]/;
-        const matches = message.match(formatRegex);
+        
+        const userData = this._extractUserData(user); 
+        const counter = settings.getSetting(this._counterKey);
+        const userStructure = counter[userData.id];
+
+        const updatedMessage = message.replace(formatRegex, (match: string, value: string): string => {
+            return userStructure.rolls[value];
+        });
+
+        return updatedMessage;
     }
 }
 
