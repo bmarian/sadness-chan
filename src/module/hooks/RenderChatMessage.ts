@@ -31,20 +31,19 @@ class RenderChatMessage {
         const counter = settings.getSetting(this._counterKey);
         const user = counter[userData.id];
 
-        if (user) {
+        if (user && user.rolls) {
             for (let i = 1; i <= 20; i++) {
                 if (recentRolls[i]) {
                     if (user.rolls[i]) {
                         user.rolls[i] += recentRolls[i];
-                    }
-                    else {
+                    } else {
                         user.rolls[i] = recentRolls[i];
                     }
                 }
             }
             user.name = userData.name;
         } else {
-            const rolls:number[] = recentRolls; //rolls is initialized with recentRolls to account for a new player's first roll
+            const rolls: number[] = recentRolls; //rolls is initialized with recentRolls to account for a new player's first roll
             // counter data structure holds an array where on position x it is stored the number of times x has been rolled
             counter[userData.id] = {
                 rolls,
@@ -59,17 +58,19 @@ class RenderChatMessage {
     public async extractSimpleAnalytics(roll: any, user: any): Promise<number> {
         const dice = roll._dice;
         if (!dice) return;
-        
+
         const recentRolls = new Array(21).fill(0);
         if (dice[0].faces === 20) {
             const rolls = dice[0]?.rolls;
             for (let key in rolls) {
                 const rollValue = rolls[key].roll;
-                recentRolls[rollValue] += 1;              
+                recentRolls[rollValue] += 1;
             }
         }
         await this._updateDiceRolls(recentRolls, this._extractUserData(user));
-        
+
+        return 20; // DEBUG
+
         if (recentRolls[1] > 0) return 1;
         if (recentRolls[20] > 0) return 20;
         return 0;
@@ -80,7 +81,7 @@ class RenderChatMessage {
         const valueRegex = /(\d+)(?!.*\d)/g;
         const matches = chatMessage.match(dieRegex);
         if (!matches) return;
-        
+
         const recentRolls = new Array(21).fill(0);
 
         for (let i = 0; i < matches.length; i++) {
@@ -89,13 +90,15 @@ class RenderChatMessage {
             recentRolls[valueMatch[0]] = rollValue ? rollValue + 1 : 1;
         }
         await this._updateDiceRolls(recentRolls, this._extractUserData(user));
-        
+
+        return 1; // DEBUG
+
         if (recentRolls[1] > 0) return 1;
         if (recentRolls[20] > 0) return 20;
         return 0;
     }
 
-    public calculateNumberOfRolls (rolls: any) { 
+    public calculateNumberOfRolls(rolls: any) {
         return rolls.reduce((total: number, roll: number): number => {
             return total + roll;
         }, 0);
@@ -115,26 +118,19 @@ class RenderChatMessage {
         return this.selectRandomFromList(reallyMeanComments);
     }
 
-    // takes all active players ids
-    // generates random index
-    // generates random value 0 -> 100
-    public shouldIWhisper(roll: number, user: any) {
-        // const players = game.users.filter(u => u.active).map(u => u.id);
-        // const randomPlayerIndex = Math.floor(Math.random() * players.length);
+    public shouldIWhisper(roll: number, user: any): Promise<void> {
         const random = Math.floor(Math.random() * 100);
-        if (random < RenderChatMessage.playerWhisperChance) {
-            if (roll === 20) {
-                this.createWhisperMessage(user._id, this.selectMeanComment());
-            }
-            else if(roll === 1) {
-                this.createWhisperMessage(user._id, this.selectReallyMeanComment());                
-            }
-        }
+        if (random > RenderChatMessage.playerWhisperChance || !roll) return;
+
+        return this.createWhisperMessage(
+            user._id,
+            roll === 20 ? this.selectMeanComment() : this.selectReallyMeanComment()
+        );
     }
 
     public async createWhisperMessage(target: any, content: any): Promise<void> {
         const message = {
-            user: target, 
+            user: target,
             content: this.sadnessMessage(content),
             whisper: [target]
         };
@@ -160,7 +156,7 @@ class RenderChatMessage {
                     alt="sadness-portrait"
                     width="50px"
                     height="50px"
-                ></img>
+                />
                 <h3>Sadness Chan</h3>
             </div>
             <div class="sadness-header-container">
