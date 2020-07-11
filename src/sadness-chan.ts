@@ -16,24 +16,26 @@ Hooks.on('preCreateChatMessage', (message: any): void => {
     const counter: any = settings.getSetting('counter');
     if (!counter) return;
 
-    message.content = '';
     for (const key in counter) {
-        const userData = counter[key];
-        const userRolls = userData.rolls;
-        const numberOfRolls = renderChatMessageHook.calculateNumberOfRolls(userData.rolls);
-
-        // Header
-        message.content += `<h2>${userData.name}</h2>`;
-
-        // Roll list
-        message.content += '<ul>';
-        for (let i = 1; i < userRolls.length; i++) {
-            message.content += `<li><span>[${i}]: </span><span>${userRolls[i]}</span></li>`;
+        if (counter.hasOwnProperty(key)) {
+            message.content = renderChatMessageHook.getStats(counter[key]);
         }
-        message.content += '</ul>';
 
-        // Total
-        message.content += `<span>Total number of rolls: ${numberOfRolls}</span><br>`
+        // const userRolls = userData.rolls;
+        // const numberOfRolls = renderChatMessageHook.calculateNumberOfRolls(userData.rolls);
+        //
+        // // Header
+        // message.content += `<h2>${userData.name}</h2>`;
+        //
+        // // Roll list
+        // message.content += '<ul>';
+        // for (let i = 1; i < userRolls.length; i++) {
+        //     message.content += `<li><span>[${i}]: </span><span>${userRolls[i]}</span></li>`;
+        // }
+        // message.content += '</ul>';
+        //
+        // // Total
+        // message.content += `<span>Total number of rolls: ${numberOfRolls}</span><br>`
     }
 });
 

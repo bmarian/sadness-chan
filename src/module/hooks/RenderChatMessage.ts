@@ -171,6 +171,13 @@ class RenderChatMessage {
             </div>
         `;
     }
+
+    getStats(counterElement: any): string {
+
+        let message = ``;
+
+        return message;
+    }
 }
 
 export default RenderChatMessage.getInstance();
