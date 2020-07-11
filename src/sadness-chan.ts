@@ -9,17 +9,20 @@ Hooks.once('init', async (): Promise<void> => {
     utils.debug('Preparing to collect tears.');
 });
 
-Hooks.on('preCreateChatMessage', (message: any): void => {
+Hooks.on('preCreateChatMessage', (message: any, options: any): void => {
     let content = message?.content;
-    if (!(content && content === 'sadness')) return;
+    const user = message?.user;
+    if (!(user && content && content === 'sadness')) return;
 
-    const counter: any = settings.getSetting('counter');
+    const counter = settings.getSetting('counter');
     if (!counter) return;
 
-    for (const key in counter) {
-        if (counter.hasOwnProperty(key)) {
-            message.content = renderChatMessageHook.getStats(counter[key]);
-        }
+    const userData = counter[user];
+    if (!userData) return;
+
+    message.content = renderChatMessageHook.getStats(userData);
+    message.whisper = [user];
+    options.chatBubble = false;
 
         // const userRolls = userData.rolls;
         // const numberOfRolls = renderChatMessageHook.calculateNumberOfRolls(userData.rolls);
@@ -36,7 +39,6 @@ Hooks.on('preCreateChatMessage', (message: any): void => {
         //
         // // Total
         // message.content += `<span>Total number of rolls: ${numberOfRolls}</span><br>`
-    }
 });
 
 Hooks.on('createChatMessage', async (chatMessage: any): Promise<void> => {

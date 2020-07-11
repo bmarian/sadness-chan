@@ -174,10 +174,36 @@ class RenderChatMessage {
         `;
     }
 
-    getStats(counterElement: any): string {
-        let message = ``;
-
+    private _getStatsBody(userData: any, statsBodyClass: string):string {
+        let message = `
+            <h2 class="${statsBodyClass}__username">${userData.name}</h2>
+        `;
         return message;
+    }
+
+    public getStats(userData: any): string {
+        const imageUrl = "https://cdnb.artstation.com/p/assets/images/images/017/397/657/large/milvinke-madiharpart-dtiys-150-rosado.jpg?1555825697";
+        const statsClass = `${utils.moduleName}-chat-stats`;
+        const statsHeaderClass = `${statsClass}-header`;
+        const statsBodyClass = `${statsClass}-body`
+
+        return `
+            <div class="${statsClass}">
+                <div class="${statsHeaderClass}">
+                    <img 
+                        src="${imageUrl}" 
+                        alt="${utils.moduleName}-portrait"
+                        class="${statsHeaderClass}__portrait"
+                    />
+                    <h3 class="${statsHeaderClass}__name">
+                        ${utils.moduleTitle}
+                    </h3>
+                </div>
+                <div class="${statsBodyClass}">
+                    ${this._getStatsBody(userData, statsBodyClass)}
+                </div>
+            </div>
+        `;
     }
 
     public updateDynamicMessages (message: string, user: any): string {
