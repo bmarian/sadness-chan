@@ -2,7 +2,7 @@ import utils from "./module/Utils"
 import settings from "./module/Settings"
 import renderChatMessageHook from "./module/hooks/RenderChatMessage"
 
-Hooks.once('init', async ():Promise<void> => {
+Hooks.once('init', async (): Promise<void> => {
     settings.registerSettings();
     // settings.setSetting('counter', {}); // RESET BOSS
 
@@ -11,7 +11,7 @@ Hooks.once('init', async ():Promise<void> => {
 
 Hooks.on('preCreateChatMessage', (message: any): void => {
     let content = message?.content;
-    if (!(content && content === '/sadness')) return;
+    if (!(content && content === 'sadness')) return;
 
     const counter: any = settings.getSetting('counter');
     if (!counter) return;
@@ -31,7 +31,7 @@ Hooks.on('preCreateChatMessage', (message: any): void => {
             message.content += `<li><span>[${i}]: </span><span>${userRolls[i]}</span></li>`;
         }
         message.content += '</ul>';
-        
+
         // Total
         message.content += `<span>Total number of rolls: ${numberOfRolls}</span><br>`
     }
@@ -40,8 +40,8 @@ Hooks.on('preCreateChatMessage', (message: any): void => {
 Hooks.on('createChatMessage', async (chatMessage: any): Promise<void> => {
     const user = chatMessage?.user?.data;
     if (!user) return;
-    if(!game?.user?.hasRole(4)) return;
-    
+    if (!game?.user?.hasRole(4)) return;
+
     const result = await renderChatMessageHook.extractAnalytics(chatMessage?._roll, chatMessage, user);
     renderChatMessageHook.shouldIWhisper(result, user);
 });
