@@ -181,15 +181,20 @@ class RenderChatMessage {
     }
 
     public updateDynamicMessages (message: string, user: any): string {
-        const formatRegex = /\[sc-d([0-9]{1,2})\]/;
+        let messageOutput = '';
 
         const userData = this._extractUserData(user);
         const counter = settings.getSetting(this._counterKey);
         const userStructure = counter[userData.id];
 
-        return message.replace(formatRegex, (match: string, value: string): string => {
+        messageOutput = message.replace(/\[sc-d([0-9]{1,2})\]/, (match: string, value: string): string => {
             return userStructure.rolls[value];
         });
+
+        messageOutput = messageOutput.replace(/\[sc-name\]/, (match: string): string => {
+            return userData.name;
+        });
+        return messageOutput;
     }
 }
 
