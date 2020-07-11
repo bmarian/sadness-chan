@@ -148,18 +148,26 @@ class RenderChatMessage {
     }
 
     public sadnessMessage(content: string): string {
+        const imageUrl = "https://cdnb.artstation.com/p/assets/images/images/017/397/657/large/milvinke-madiharpart-dtiys-150-rosado.jpg?1555825697";
+        const chatMessageClass = `${utils.moduleName}-chat-message`;
+        const chatHeaderClass = `${chatMessageClass}-header`;
+        const chatBodyClass = `${chatMessageClass}-body`
+
         return `
-            <div class="sadness-header-container">
-                <img 
-                    src="https://cdnb.artstation.com/p/assets/images/images/017/397/657/large/milvinke-madiharpart-dtiys-150-rosado.jpg?1555825697" 
-                    alt="sadness-portrait"
-                    width="50px"
-                    height="50px"
-                />
-                <h3>Sadness Chan</h3>
-            </div>
-            <div class="sadness-header-container">
-                ${content}
+            <div class="${chatMessageClass}">
+                <div class="${chatHeaderClass}">
+                    <img 
+                        src="${imageUrl}" 
+                        alt="${utils.moduleName}-portrait"
+                        class="${chatHeaderClass}__portrait"
+                    />
+                    <h3 class="${chatHeaderClass}__name">
+                        ${utils.moduleTitle}
+                    </h3>
+                </div>
+                <div class="${chatBodyClass}">
+                    ${content}
+                </div>
             </div>
         `;
     }
