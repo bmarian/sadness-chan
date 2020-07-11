@@ -11,7 +11,7 @@ Hooks.once('init', async ():Promise<void> => {
 
 Hooks.on('preCreateChatMessage', (message: any): void => {
     let content = message?.content;
-    if (!(content && content === '/sadness')) return;
+    if (!(content && content === 'sadness')) return;
 
     const counter: any = settings.getSetting('counter');
     if (!counter) return;

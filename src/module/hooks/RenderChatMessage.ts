@@ -111,6 +111,7 @@ class RenderChatMessage {
     }
 
     public selectReallyMeanComment() {
+        this.getSpecialRemark('Wow you are really trash you rolled [sc-d1] nat ones');
         return this.selectRandomFromList(reallyMeanComments);
     }
 
@@ -166,6 +167,11 @@ class RenderChatMessage {
                 ${content}
             </div>
         `;
+    }
+
+    public getSpecialRemark (message: string) {
+        const formatRegex = /\[sc-d([0-9]{1,2})\]/;
+        const matches = message.match(formatRegex);
     }
 }
 
