@@ -4,7 +4,7 @@ import renderChatMessageHook from "./module/hooks/RenderChatMessage"
 
 Hooks.once('init', async (): Promise<void> => {
     settings.registerSettings();
-    // settings.setSetting('counter', {}); // RESET BOSS
+    // settings.setSetting('counter', {}); // RESET
 
     utils.debug('Preparing to collect tears.');
 });
@@ -12,7 +12,7 @@ Hooks.once('init', async (): Promise<void> => {
 Hooks.on('preCreateChatMessage', (message: any, options: any): void => {
     let content = message?.content;
     const user = message?.user;
-    if (!(user && content && content === 'sadness')) return;
+    if (!(user && content && content === '!sadness')) return;
 
     const counter = settings.getSetting('counter');
     if (!counter) return;
@@ -23,22 +23,6 @@ Hooks.on('preCreateChatMessage', (message: any, options: any): void => {
     message.content = renderChatMessageHook.getStats(userData);
     message.whisper = [user];
     options.chatBubble = false;
-
-        // const userRolls = userData.rolls;
-        // const numberOfRolls = renderChatMessageHook.calculateNumberOfRolls(userData.rolls);
-        //
-        // // Header
-        // message.content += `<h2>${userData.name}</h2>`;
-        //
-        // // Roll list
-        // message.content += '<ul>';
-        // for (let i = 1; i < userRolls.length; i++) {
-        //     message.content += `<li><span>[${i}]: </span><span>${userRolls[i]}</span></li>`;
-        // }
-        // message.content += '</ul>';
-        //
-        // // Total
-        // message.content += `<span>Total number of rolls: ${numberOfRolls}</span><br>`
 });
 
 Hooks.on('createChatMessage', async (chatMessage: any): Promise<void> => {
