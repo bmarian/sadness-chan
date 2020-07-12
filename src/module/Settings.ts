@@ -47,6 +47,10 @@ class Settings {
         return this._setSetting(this._counterKey, counterData);
     }
 
+    public resetStorage(): Promise<any> {
+        return this.setCounter({});
+    }
+
 }
 
 export default Settings.getInstance();

@@ -14,6 +14,7 @@ class Init {
 
     public async initHook(): Promise<void> {
         Settings.registerSettings();
+        Settings.resetStorage();
         Utils.debug('Prepared to collect tears.');
     }
 }
