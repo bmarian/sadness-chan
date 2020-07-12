@@ -18,7 +18,7 @@ class Settings {
         game.settings.register(utils.moduleName, key, data);
     }
 
-    public getSetting(key: string): any {
+    private _getSetting(key: string): any {
         const setting = game.settings.get(utils.moduleName, key);
         try {
             return JSON.parse(setting);
@@ -27,7 +27,7 @@ class Settings {
         }
     }
 
-    public setSetting(key: string, data: any): Promise<any> {
+    private _setSetting(key: string, data: any): Promise<any> {
         return game.settings.set(utils.moduleName, key, JSON.stringify(data));
     }
 
@@ -40,7 +40,11 @@ class Settings {
     }
 
     public getCounter(): any {
-        return this.getSetting(this._counterKey);
+        return this._getSetting(this._counterKey);
+    }
+
+    public setCounter(counterData: any): Promise<any> {
+        return this._setSetting(this._counterKey, counterData);
     }
 
 }

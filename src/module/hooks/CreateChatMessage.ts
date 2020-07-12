@@ -5,7 +5,7 @@ import nat1ComList from "../lists/nat1CommentsList"
 
 class CreateChatMessage {
     private static _instance: CreateChatMessage;
-    private static playerWhisperChance = 50; // out of 100
+    private static playerWhisperChance = 50;
 
     private constructor() {
     }
@@ -15,14 +15,14 @@ class CreateChatMessage {
         return CreateChatMessage._instance;
     }
 
-    public async createChatMessageHook (chatMessage: any): Promise<void> {
-    const user = chatMessage?.user?.data;
-    if (!user) return;
-    if (!game?.user?.hasRole(4)) return;
+    public async createChatMessageHook(chatMessage: any): Promise<void> {
+        const user = chatMessage?.user?.data;
+        if (!user) return;
+        if (!game?.user?.hasRole(4)) return;
 
-    const result = await this.extractAnalytics(chatMessage?._roll, chatMessage, user);
-    await this.shouldIWhisper(result, user);
-}
+        const result = await this.extractAnalytics(chatMessage?._roll, chatMessage, user);
+        await this.shouldIWhisper(result, user);
+    }
 
     public checkIfBetter5eRollsIsInstalled(): boolean {
         return !!game.modules.get('betterrolls5e');
@@ -36,7 +36,7 @@ class CreateChatMessage {
 
     private async _updateDiceRolls(recentRolls: number[], userData: any): Promise<void> {
         if (!userData) return;
-        const counter = Settings.getSetting(this._counterKey);
+        const counter = Settings.getCounter();
         const user = counter[userData.id];
 
         if (user && user.rolls) {
@@ -58,8 +58,7 @@ class CreateChatMessage {
                 ...userData,
             }
         }
-        Utils.debug(counter);
-        return Settings.setSetting(this._counterKey, counter);
+        return Settings.setCounter(counter);
     }
 
     // recentRolls holds on position x the number of times x has been rolled 
@@ -76,8 +75,6 @@ class CreateChatMessage {
             }
         }
         await this._updateDiceRolls(recentRolls, this._extractUserData(user));
-
-        // return 20; // DEBUG
 
         if (recentRolls[1] > 0) return 1;
         if (recentRolls[20] > 0) return 20;
@@ -98,8 +95,6 @@ class CreateChatMessage {
             recentRolls[valueMatch[0]] = rollValue ? rollValue + 1 : 1;
         }
         await this._updateDiceRolls(recentRolls, this._extractUserData(user));
-
-        // return 1; // DEBUG
 
         if (recentRolls[1] > 0) return 1;
         if (recentRolls[20] > 0) return 20;
@@ -182,11 +177,11 @@ class CreateChatMessage {
         `;
     }
 
-    public updateDynamicMessages (message: string, user: any): string {
+    public updateDynamicMessages(message: string, user: any): string {
         let messageOutput = '';
 
         const userData = this._extractUserData(user);
-        const counter = Settings.getSetting(this._counterKey);
+        const counter = Settings.getCounter();
         const userStructure = counter[userData.id];
 
         messageOutput = message.replace(/\[sc-d([0-9]{1,2})\]/, (match: string, value: string): string => {
