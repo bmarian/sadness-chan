@@ -1,5 +1,5 @@
 # Sadness Chan
-Do you feel lucky? You shouldn't... 
+A chat 'bot' for FoundryVTT that's full of 'happy' and 'motivational' messages, to pick you up when your rolls let you down. 
 
 
 # Instalation
