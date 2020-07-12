@@ -8,6 +8,16 @@ export default [
             config: false,
         },
     },
+    {
+        key: "portraits",
+        data: {
+            name: "Add portraits: ",
+            type: String,
+            default: "{}",
+            scope: "world",
+            config: true,
+        }
+    }
     // {
     //     key: "discordBotKey",
     //     data: {
