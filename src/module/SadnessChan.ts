@@ -23,6 +23,11 @@ class SadnessChan {
     private _getRandomPortrait(): string {
         return Utils.getRandomItemFromList(this._portraits);
     }
+    /**
+     * Creates the display message
+     * 
+     * @param content - the selected message 
+     */
 
     private _sadnessMessage(content: string): string {
         const chatMessageClass = `${Utils.moduleName}-chat-message`;
@@ -48,6 +53,12 @@ class SadnessChan {
         `;
     }
 
+    /**
+     * Creates body of the message for !sadness command
+     * 
+     * @param userData - current user
+     * @param statsBodyClass - css class for the body
+     */
     private _getStatsMessageBody(userData: any, statsBodyClass: string): string {
         let message = `
             <h2 class="${statsBodyClass}__username">${userData.name}</h2>
@@ -77,11 +88,22 @@ class SadnessChan {
         return message;
     }
 
+    /**
+     * Decieds if the whisper should be sent to the user
+     * 
+     * @param rolls - array of rolls made by the user
+     */
     private _shouldIWhisper(rolls: Array<number>): boolean {
         if (!(Math.random() < this._playerWhisperChance && rolls && rolls?.length)) return false;
         return !!(rolls[1] || rolls[20]);
     }
 
+    /**
+     * Creates and sends the whisper message
+     * 
+     * @param target - who should receive the message
+     * @param content - content of the message
+     */
     private async _createWhisperMessage(target: string, content: string): Promise<any> {
         return ChatMessage.create({
                 user: target,
@@ -93,6 +115,12 @@ class SadnessChan {
             });
     }
 
+    /**
+     * Updates messages that contain [sc-] tags
+     * 
+     * @param message - the message that should have tags replaced
+     * @param user - current user 
+     */
     private _updateDynamicMessages(message: string, user: any): string {
         const counter = Settings.getCounter();
         const userStructure = counter[user._id];
@@ -118,6 +146,11 @@ class SadnessChan {
         return this._updateDynamicMessages(message, user);
     }
 
+    /**
+     * Creats the stats message
+     * 
+     * @param userData - current user
+     */
     public getStatsMessage(userData: any): string {
         const statsClass = `${Utils.moduleName}-chat-stats`;
         const statsHeaderClass = `${statsClass}-header`;
@@ -142,6 +175,12 @@ class SadnessChan {
         `;
     }
 
+    /**
+     * Sends the whisper message
+     * 
+     * @param rolls - array of rolls made by the user
+     * @param user - current user
+     */
     public async whisper(rolls: Array<number>, user: any): Promise<any> {
         if (!this._shouldIWhisper(rolls)) return;
         const content = rolls[1] > rolls[20] ? this._selectNat1Comments(user) : this._selectNat20Comments(user);
