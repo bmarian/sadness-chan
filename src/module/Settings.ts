@@ -1,9 +1,10 @@
 import utils from "./Utils";
-import settingsList from "./settingsList";
+import settingsList from "./lists/settingsList";
 
 class Settings {
     private static _instance: Settings;
     private readonly _settingsList = settingsList;
+    private readonly _counterKey: string = 'counter';
 
     private constructor() {
     }
@@ -17,16 +18,16 @@ class Settings {
         game.settings.register(utils.moduleName, key, data);
     }
 
-    public getSetting(key: string): any {
+    private _getSetting(key: string): any {
         const setting = game.settings.get(utils.moduleName, key);
         try {
             return JSON.parse(setting);
         } catch (error) {
-            return null;
+            return {};
         }
     }
 
-    public setSetting(key: string, data: any): Promise<any> {
+    private _setSetting(key: string, data: any): Promise<any> {
         return game.settings.set(utils.moduleName, key, JSON.stringify(data));
     }
 
@@ -36,6 +37,18 @@ class Settings {
         });
 
         utils.debug('Settings registered', false);
+    }
+
+    public getCounter(): any {
+        return this._getSetting(this._counterKey);
+    }
+
+    public setCounter(counterData: any): Promise<any> {
+        return this._setSetting(this._counterKey, counterData);
+    }
+
+    public resetStorage(): Promise<any> {
+        return this.setCounter({});
     }
 
 }

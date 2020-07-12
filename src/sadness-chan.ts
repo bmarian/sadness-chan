@@ -1,35 +1,17 @@
-import utils from "./module/Utils"
-import settings from "./module/Settings"
-import renderChatMessageHook from "./module/hooks/RenderChatMessage"
+import CreateChatMessage from "./module/hooks/CreateChatMessage"
+import PreCreateChatMessage from "./module/hooks/PreCreateChatMessage";
+import Init from "./module/hooks/Init";
 
-Hooks.once('init', async (): Promise<void> => {
-    settings.registerSettings();
-    // settings.setSetting('counter', {}); // RESET
+Hooks.once('init', Init.initHook.bind(Init));
 
-    utils.debug('Preparing to collect tears.');
-});
+/**
+ * This hook is used to add the command !sadness
+ * The command will modify the message to be a whisper with some sad stats ◔w◔
+ */
+Hooks.on('preCreateChatMessage', PreCreateChatMessage.preCreateChatMessageHook.bind(PreCreateChatMessage));
 
-Hooks.on('preCreateChatMessage', (message: any, options: any): void => {
-    let content = message?.content;
-    const user = message?.user;
-    if (!(user && content && content === '!sadness')) return;
-
-    const counter = settings.getSetting('counter');
-    if (!counter) return;
-
-    const userData = counter[user];
-    if (!userData) return;
-
-    message.content = renderChatMessageHook.getStats(userData);
-    message.whisper = [user];
-    options.chatBubble = false;
-});
-
-Hooks.on('createChatMessage', async (chatMessage: any): Promise<void> => {
-    const user = chatMessage?.user?.data;
-    if (!user) return;
-    if (!game?.user?.hasRole(4)) return;
-
-    const result = await renderChatMessageHook.extractAnalytics(chatMessage?._roll, chatMessage, user);
-    await renderChatMessageHook.shouldIWhisper(result, user);
-});
+/**
+ * This hook is used to extract roll information from a message
+ * Supports default rolls and betterrolls5e
+ */
+Hooks.on('createChatMessage', CreateChatMessage.createChatMessageHook.bind(CreateChatMessage));

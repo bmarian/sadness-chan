@@ -1,6 +1,7 @@
 {
   "name": "sadness-chan",
   "title": "Sadness Chan",
+  "systems": ["dnd5e"],
   "description": "How lucky are you, really?",
   "version": "1.0.0",
   "author": "Marian",

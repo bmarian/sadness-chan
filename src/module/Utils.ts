@@ -46,6 +46,10 @@ class Utils {
             this._consoleLog(output);
         }
     }
+
+    public getRandomItemFromList(list: Array<any>): any {
+        return typeof list !== "undefined" && list?.length > 0 ? list[Math.floor(Math.random() * list.length)] : null;
+    }
 }
 
 export default Utils.getInstance(true, true);
