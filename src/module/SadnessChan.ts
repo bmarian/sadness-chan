@@ -20,8 +20,17 @@ class SadnessChan {
     /**
      * Selects a random portrait from portraitsList.ts
      */
-    private _getRandomPortrait(): string {
-        return Utils.getRandomItemFromList(this._portraits);
+    private _getRandomPortrait(cssClass: string): string {
+        const portrait = Utils.getRandomItemFromList(this._portraits);
+        if (!portrait) return '';
+
+        return`
+            <img
+                src="${portrait}"
+                alt="${Utils.moduleName}-portrait"
+                class="${cssClass}__portrait"
+            />
+        `;
     }
 
     /**
@@ -37,11 +46,7 @@ class SadnessChan {
         return `
             <div class="${chatMessageClass}">
                 <div class="${chatHeaderClass}">
-                    <img
-                        src="${this._getRandomPortrait()}"
-                        alt="${Utils.moduleName}-portrait"
-                        class="${chatHeaderClass}__portrait"
-                    />
+                    ${this._getRandomPortrait(chatHeaderClass)}
                     <h3 class="${chatHeaderClass}__name">
                         ${Utils.moduleTitle}
                     </h3>
@@ -159,11 +164,7 @@ class SadnessChan {
         return `
             <div class="${statsClass}">
                 <div class="${statsHeaderClass}">
-                    <img 
-                        src="${this._getRandomPortrait()}" 
-                        alt="${Utils.moduleName}-portrait"
-                        class="${statsHeaderClass}__portrait"
-                    />
+                    ${this._getRandomPortrait(statsHeaderClass)}
                     <h3 class="${statsHeaderClass}__name">
                         ${Utils.moduleTitle}
                     </h3>
