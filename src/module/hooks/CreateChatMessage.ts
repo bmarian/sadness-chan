@@ -18,7 +18,7 @@ class CreateChatMessage {
         if (!(user && game.user.hasRole(4))) return;
 
         const result = await this._extractAnalytics(chatMessage?._roll, chatMessage, user);
-        return SadnessChan.whisper(result, user);
+        return await SadnessChan.whisper(result, user);
     }
 
     /**

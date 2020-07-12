@@ -48,7 +48,7 @@ class Utils {
     }
 
     public getRandomItemFromList(list: Array<any>): any {
-        return typeof list !== "undefined" && list.length && list.length > 0 ? list[Math.floor(Math.random() * list.length)] : null;
+        return typeof list !== "undefined" && list?.length > 0 ? list[Math.floor(Math.random() * list.length)] : null;
     }
 }
 
