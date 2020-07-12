@@ -1,19 +1,19 @@
 import utils from "../Utils"
 import settings from "../Settings"
-import meanComments from "../meanComments"
-import reallyMeanComments from "../reallyMeanComments"
+import nat20ComList from "../lists/nat20CommentsList"
+import nat1ComList from "../lists/nat1CommentsList"
 
-class RenderChatMessage {
-    private static _instance: RenderChatMessage;
+class CreateChatMessage {
+    private static _instance: CreateChatMessage;
     private readonly _counterKey: string = 'counter';
     private static playerWhisperChance = 50; // out of 100
 
     private constructor() {
     }
 
-    public static getInstance(): RenderChatMessage {
-        if (!RenderChatMessage._instance) RenderChatMessage._instance = new RenderChatMessage();
-        return RenderChatMessage._instance;
+    public static getInstance(): CreateChatMessage {
+        if (!CreateChatMessage._instance) CreateChatMessage._instance = new CreateChatMessage();
+        return CreateChatMessage._instance;
     }
 
     public checkIfBetter5eRollsIsInstalled(): boolean {
@@ -110,18 +110,18 @@ class RenderChatMessage {
     }
 
     public selectMeanComment(user: any) {
-        const message = this._selectRandomFromList(meanComments);
+        const message = this._selectRandomFromList(nat20ComList);
         return this.updateDynamicMessages(message, user);
     }
 
     public selectReallyMeanComment(user: any) {
-        const message = this._selectRandomFromList(reallyMeanComments);
+        const message = this._selectRandomFromList(nat1ComList);
         return this.updateDynamicMessages(message, user);
     }
 
     public shouldIWhisper(roll: number, user: any): Promise<void> {
         const random = Math.floor(Math.random() * 100);
-        if (random > RenderChatMessage.playerWhisperChance || !roll) return;
+        if (random > CreateChatMessage.playerWhisperChance || !roll) return;
 
         return this.createWhisperMessage(
             user._id,
@@ -246,4 +246,4 @@ class RenderChatMessage {
     }
 }
 
-export default RenderChatMessage.getInstance();
+export default CreateChatMessage.getInstance();

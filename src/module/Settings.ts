@@ -1,5 +1,5 @@
 import utils from "./Utils";
-import settingsList from "./settingsList";
+import settingsList from "./lists/settingsList";
 
 class Settings {
     private static _instance: Settings;
@@ -22,7 +22,7 @@ class Settings {
         try {
             return JSON.parse(setting);
         } catch (error) {
-            return null;
+            return {};
         }
     }
 
