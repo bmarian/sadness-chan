@@ -27,6 +27,7 @@ class PreCreateChatMessage {
     private _modifyMessage(message: any, options: any, userData: any, userId: string): void {
         message.content = SadnessChan.getStatsMessage(userData);
         message.whisper = [userId];
+        message.speaker = {alias: `${Utils.moduleTitle}`};
         options.chatBubble = false;
     }
 }
