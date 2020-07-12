@@ -17,6 +17,9 @@ class SadnessChan {
         return SadnessChan._instance;
     }
 
+    /**
+     * Selects a random portrait from portraitsList.ts
+     */
     private _getRandomPortrait(): string {
         return Utils.getRandomItemFromList(this._portraits);
     }
