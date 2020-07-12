@@ -113,7 +113,10 @@ class SadnessChan {
         return ChatMessage.create({
                 user: target,
                 content: this._sadnessMessage(content),
-                whisper: [target]
+                whisper: [target],
+                speaker: {
+                    alias: `${Utils.moduleTitle}`,
+                },
             },
             {
                 chatBubble: false,
