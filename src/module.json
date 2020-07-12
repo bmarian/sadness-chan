@@ -4,12 +4,13 @@
   "systems": ["dnd5e"],
   "description": "How lucky are you, really?",
   "version": "1.0.0",
-  "author": "Marian",
+  "authors": ["bmarian", "HadaIonut"],
   "esmodules": ["sadness-chan.js"],
   "styles": ["sadness-chan.css"],
   "minimumCoreVersion": "0.6.4",
   "compatibleCoreVersion": "0.6.4",
   "url": "https://github.com/bmarian/sadness-chan",
   "manifest": "https://raw.githubusercontent.com/bmarian/sadness-chan/master/src/module.json",
+  "download": "https://github.com/bmarian/sadness-chan/raw/master/package/sadness-chan-v1.0.0.zip",
   "changelog": "https://github.com/bmarian/sadness-chan/releases"
 }
