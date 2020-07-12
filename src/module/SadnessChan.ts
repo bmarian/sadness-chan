@@ -1,8 +1,10 @@
 import Utils from "./Utils";
+import portraitsList from "./lists/portraitsList";
 
 class SadnessChan {
     private static _instance: SadnessChan;
-    private _portrait: string = "https://cdnb.artstation.com/p/assets/images/images/017/397/657/large/milvinke-madiharpart-dtiys-150-rosado.jpg?1555825697";
+    private _portraits: string[] = portraitsList;
+    private readonly _playerWhisperChance = 50;
 
     private constructor() {
     }
@@ -10,6 +12,10 @@ class SadnessChan {
     public static getInstance(): SadnessChan {
         if (!SadnessChan._instance) SadnessChan._instance = new SadnessChan();
         return SadnessChan._instance;
+    }
+
+    private _getRandomPortrait(): string {
+        return Utils.getRandomItemFromList(this._portraits);
     }
 
     private _getStatsMessageBody(userData: any, statsBodyClass: string):string {
@@ -50,7 +56,7 @@ class SadnessChan {
             <div class="${statsClass}">
                 <div class="${statsHeaderClass}">
                     <img 
-                        src="${this._portrait}" 
+                        src="${this._getRandomPortrait()}" 
                         alt="${Utils.moduleName}-portrait"
                         class="${statsHeaderClass}__portrait"
                     />
