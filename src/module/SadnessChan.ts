@@ -23,12 +23,12 @@ class SadnessChan {
     private _getRandomPortrait(): string {
         return Utils.getRandomItemFromList(this._portraits);
     }
+
     /**
      * Creates the display message
      * 
      * @param content - the selected message 
      */
-
     private _sadnessMessage(content: string): string {
         const chatMessageClass = `${Utils.moduleName}-chat-message`;
         const chatHeaderClass = `${chatMessageClass}-header`;
@@ -147,7 +147,7 @@ class SadnessChan {
     }
 
     /**
-     * Creats the stats message
+     * Creates the stats message
      * 
      * @param userData - current user
      */
