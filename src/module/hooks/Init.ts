@@ -1,5 +1,5 @@
-import settings from "../Settings";
-import utils from "../Utils";
+import Settings from "../Settings";
+import Utils from "../Utils";
 
 class Init {
     private static _instance: Init;
@@ -13,8 +13,8 @@ class Init {
     }
 
     public async initHook(): Promise<void> {
-        settings.registerSettings();
-        utils.debug('Prepared to collect tears.');
+        Settings.registerSettings();
+        Utils.debug('Prepared to collect tears.');
     }
 }
 

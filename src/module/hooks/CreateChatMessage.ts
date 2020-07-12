@@ -1,11 +1,10 @@
-import utils from "../Utils"
-import settings from "../Settings"
+import Utils from "../Utils"
+import Settings from "../Settings"
 import nat20ComList from "../lists/nat20CommentsList"
 import nat1ComList from "../lists/nat1CommentsList"
 
 class CreateChatMessage {
     private static _instance: CreateChatMessage;
-    private readonly _counterKey: string = 'counter';
     private static playerWhisperChance = 50; // out of 100
 
     private constructor() {
@@ -15,6 +14,15 @@ class CreateChatMessage {
         if (!CreateChatMessage._instance) CreateChatMessage._instance = new CreateChatMessage();
         return CreateChatMessage._instance;
     }
+
+    public async createChatMessageHook (chatMessage: any): Promise<void> {
+    const user = chatMessage?.user?.data;
+    if (!user) return;
+    if (!game?.user?.hasRole(4)) return;
+
+    const result = await this.extractAnalytics(chatMessage?._roll, chatMessage, user);
+    await this.shouldIWhisper(result, user);
+}
 
     public checkIfBetter5eRollsIsInstalled(): boolean {
         return !!game.modules.get('betterrolls5e');
@@ -28,7 +36,7 @@ class CreateChatMessage {
 
     private async _updateDiceRolls(recentRolls: number[], userData: any): Promise<void> {
         if (!userData) return;
-        const counter = settings.getSetting(this._counterKey);
+        const counter = Settings.getSetting(this._counterKey);
         const user = counter[userData.id];
 
         if (user && user.rolls) {
@@ -50,8 +58,8 @@ class CreateChatMessage {
                 ...userData,
             }
         }
-        utils.debug(counter);
-        return settings.setSetting(this._counterKey, counter);
+        Utils.debug(counter);
+        return Settings.setSetting(this._counterKey, counter);
     }
 
     // recentRolls holds on position x the number of times x has been rolled 
@@ -151,7 +159,7 @@ class CreateChatMessage {
 
     public sadnessMessage(content: string): string {
         const imageUrl = "https://cdnb.artstation.com/p/assets/images/images/017/397/657/large/milvinke-madiharpart-dtiys-150-rosado.jpg?1555825697";
-        const chatMessageClass = `${utils.moduleName}-chat-message`;
+        const chatMessageClass = `${Utils.moduleName}-chat-message`;
         const chatHeaderClass = `${chatMessageClass}-header`;
         const chatBodyClass = `${chatMessageClass}-body`
 
@@ -160,11 +168,11 @@ class CreateChatMessage {
                 <div class="${chatHeaderClass}">
                     <img 
                         src="${imageUrl}" 
-                        alt="${utils.moduleName}-portrait"
+                        alt="${Utils.moduleName}-portrait"
                         class="${chatHeaderClass}__portrait"
                     />
                     <h3 class="${chatHeaderClass}__name">
-                        ${utils.moduleTitle}
+                        ${Utils.moduleTitle}
                     </h3>
                 </div>
                 <div class="${chatBodyClass}">
@@ -174,65 +182,11 @@ class CreateChatMessage {
         `;
     }
 
-    private _getStatsBody(userData: any, statsBodyClass: string):string {
-        let message = `
-            <h2 class="${statsBodyClass}__username">${userData.name}</h2>
-        `;
-
-        const rolls = userData.rolls;
-        if (rolls) {
-            const nat1 = rolls[1];
-            const nat20 = rolls[20];
-            const rollsClass = `${statsBodyClass}__rolls`;
-            const rollClass = `${rollsClass}-roll`;
-
-            message += `
-                <ol class="${rollsClass}">
-                    <li class="${rollClass}">
-                        <span class="${rollClass}-dice min">1</span>    
-                        <span class="${rollClass}-count">${nat1}</span>    
-                    </li>
-                    <li class="${rollClass}">
-                        <span class="${rollClass}-dice max">20</span>    
-                        <span class="${rollClass}-count">${nat20}</span>
-                    </li>
-                </ol>
-            `;
-        }
-
-        return message;
-    }
-
-    public getStats(userData: any): string {
-        const imageUrl = "https://cdnb.artstation.com/p/assets/images/images/017/397/657/large/milvinke-madiharpart-dtiys-150-rosado.jpg?1555825697";
-        const statsClass = `${utils.moduleName}-chat-stats`;
-        const statsHeaderClass = `${statsClass}-header`;
-        const statsBodyClass = `${statsClass}-body`
-
-        return `
-            <div class="${statsClass}">
-                <div class="${statsHeaderClass}">
-                    <img 
-                        src="${imageUrl}" 
-                        alt="${utils.moduleName}-portrait"
-                        class="${statsHeaderClass}__portrait"
-                    />
-                    <h3 class="${statsHeaderClass}__name">
-                        ${utils.moduleTitle}
-                    </h3>
-                </div>
-                <div class="${statsBodyClass}">
-                    ${this._getStatsBody(userData, statsBodyClass)}
-                </div>
-            </div>
-        `;
-    }
-
     public updateDynamicMessages (message: string, user: any): string {
         let messageOutput = '';
 
         const userData = this._extractUserData(user);
-        const counter = settings.getSetting(this._counterKey);
+        const counter = Settings.getSetting(this._counterKey);
         const userStructure = counter[userData.id];
 
         messageOutput = message.replace(/\[sc-d([0-9]{1,2})\]/, (match: string, value: string): string => {

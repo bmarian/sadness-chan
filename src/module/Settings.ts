@@ -4,6 +4,7 @@ import settingsList from "./lists/settingsList";
 class Settings {
     private static _instance: Settings;
     private readonly _settingsList = settingsList;
+    private readonly _counterKey: string = 'counter';
 
     private constructor() {
     }
@@ -36,6 +37,10 @@ class Settings {
         });
 
         utils.debug('Settings registered', false);
+    }
+
+    public getCounter(): any {
+        return this.getSetting(this._counterKey);
     }
 
 }

@@ -1,8 +1,10 @@
-import createChatMessageHook from "./CreateChatMessage";
 import Settings from "../Settings";
+import SadnessChan from "../SadnessChan";
+import Utils from "../Utils";
 
 class PreCreateChatMessage {
     private static _instance: PreCreateChatMessage;
+    private readonly _defaultCommand: string = '!sadness';
 
     private constructor() {
     }
@@ -13,18 +15,18 @@ class PreCreateChatMessage {
     }
 
     public preCreateChatMessageHook(message: any, options: any): void {
-        let content = message?.content;
+        const content = message?.content;
         const user = message?.user;
-        if (!(user && content && content === '!sadness')) return;
+        const counter = Settings.getCounter();
+        if (!(user && content && content === this._defaultCommand && counter && counter[user])) return;
 
-        const counter = Settings.getSetting('counter');
-        if (!counter) return;
+        this._modifyMessage(message, options, counter[user], user);
+        Utils.debug('Sad stats displayed.');
+    }
 
-        const userData = counter[user];
-        if (!userData) return;
-
-        message.content = createChatMessageHook.getStats(userData);
-        message.whisper = [user];
+    private _modifyMessage(message: any, options: any, userData: any, userId: string): void {
+        message.content = SadnessChan.getStatsMessage(userData);
+        message.whisper = [userId];
         options.chatBubble = false;
     }
 }
