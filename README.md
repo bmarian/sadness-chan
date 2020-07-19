@@ -3,9 +3,13 @@ A chat 'bot' for FoundryVTT that's full of 'happy' and 'motivational' messages, 
 
 
 # Instalation
-1. Inside Foundry, select the Game Modules tab in the Configuration and Setup menu.
-2. Click the Install Module button and enter the following URL: `https://raw.githubusercontent.com/bmarian/sadness-chan/master/src/module.json`
-3. Click Install and wait for installation to complete.
+- Inside Foundry, select the Game Modules tab in the Configuration and Setup menu.
+- Click the Install Module button and enter the following URL:
+ 
+FoundryVTT version <= 0.6.5: `https://raw.githubusercontent.com/bmarian/sadness-chan/master/src/module.json`
+FoundryVTT version 0.7.x: `https://raw.githubusercontent.com/bmarian/sadness-chan/f-0.7.x/src/module.json`
+
+- Click Install and wait for installation to complete.
 
 
 # Usage
