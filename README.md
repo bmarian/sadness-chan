@@ -13,9 +13,9 @@ FoundryVTT version 0.7.x: `https://raw.githubusercontent.com/bmarian/sadness-cha
 
 
 # Usage
-Just play, like you would usually do :)
+Just play, like you would usually do and Sadness Chan will send you 'happy' whispers (50% chance) on natural 1s and natural 20s 😊.
 
-Or if you want to be sadder try `!sadness`.
+Or, if you need a 'pick-me-up' just type `!sadness` in the chat and blame the stats on the random algorithm.
 
 
 # License
