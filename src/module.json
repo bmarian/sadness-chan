@@ -3,7 +3,7 @@
   "title": "Sadness Chan",
   "systems": ["dnd5e"],
   "description": "A chat 'bot' for FoundryVTT that's full of 'happy' and 'motivational' messages, to pick you up when your rolls let you down.",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "authors": ["bmarian", "HadaIonut"],
   "esmodules": ["sadness-chan.js"],
   "styles": ["sadness-chan.css"],
@@ -11,6 +11,6 @@
   "compatibleCoreVersion": "0.6.5",
   "url": "https://github.com/bmarian/sadness-chan",
   "manifest": "https://raw.githubusercontent.com/bmarian/sadness-chan/f-0.7.x/src/module.json",
-  "download": "https://github.com/bmarian/sadness-chan/raw/f-0.7.x/package/sadness-chan-v1.0.1.zip",
+  "download": "https://github.com/bmarian/sadness-chan/raw/f-0.7.x/package/sadness-chan-v1.1.0.zip",
   "changelog": "https://github.com/bmarian/sadness-chan/releases"
 }
