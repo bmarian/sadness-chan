@@ -82,14 +82,14 @@ class CreateChatMessage {
      * @return an array with all the recent rolls
      */
     private async _extractSimpleAnalytics(roll: any, user: any): Promise<Array<number>> {
-        const dice = roll._dice;
+        const dice = roll._dice && roll._dice.length !== 0 ? roll._dice : roll.dice;
         if (!dice) return;
         const recentRolls = this._getZeroArray(21);
 
         dice.forEach((die: Die): void => {
             if (die.faces !== 20) return;
             die.rolls.forEach((roll: any): void => {
-                const r = roll.roll;
+                const r = roll.roll || roll.result;
                 recentRolls[r] += 1;
             });
         });
