@@ -65,26 +65,29 @@ class SadnessChan {
      * @param statsBodyClass - css class for the body
      */
     private _getStatsMessageBody(userData: any, statsBodyClass: string): string {
+        const failNumber = Settings.getCrit('fail');
+        const succesNumber = Settings.getCrit('succes')
+        
         let message = `
             <h2 class="${statsBodyClass}__username">${userData.name}</h2>
         `;
 
         const rolls = userData.rolls;
         if (rolls) {
-            const nat1 = rolls[1];
-            const nat20 = rolls[20];
+            const critFail = rolls[failNumber];
+            const critSucces = rolls[succesNumber];
             const rollsClass = `${statsBodyClass}__rolls`;
             const rollClass = `${rollsClass}-roll`;
 
             message += `
                 <ol class="${rollsClass}">
                     <li class="${rollClass}">
-                        <span class="${rollClass}-dice min">1</span>    
-                        <span class="${rollClass}-count">${nat1}</span>    
+                        <span class="${rollClass}-dice min">${failNumber}</span>    
+                        <span class="${rollClass}-count">${critFail}</span>    
                     </li>
                     <li class="${rollClass}">
-                        <span class="${rollClass}-dice max">20</span>    
-                        <span class="${rollClass}-count">${nat20}</span>
+                        <span class="${rollClass}-dice max">${succesNumber}</span>    
+                        <span class="${rollClass}-count">${critSucces}</span>
                     </li>
                 </ol>
             `;

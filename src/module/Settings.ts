@@ -7,6 +7,9 @@ class Settings {
     private readonly _counterKey: string = 'counter';
     private readonly _commandHeaderKey: string = 'commandHeader';
     private readonly _commandKey: string = 'commandKey';
+    private readonly _diceTypeKey: string = 'diceType';
+    private readonly _critFailKey: string = 'critFail';
+    private readonly _critScuuesKey: string = 'critSucces';
 
     private constructor() {
     }
@@ -18,6 +21,13 @@ class Settings {
 
     private _registerSetting(key: string, data: any): void {
         game.settings.register(utils.moduleName, key, data);
+    }
+
+    public getCrit(type: string): number {
+        if (type === 'fail')
+            return game.settings.get(utils.moduleName, this._critFailKey);
+        if (type === 'succes')
+            return game.settings.get(utils.moduleName, this._critScuuesKey);
     }
 
     public getCommand(): string {
