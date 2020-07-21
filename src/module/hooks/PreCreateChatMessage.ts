@@ -1,6 +1,5 @@
 import Settings from "../Settings";
 import SadnessChan from "../SadnessChan";
-import NamelessChan from "../NamelessChan";
 import Utils from "../Utils";
 
 class PreCreateChatMessage {
