@@ -3,3 +3,4 @@ foundryconfig.json
 dist
 .idea
 companion/node_modules
+src/module/lists/portraitsList.ts
