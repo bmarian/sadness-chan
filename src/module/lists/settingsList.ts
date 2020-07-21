@@ -33,10 +33,10 @@ export default [
     {
         key: "diceType",
         data: {
-            name: "Observed die",
+            name: "Observed die faces",
             hint: "This is the type of dice that the module will count and observe",
-            type: String,
-            default: "d20",
+            type: Number,
+            default: 20,
             scope: "world",
             config: true,
         }
@@ -63,15 +63,5 @@ export default [
             config: true,
         }
     }
-    // {
-    //     key: "discordBotKey",
-    //     data: {
-    //         name: "Discord bot key:",
-    //         hint: "Register a discord bot to send you cool chat messages.",
-    //         type: String,
-    //         default: "",
-    //         scope: "world",
-    //         config: true,
-    //     },
-    // },
+
 ];

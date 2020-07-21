@@ -30,6 +30,10 @@ class Settings {
             return game.settings.get(utils.moduleName, this._critScuuesKey);
     }
 
+    public getDiceFaces(): number{
+        return game.settings.get(utils.moduleName, this._diceTypeKey)
+    }
+
     public getCommand(): string {
         if (!game?.settings?.get) return '!sadness';
         const header = game.settings.get(utils.moduleName, this._commandHeaderKey);
