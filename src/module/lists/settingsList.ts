@@ -46,8 +46,8 @@ export default [
         data: {
             name: "Critical fail value",
             hint: "This is the value that is considered a critical fail",
-            type: String,
-            default: "1",
+            type: Number,
+            default: 1,
             scope: "world",
             config: true,
         }
@@ -57,8 +57,8 @@ export default [
         data: {
             name: "Critical succes value",
             hint: "This is the value that is considered a critical succes",
-            type: String,
-            default: "20",
+            type: Number,
+            default: 20,
             scope: "world",
             config: true,
         }
