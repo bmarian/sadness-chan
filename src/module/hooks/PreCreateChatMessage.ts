@@ -4,8 +4,7 @@ import Utils from "../Utils";
 
 class PreCreateChatMessage {
     private static _instance: PreCreateChatMessage;
-    private readonly _defaultCommand: string = '!sadness';
-
+    
     private constructor() {
     }
 
@@ -18,7 +17,7 @@ class PreCreateChatMessage {
         const content = message?.content;
         const user = message?.user;
         const counter = Settings.getCounter();
-        if (!(user && content && content === this._defaultCommand && counter && counter[user])) return;
+        if (!(user && content && content === Settings.getCommand() && counter && counter[user])) return;
 
         this._modifyMessage(message, options, counter[user], user);
         Utils.debug('Sad stats displayed.');

@@ -5,6 +5,8 @@ class Settings {
     private static _instance: Settings;
     private readonly _settingsList = settingsList;
     private readonly _counterKey: string = 'counter';
+    private readonly _commandHeaderKey: string = 'commandHeader';
+    private readonly _commandKey: string = 'commandKey';
 
     private constructor() {
     }
@@ -16,6 +18,14 @@ class Settings {
 
     private _registerSetting(key: string, data: any): void {
         game.settings.register(utils.moduleName, key, data);
+    }
+
+    public getCommand(): string {
+        if (!game?.settings?.get) return '!sadness';
+        const header = game.settings.get(utils.moduleName, this._commandHeaderKey);
+        const body = game.settings.get(utils.moduleName, this._commandKey);;
+
+        return header + body;
     }
 
     private _getSetting(key: string): any {

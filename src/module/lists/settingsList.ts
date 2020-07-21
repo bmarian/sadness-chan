@@ -11,7 +11,7 @@ export default [
     {
         key: "commandHeader",
         data: {
-            name: "Command header: ",
+            name: "Command simbol: ",
             hint: "Type the character that should procede the command key word. Attention: (The \"/\" character does not work)",
             type: String,
             default: "!",
