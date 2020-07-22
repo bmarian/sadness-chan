@@ -110,7 +110,7 @@ class CreateChatMessage {
      */
     private async _extractBR5eAnalytics(chatMessage: any, user: string): Promise<Array<number>> {
         const rolls = [...chatMessage.matchAll(/<li.*roll die d20.*>([0-9]+)<\/li>/g)];
-        if (!rolls) return;
+        if (!(rolls.length > 0)) return;
 
         const recentRolls = this._getZeroArray(21);
         rolls.forEach((roll: any): void => {
