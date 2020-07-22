@@ -165,13 +165,19 @@ class SadnessChan {
         Settings.setSetting(settingNames.DIE_TYPE, value);
     }
 
-    // TODO: comments
+    /**
+     * Returns the value that is considered a crit fail or succes
+     * 
+     * @param isCrtSuccess - true if you want to get the crit succes value, false if you want to get crit fail value
+     */
     private _getCrtValue(isCrtSuccess: boolean): number {
         return Settings.getSetting(isCrtSuccess ? settingNames.CRT_SUCCESS : settingNames.CRT_FAIL);
     }
 
-    // TODO: comments
-    // TLDR: we only allow dice between 2 and 1000
+    /**
+     * Returns number of faces of the die based on user settings.
+     * The number of faces must be between 2 and 1000
+     */
     public getDieType(): number{
         const dieType = Settings.getSetting(settingNames.DIE_TYPE);
 
@@ -186,7 +192,9 @@ class SadnessChan {
         return dieType;
     }
 
-    // TODO: comments
+    /**
+     * Contructs the command for statistics from the symbom and the name of the command 
+     */
     public buildStatsCmd(): string {
         const symbol = Settings.getSetting(settingNames.CMD_SYMBOL);
         const statsCmd = Settings.getSetting(settingNames.STATS_CMD);
