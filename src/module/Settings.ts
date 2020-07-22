@@ -9,7 +9,7 @@ class Settings {
     private readonly _commandKey: string = 'commandKey';
     private readonly _diceTypeKey: string = 'diceType';
     private readonly _critFailKey: string = 'critFail';
-    private readonly _critScuuesKey: string = 'critSucces';
+    private readonly _critSuccesKey: string = 'critSucces';
 
     private constructor() {
     }
@@ -23,6 +23,39 @@ class Settings {
         game.settings.register(utils.moduleName, key, data);
     }
 
+    private _getSetting (key: string): any{
+        return game.settings.get(utils.moduleName, key);
+    }
+
+    public getCounter(): any {
+        const setting = this._getSetting(this._counterKey);
+        try {
+            return JSON.parse(setting);
+        } catch (error) {
+            return {};
+        }
+    }
+
+    public getCrit(type: string): number {
+        if (type === 'fail')
+            return this._getSetting(this._critFailKey);
+        if (type === 'succes')
+            return this._getSetting(this._critSuccesKey);
+    }
+
+    public getDiceFaces(): number{
+        return this._getSetting(this._diceTypeKey);
+    }
+
+    public getCommand(): string {
+        if (!game?.settings?.get) return '!sadness';
+        const header = this._getSetting(this._commandHeaderKey);
+        const body = this._getSetting(this._commandKey);
+
+        return header + body;
+    }
+
+    /*
     public getCrit(type: string): number {
         if (type === 'fail')
             return game.settings.get(utils.moduleName, this._critFailKey);
@@ -49,7 +82,12 @@ class Settings {
         } catch (error) {
             return {};
         }
+    } 
+    
+    public getCounter(): any {
+        return this._getSetting(this._counterKey);
     }
+    */
 
     private _setSetting(key: string, data: any): Promise<any> {
         return game.settings.set(utils.moduleName, key, JSON.stringify(data));
@@ -61,10 +99,6 @@ class Settings {
         });
 
         utils.debug('Settings registered', false);
-    }
-
-    public getCounter(): any {
-        return this._getSetting(this._counterKey);
     }
 
     public setCounter(counterData: any): Promise<any> {
