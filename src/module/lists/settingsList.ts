@@ -61,6 +61,28 @@ export default [
             scope: "world",
             config: true,
         }
+    },
+    {
+        key: "failComChance",
+        data: {
+            name: "Message chance on critical fail:",
+            hint: "This is a number between 0 and 1 that represents the procentage change for a message to be sent on a critical fail",
+            type: Number,
+            default: 0.5,
+            scope: "world",
+            config: true,
+        }
+    },
+    {
+        key: "succesComChance",
+        data: {
+            name: "Message chance on critical succes:",
+            hint: "This is a number between 0 and 1 that represents the procentage change for a message to be sent on a critical fail",
+            type: Number,
+            default: 0.5,
+            scope: "world",
+            config: true,
+        }
     }
 
 ];

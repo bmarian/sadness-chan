@@ -8,7 +8,8 @@ import settingNames from "./lists/settingNamesList";
 class SadnessChan {
     private static _instance: SadnessChan;
     private _portraits: string[] = portraitsList;
-    private readonly _playerWhisperChance = 0.5;
+    private readonly _minPlayerWhisperChance = 0;
+    private readonly _maxPlayerWhisperChance = 1;
     private readonly _minDieType = 2;
     private readonly _maxDieType = 1000;
 
@@ -97,6 +98,23 @@ class SadnessChan {
         }
 
         return message;
+    }
+    /**
+     * Returns the chance for a whisper to be sent
+     * 
+     * @param isCrtSuccess 
+     */
+    private _getWhisperChance (isCrtSuccess: boolean): number{
+        const setting = isCrtSuccess ? settingNames.SUCCES_CHANCE : settingNames.FAIL_CHANCE;
+        const chance = Settings.getSetting(setting);
+        if (chance < this._minPlayerWhisperChance) {
+            this._resetValueInSettings(setting, this._minPlayerWhisperChance)
+            return this._minPlayerWhisperChance;
+        }
+        if (chance > this._maxPlayerWhisperChance) {
+            this._resetValueInSettings(setting, this._maxPlayerWhisperChance)
+            return this._maxPlayerWhisperChance;
+        }
     }
 
     /**
