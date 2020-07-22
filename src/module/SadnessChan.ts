@@ -101,12 +101,15 @@ class SadnessChan {
 
     /**
      * Decieds if the whisper should be sent to the user
-     * 
+     *
      * @param rolls - array of rolls made by the user
+     * @param fail
+     * @param success
+     * @param dieType
      */
-    private _shouldIWhisper(rolls: Array<number>): boolean {
+    private _shouldIWhisper(rolls: Array<number>, dieType: number, success: number, fail: number): boolean {
         if (!(Math.random() < this._playerWhisperChance && rolls?.length)) return false;
-        return !!(rolls[1] || rolls[20]);
+        return !!(rolls[fail] || rolls[success]);
     }
 
     /**
@@ -150,28 +153,38 @@ class SadnessChan {
         return messageOutput;
     }
 
-    private _selectNat1Comments(user: any): string {
+    private _selectCrtFailComments(user: any): string {
         const message = Utils.getRandomItemFromList(crtFailCommentsList);
         return this._updateDynamicMessages(message, user);
     }
 
-    private _selectNat20Comments(user: any): string {
+    private _selectCrtSuccessComments(user: any): string {
         const message = Utils.getRandomItemFromList(crtSuccessCommentsList);
         return this._updateDynamicMessages(message, user);
     }
 
     // TODO Marian: comments
     private _resetValueInSettings(key: string, value: any): void {
-        Settings.setSetting(settingNames.DIE_TYPE, value);
+        Settings.setSetting(key, value);
     }
 
     /**
-     * Returns the value that is considered a crit fail or succes
+     * Returns the value that is considered a crit fail or success
      * 
-     * @param isCrtSuccess - true if you want to get the crit succes value, false if you want to get crit fail value
+     * @param isCrtSuccess - true if you want to get the crit success value, false if you want to get crit fail value
      */
     private _getCrtValue(isCrtSuccess: boolean): number {
-        return Settings.getSetting(isCrtSuccess ? settingNames.CRT_SUCCESS : settingNames.CRT_FAIL);
+        const crtValue = Settings.getSetting(isCrtSuccess ? settingNames.CRT_SUCCESS : settingNames.CRT_FAIL);
+        const dieType = this.getDieType();
+        if (isCrtSuccess && crtValue > dieType) {
+            this._resetValueInSettings(settingNames.CRT_SUCCESS, dieType);
+            return dieType;
+        }
+        if (!isCrtSuccess && crtValue < 1) {
+            this._resetValueInSettings(settingNames.CRT_SUCCESS, 1);
+            return 1;
+        }
+        return crtValue;
     }
 
     /**
@@ -233,8 +246,12 @@ class SadnessChan {
      * @param user - current user
      */
     public async whisper(rolls: Array<number>, user: any): Promise<any> {
-        if (!this._shouldIWhisper(rolls)) return;
-        const content = rolls[1] > rolls[20] ? this._selectNat1Comments(user) : this._selectNat20Comments(user);
+        const dieType = this.getDieType();
+        const successNumber = this._getCrtValue(true);
+        const failNumber = this._getCrtValue(false);
+
+        if (!this._shouldIWhisper(rolls, dieType, successNumber, failNumber)) return;
+        const content = rolls[failNumber] > rolls[successNumber] ? this._selectCrtFailComments(user) : this._selectCrtSuccessComments(user);
 
         Utils.debug(`Whisper sent to ${user.name}`);
         return this._createWhisperMessage(user._id, content);
