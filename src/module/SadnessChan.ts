@@ -1,8 +1,9 @@
 import Utils from "./Utils";
 import portraitsList from "./lists/portraitsList";
-import nat1CommentsList from "./lists/nat1CommentsList";
-import nat20CommentsList from "./lists/nat20CommentsList";
+import crtFailCommentsList from "./lists/crtFailCommentsList";
+import crtSuccessCommentsList from "./lists/crtSuccessCommentsList";
 import Settings from "./Settings";
+import settingNames from "./lists/settingNamesList";
 
 class SadnessChan {
     private static _instance: SadnessChan;
@@ -65,8 +66,8 @@ class SadnessChan {
      * @param statsBodyClass - css class for the body
      */
     private _getStatsMessageBody(userData: any, statsBodyClass: string): string {
-        const failNumber = Settings.getCrit('fail');
-        const succesNumber = Settings.getCrit('succes')
+        const failNumber = this._getCrtValue(false);
+        const successNumber = this._getCrtValue(true);
         
         let message = `
             <h2 class="${statsBodyClass}__username">${userData.name}</h2>
@@ -75,7 +76,7 @@ class SadnessChan {
         const rolls = userData.rolls;
         if (rolls) {
             const critFail = rolls[failNumber];
-            const critSucces = rolls[succesNumber];
+            const critSucces = rolls[successNumber];
             const rollsClass = `${statsBodyClass}__rolls`;
             const rollClass = `${rollsClass}-roll`;
 
@@ -86,7 +87,7 @@ class SadnessChan {
                         <span class="${rollClass}-count">${critFail}</span>    
                     </li>
                     <li class="${rollClass}">
-                        <span class="${rollClass}-dice max">${succesNumber}</span>    
+                        <span class="${rollClass}-dice max">${successNumber}</span>    
                         <span class="${rollClass}-count">${critSucces}</span>
                     </li>
                 </ol>
@@ -102,7 +103,7 @@ class SadnessChan {
      * @param rolls - array of rolls made by the user
      */
     private _shouldIWhisper(rolls: Array<number>): boolean {
-        if (!(Math.random() < this._playerWhisperChance && rolls && rolls?.length)) return false;
+        if (!(Math.random() < this._playerWhisperChance && rolls?.length)) return false;
         return !!(rolls[1] || rolls[20]);
     }
 
@@ -148,13 +149,30 @@ class SadnessChan {
     }
 
     private _selectNat1Comments(user: any): string {
-        const message = Utils.getRandomItemFromList(nat1CommentsList);
+        const message = Utils.getRandomItemFromList(crtFailCommentsList);
         return this._updateDynamicMessages(message, user);
     }
 
     private _selectNat20Comments(user: any): string {
-        const message = Utils.getRandomItemFromList(nat20CommentsList);
+        const message = Utils.getRandomItemFromList(crtSuccessCommentsList);
         return this._updateDynamicMessages(message, user);
+    }
+
+    // TODO: comments
+    private _getCrtValue(isCrtSuccess: boolean): number {
+        return Settings.getSetting(isCrtSuccess ? settingNames.CRT_SUCCESS : settingNames.CRT_FAIL);
+    }
+
+    // TODO: comments
+    public buildStatsCmd(): string {
+        const symbol = Settings.getSetting(settingNames.CMD_SYMBOL);
+        const statsCmd = Settings.getSetting(settingNames.STATS_CMD);
+        return symbol + statsCmd;
+    }
+
+    // TODO: comments
+    public getDieType(): number{
+        return Settings.getSetting(settingNames.DIE_TYPE);
     }
 
     /**

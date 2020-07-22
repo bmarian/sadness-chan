@@ -19,7 +19,7 @@ class PreCreateChatMessage {
         const counter = Settings.getCounter();
         if (!(user && content)) return
 
-        if (content === Settings.getCommand() && counter && counter[user]) {
+        if (content === SadnessChan.buildStatsCmd() && counter && counter[user]) {
             this._sendStatsMessage(message, options, counter[user], user);
             Utils.debug('Sad stats displayed.');
         }

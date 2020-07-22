@@ -9,10 +9,10 @@ export default [
         },
     },
     {
-        key: "commandHeader",
+        key: "cmdSymbol",
         data: {
-            name: "Command simbol: ",
-            hint: "Type the character that should procede the command key word. Attention: (The \"/\" character does not work)",
+            name: "Command symbol:",
+            hint: "The character that proceeds the command. (Attention, \"/\" can't be used!).",
             type: String,
             default: "!",
             scope: "world",
@@ -20,10 +20,9 @@ export default [
         }
     },
     {
-        key: "commandKey",
+        key: "statsCmd",
         data: {
-            name: "Command key word: ",
-            hint: "This is the word that when typed will trigger the display of the roll stats.",
+            name: "Stats command:",
             type: String,
             default: "sadness",
             scope: "world",
@@ -31,10 +30,10 @@ export default [
         }
     },
     {
-        key: "diceType",
+        key: "dieType",
         data: {
-            name: "Observed die faces",
-            hint: "This is the type of dice that the module will count and observe",
+            name: "Die to observe:",
+            hint: "The number of faces the observed die has.",
             type: Number,
             default: 20,
             scope: "world",
@@ -42,10 +41,10 @@ export default [
         }
     },
     {
-        key: "critFail",
+        key: "crtFail",
         data: {
-            name: "Critical fail value",
-            hint: "This is the value that is considered a critical fail",
+            name: "Critical fail value:",
+            hint: "The value considered a critical failure.",
             type: Number,
             default: 1,
             scope: "world",
@@ -53,10 +52,10 @@ export default [
         }
     },
     {
-        key: "critSucces",
+        key: "crtSuccess",
         data: {
-            name: "Critical succes value",
-            hint: "This is the value that is considered a critical succes",
+            name: "Critical success value:",
+            hint: "The value considered a critical success.",
             type: Number,
             default: 20,
             scope: "world",
