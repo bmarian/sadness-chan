@@ -175,7 +175,7 @@ class SadnessChan {
     }
 
     /**
-     * Returns number of faces of the die based on user settings.
+     * Returns number of faces of the die based on user settings
      * The number of faces must be between 2 and 1000
      */
     public getDieType(): number{
@@ -193,7 +193,7 @@ class SadnessChan {
     }
 
     /**
-     * Contructs the command for statistics from the symbom and the name of the command 
+     * Returns the command for getting the statistics. It is made from the symbom and the name of the command 
      */
     public buildStatsCmd(): string {
         const symbol = Settings.getSetting(settingNames.CMD_SYMBOL);
