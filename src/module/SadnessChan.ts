@@ -9,6 +9,8 @@ class SadnessChan {
     private static _instance: SadnessChan;
     private _portraits: string[] = portraitsList;
     private readonly _playerWhisperChance = 0.5;
+    private readonly _minDieType = 2;
+    private readonly _maxDieType = 1000;
 
     private constructor() {
     }
@@ -158,9 +160,30 @@ class SadnessChan {
         return this._updateDynamicMessages(message, user);
     }
 
+    // TODO Marian: comments
+    private _resetValueInSettings(key: string, value: any): void {
+        Settings.setSetting(settingNames.DIE_TYPE, value);
+    }
+
     // TODO: comments
     private _getCrtValue(isCrtSuccess: boolean): number {
         return Settings.getSetting(isCrtSuccess ? settingNames.CRT_SUCCESS : settingNames.CRT_FAIL);
+    }
+
+    // TODO: comments
+    // TLDR: we only allow dice between 2 and 1000
+    public getDieType(): number{
+        const dieType = Settings.getSetting(settingNames.DIE_TYPE);
+
+        if (dieType < this._minDieType) {
+            this._resetValueInSettings(settingNames.DIE_TYPE, this._minDieType);
+            return this._minDieType;
+        }
+        if (dieType > this._maxDieType) {
+            this._resetValueInSettings(settingNames.DIE_TYPE, this._maxDieType);
+            return this._maxDieType;
+        }
+        return dieType;
     }
 
     // TODO: comments
@@ -168,11 +191,6 @@ class SadnessChan {
         const symbol = Settings.getSetting(settingNames.CMD_SYMBOL);
         const statsCmd = Settings.getSetting(settingNames.STATS_CMD);
         return symbol + statsCmd;
-    }
-
-    // TODO: comments
-    public getDieType(): number{
-        return Settings.getSetting(settingNames.DIE_TYPE);
     }
 
     /**

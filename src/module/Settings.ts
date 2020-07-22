@@ -38,6 +38,10 @@ class Settings {
         return this._getSetting(key);
     }
 
+    public setSetting(key: string, data: any): Promise<any> {
+        return this._setSetting(key, data);
+    }
+
     public resetCounter(): Promise<any> {
         return this.setCounter({});
     }
