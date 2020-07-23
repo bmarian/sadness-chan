@@ -1,6 +1,6 @@
 import utils from "./Utils";
 import settingsList from "./lists/settingsList";
-import settingNames from "./lists/settingNamesList";
+import settingNames from "./lists/settingEnum";
 
 class Settings {
     private static _instance: Settings;

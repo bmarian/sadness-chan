@@ -3,7 +3,7 @@ import portraitsList from "./lists/portraitsList";
 import crtFailCommentsList from "./lists/crtFailCommentsList";
 import crtSuccessCommentsList from "./lists/crtSuccessCommentsList";
 import Settings from "./Settings";
-import settingNames from "./lists/settingNamesList";
+import settingNames from "./lists/settingEnum";
 
 class SadnessChan {
     private static _instance: SadnessChan;

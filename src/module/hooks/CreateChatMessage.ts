@@ -110,10 +110,12 @@ class CreateChatMessage {
      * @return an array with all the recent rolls
      */
     private async _extractBR5eAnalytics(chatMessage: any, user: string): Promise<Array<number>> {
-        const rolls = [...chatMessage.matchAll(/<li.*roll die d20.*>([0-9]+)<\/li>/g)];
+        const dieType = SadnessChan.getDieType();
+        const rollsRegExp = new RegExp(`<li.*roll die d${dieType}.*>([0-9]+)<\/li>`, 'g');
+        const rolls = [...chatMessage.matchAll(rollsRegExp)];
         if (!(rolls.length > 0)) return;
 
-        const recentRolls = this._getZeroArray(21);
+        const recentRolls = this._getZeroArray(dieType + 1);
         rolls.forEach((roll: any): void => {
             const value = roll[1];
             if (!value) return;
