@@ -18,7 +18,7 @@ class Settings {
         game.settings.register(utils.moduleName, key, data);
     }
 
-    private _getSetting (key: string): any{
+    private _getSetting(key: string): any {
         return game.settings.get(utils.moduleName, key);
     }
 
