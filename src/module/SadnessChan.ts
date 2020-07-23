@@ -105,7 +105,7 @@ class SadnessChan {
      * @param isCrtSuccess 
      */
     private _getWhisperChance (isCrtSuccess: boolean): number{
-        const setting = isCrtSuccess ? settingNames.SUCCES_CHANCE : settingNames.FAIL_CHANCE;
+        const setting = isCrtSuccess ? settingNames.SUCCESS_CHANCE : settingNames.FAIL_CHANCE;
         const chance = Settings.getSetting(setting);
         if (chance < this._minPlayerWhisperChance) {
             this._resetValueInSettings(setting, this._minPlayerWhisperChance)

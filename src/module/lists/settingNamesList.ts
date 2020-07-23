@@ -1,6 +1,6 @@
 export default {
     FAIL_CHANCE: 'failComChance',
-    SUCCES_CHANCE: 'succesComChance',
+    SUCCESS_CHANCE: 'succesComChance',
     CMD_SYMBOL: 'cmdSymbol',
     STATS_CMD: 'statsCmd',
     DIE_TYPE: 'dieType',
