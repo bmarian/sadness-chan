@@ -115,6 +115,7 @@ class SadnessChan {
             this._resetValueInSettings(setting, this._maxPlayerWhisperChance)
             return this._maxPlayerWhisperChance;
         }
+        return chance;
     }
 
     /**
@@ -126,7 +127,8 @@ class SadnessChan {
      * @param dieType
      */
     private _shouldIWhisper(rolls: Array<number>, dieType: number, success: number, fail: number): boolean {
-        if (!(Math.random() < this._playerWhisperChance && rolls?.length)) return false;
+        const playerWhisperChance = this._getWhisperChance(rolls[success] > rolls[fail])
+        if (!(Math.random() < playerWhisperChance && rolls?.length)) return false;
         return !!(rolls[fail] || rolls[success]);
     }
 
