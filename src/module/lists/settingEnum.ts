@@ -6,7 +6,9 @@ enum SettingEnum {
     DIE_TYPE = 'dieType',
     CRT_FAIL = 'crtFail',
     CRT_SUCCESS = 'crtSuccess',
-    COUNTER = 'counter'
+    COUNTER = 'counter',
+    LISTS = 'lists',
+    LISTS_EDITOR = 'listsEditor',
 }
 
 export default SettingEnum;

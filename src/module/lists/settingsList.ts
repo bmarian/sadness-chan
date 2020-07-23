@@ -6,6 +6,7 @@ export default [
             default: "{}",
             scope: "world",
             config: false,
+            restricted: true,
         },
     },
     {
@@ -17,6 +18,7 @@ export default [
             default: "!",
             scope: "world",
             config: true,
+            restricted: true,
         }
     },
     {
@@ -27,6 +29,8 @@ export default [
             default: "sadness",
             scope: "world",
             config: true,
+            restricted: true,
+
         }
     },
     {
@@ -38,6 +42,8 @@ export default [
             default: 20,
             scope: "world",
             config: true,
+            restricted: true,
+
         }
     },
     {
@@ -49,6 +55,8 @@ export default [
             default: 1,
             scope: "world",
             config: true,
+            restricted: true,
+
         }
     },
     {
@@ -60,6 +68,8 @@ export default [
             default: 20,
             scope: "world",
             config: true,
+            restricted: true,
+
         }
     },
     {
@@ -71,6 +81,8 @@ export default [
             default: 0.5,
             scope: "world",
             config: true,
+            restricted: true,
+
         }
     },
     {
@@ -82,7 +94,8 @@ export default [
             default: 0.5,
             scope: "world",
             config: true,
+            restricted: true,
+
         }
     }
-
 ];

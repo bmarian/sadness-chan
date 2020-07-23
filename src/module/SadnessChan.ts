@@ -1,13 +1,9 @@
 import Utils from "./Utils";
-import portraitsList from "./lists/portraitsList";
-import crtFailCommentsList from "./lists/defaultCrtFailCom";
-import crtSuccessCommentsList from "./lists/defaultCrtSuccessCom";
 import Settings from "./Settings";
 import settingNames from "./lists/settingEnum";
 
 class SadnessChan {
     private static _instance: SadnessChan;
-    private _portraits: string[] = portraitsList;
     private readonly _minPlayerWhisperChance = 0;
     private readonly _maxPlayerWhisperChance = 1;
     private readonly _minDieType = 2;
@@ -26,7 +22,8 @@ class SadnessChan {
      * Selects a random portrait from portraitsList.ts
      */
     private _getRandomPortrait(cssClass: string): string {
-        const portrait = Utils.getRandomItemFromList(this._portraits);
+        const {portraits} = Settings.getLists();
+        const portrait = Utils.getRandomItemFromList(portraits);
         if (!portrait) return '';
 
         return `
@@ -176,12 +173,14 @@ class SadnessChan {
     }
 
     private _selectCrtFailComments(user: any): string {
-        const message = Utils.getRandomItemFromList(crtFailCommentsList);
+        const {fail} = Settings.getLists();
+        const message = Utils.getRandomItemFromList(fail);
         return this._updateDynamicMessages(message, user);
     }
 
     private _selectCrtSuccessComments(user: any): string {
-        const message = Utils.getRandomItemFromList(crtSuccessCommentsList);
+        const {success} = Settings.getLists();
+        const message = Utils.getRandomItemFromList(success);
         return this._updateDynamicMessages(message, user);
     }
 
