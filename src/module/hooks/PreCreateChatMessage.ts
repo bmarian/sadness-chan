@@ -17,6 +17,11 @@ class PreCreateChatMessage {
     }
 
     private _executeResetCmd(args: any) {
+        if(!game.user.hasRole(4)) {
+            Utils.notifyUser("error", "You dont have permision execute this command")
+            return;
+        }
+
         switch (args){
             case "settings":
                 Settings.resetAllSettings();
