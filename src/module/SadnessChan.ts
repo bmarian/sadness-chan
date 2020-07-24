@@ -1,13 +1,14 @@
 import Utils from "./Utils";
-import portraitsList from "./lists/portraitsList";
-import nat1CommentsList from "./lists/nat1CommentsList";
-import nat20CommentsList from "./lists/nat20CommentsList";
 import Settings from "./Settings";
+import settingNames from "./lists/settingEnum";
 
 class SadnessChan {
     private static _instance: SadnessChan;
-    private _portraits: string[] = portraitsList;
-    private readonly _playerWhisperChance = 0.5;
+    private readonly _minPlayerWhisperChance = 0;
+    private readonly _maxPlayerWhisperChance = 1;
+    private readonly _minDieType = 2;
+    private readonly _maxDieType = 1000;
+    private readonly _minCrtValue = 1;
 
     private constructor() {
     }
@@ -21,10 +22,11 @@ class SadnessChan {
      * Selects a random portrait from portraitsList.ts
      */
     private _getRandomPortrait(cssClass: string): string {
-        const portrait = Utils.getRandomItemFromList(this._portraits);
+        const {portraits} = Settings.getLists();
+        const portrait = Utils.getRandomItemFromList(portraits);
         if (!portrait) return '';
 
-        return`
+        return `
             <img
                 src="${portrait}"
                 alt="${Utils.moduleName}-portrait"
@@ -35,8 +37,8 @@ class SadnessChan {
 
     /**
      * Creates the display message
-     * 
-     * @param content - the selected message 
+     *
+     * @param content - the selected message
      */
     private _sadnessMessage(content: string): string {
         const chatMessageClass = `${Utils.moduleName}-chat-message`;
@@ -60,31 +62,34 @@ class SadnessChan {
 
     /**
      * Creates body of the message for !sadness command
-     * 
+     *
      * @param userData - current user
      * @param statsBodyClass - css class for the body
      */
     private _getStatsMessageBody(userData: any, statsBodyClass: string): string {
+        const failNumber = this._getCrtValue(false);
+        const successNumber = this._getCrtValue(true);
+
         let message = `
             <h2 class="${statsBodyClass}__username">${userData.name}</h2>
         `;
 
         const rolls = userData.rolls;
         if (rolls) {
-            const nat1 = rolls[1];
-            const nat20 = rolls[20];
+            const crtFail = rolls[failNumber];
+            const crtSuccess = rolls[successNumber];
             const rollsClass = `${statsBodyClass}__rolls`;
             const rollClass = `${rollsClass}-roll`;
 
             message += `
                 <ol class="${rollsClass}">
                     <li class="${rollClass}">
-                        <span class="${rollClass}-dice min">1</span>    
-                        <span class="${rollClass}-count">${nat1}</span>    
+                        <span class="${rollClass}-dice min">${failNumber}</span>    
+                        <span class="${rollClass}-count">${crtFail}</span>    
                     </li>
                     <li class="${rollClass}">
-                        <span class="${rollClass}-dice max">20</span>    
-                        <span class="${rollClass}-count">${nat20}</span>
+                        <span class="${rollClass}-dice max">${successNumber}</span>    
+                        <span class="${rollClass}-count">${crtSuccess}</span>
                     </li>
                 </ol>
             `;
@@ -94,18 +99,41 @@ class SadnessChan {
     }
 
     /**
-     * Decieds if the whisper should be sent to the user
-     * 
-     * @param rolls - array of rolls made by the user
+     * Returns the chance for a whisper to be sent
+     *
+     * @param isCrtSuccess
      */
-    private _shouldIWhisper(rolls: Array<number>): boolean {
-        if (!(Math.random() < this._playerWhisperChance && rolls && rolls?.length)) return false;
-        return !!(rolls[1] || rolls[20]);
+    private _getWhisperChance(isCrtSuccess: boolean): number {
+        const setting = isCrtSuccess ? settingNames.SUCCESS_CHANCE : settingNames.FAIL_CHANCE;
+        const chance = Settings.getSetting(setting);
+        if (chance < this._minPlayerWhisperChance) {
+            this._resetValueInSettings(setting, this._minPlayerWhisperChance);
+            return this._minPlayerWhisperChance;
+        }
+        if (chance > this._maxPlayerWhisperChance) {
+            this._resetValueInSettings(setting, this._maxPlayerWhisperChance);
+            return this._maxPlayerWhisperChance;
+        }
+        return chance;
+    }
+
+    /**
+     * Decieds if the whisper should be sent to the user
+     *
+     * @param rolls - array of rolls made by the user
+     * @param fail
+     * @param success
+     * @param dieType
+     */
+    private _shouldIWhisper(rolls: Array<number>, dieType: number, success: number, fail: number): boolean {
+        const playerWhisperChance = this._getWhisperChance(rolls[success] > rolls[fail])
+        if (!(Math.random() < playerWhisperChance && rolls?.length)) return false;
+        return !!(rolls[fail] || rolls[success]);
     }
 
     /**
      * Creates and sends the whisper message
-     * 
+     *
      * @param target - who should receive the message
      * @param content - content of the message
      */
@@ -125,15 +153,15 @@ class SadnessChan {
 
     /**
      * Updates messages that contain [sc-] tags
-     * 
+     *
      * @param message - the message that should have tags replaced
-     * @param user - current user 
+     * @param user - current user
      */
     private _updateDynamicMessages(message: string, user: any): string {
         const counter = Settings.getCounter();
         const userStructure = counter[user._id];
 
-        let messageOutput = message.replace(/\[sc-d([0-9]{1,2})\]/, (_0: string, value: string): string => {
+        let messageOutput = message.replace(/\[sc-d([0-9]{1,4})\]/, (_0: string, value: string): string => {
             return userStructure.rolls[value];
         });
 
@@ -144,19 +172,72 @@ class SadnessChan {
         return messageOutput;
     }
 
-    private _selectNat1Comments(user: any): string {
-        const message = Utils.getRandomItemFromList(nat1CommentsList);
+    private _selectCrtFailComments(user: any): string {
+        const {fail} = Settings.getLists();
+        const message = Utils.getRandomItemFromList(fail);
         return this._updateDynamicMessages(message, user);
     }
 
-    private _selectNat20Comments(user: any): string {
-        const message = Utils.getRandomItemFromList(nat20CommentsList);
+    private _selectCrtSuccessComments(user: any): string {
+        const {success} = Settings.getLists();
+        const message = Utils.getRandomItemFromList(success);
         return this._updateDynamicMessages(message, user);
+    }
+
+    // TODO Marian: comments
+    private _resetValueInSettings(key: string, value: any): void {
+        Settings.setSetting(key, value);
+    }
+
+    /**
+     * Returns the value that is considered a crit fail or success
+     *
+     * @param isCrtSuccess - true if you want to get the crit success value, false if you want to get crit fail value
+     */
+    private _getCrtValue(isCrtSuccess: boolean): number {
+        const crtValue = Settings.getSetting(isCrtSuccess ? settingNames.CRT_SUCCESS : settingNames.CRT_FAIL);
+        const dieType = this.getDieType();
+        if (isCrtSuccess && crtValue > dieType) {
+            this._resetValueInSettings(settingNames.CRT_SUCCESS, dieType);
+            return dieType;
+        }
+        if (!isCrtSuccess && crtValue < this._minCrtValue) {
+            this._resetValueInSettings(settingNames.CRT_SUCCESS, this._minCrtValue);
+            return this._minCrtValue;
+        }
+        return crtValue;
+    }
+
+    /**
+     * Returns number of faces of the die based on user settings
+     * The number of faces must be between 2 and 1000
+     */
+    public getDieType(): number {
+        const dieType = Settings.getSetting(settingNames.DIE_TYPE);
+
+        if (dieType < this._minDieType) {
+            this._resetValueInSettings(settingNames.DIE_TYPE, this._minDieType);
+            return this._minDieType;
+        }
+        if (dieType > this._maxDieType) {
+            this._resetValueInSettings(settingNames.DIE_TYPE, this._maxDieType);
+            return this._maxDieType;
+        }
+        return dieType;
+    }
+
+    /**
+     * Returns the command for getting the statistics. It is made from the symbom and the name of the command
+     */
+    public buildStatsCmd(): string {
+        const symbol = Settings.getSetting(settingNames.CMD_SYMBOL);
+        const statsCmd = Settings.getSetting(settingNames.STATS_CMD);
+        return symbol + statsCmd;
     }
 
     /**
      * Creates the stats message
-     * 
+     *
      * @param userData - current user
      */
     public getStatsMessage(userData: any): string {
@@ -181,13 +262,17 @@ class SadnessChan {
 
     /**
      * Sends the whisper message
-     * 
+     *
      * @param rolls - array of rolls made by the user
      * @param user - current user
      */
     public async whisper(rolls: Array<number>, user: any): Promise<any> {
-        if (!this._shouldIWhisper(rolls)) return;
-        const content = rolls[1] > rolls[20] ? this._selectNat1Comments(user) : this._selectNat20Comments(user);
+        const dieType = this.getDieType();
+        const successNumber = this._getCrtValue(true);
+        const failNumber = this._getCrtValue(false);
+
+        if (!this._shouldIWhisper(rolls, dieType, successNumber, failNumber)) return;
+        const content = rolls[failNumber] > rolls[successNumber] ? this._selectCrtFailComments(user) : this._selectCrtSuccessComments(user);
 
         Utils.debug(`Whisper sent to ${user.name}`);
         return this._createWhisperMessage(user._id, content);

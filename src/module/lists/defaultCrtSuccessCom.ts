@@ -8,4 +8,4 @@ export default [
     '[sc-name] has been banned for hacking...',
     'Do that again... oh you can\'t ?',
     'What are you trying to prove?'
-]
+];

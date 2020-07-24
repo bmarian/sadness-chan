@@ -1,0 +1,7 @@
+.#{$module-name}-form{
+  &-crtFailMessages,
+  &-crtSuccessMessages,
+  &-portraits,{
+    resize: vertical;
+  }
+}
