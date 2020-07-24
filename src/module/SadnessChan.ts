@@ -229,10 +229,9 @@ class SadnessChan {
     /**
      * Returns the command for getting the statistics. It is made from the symbom and the name of the command
      */
-    public buildStatsCmd(): string {
-        const symbol = Settings.getSetting(settingNames.CMD_SYMBOL);
+    public getCmd(): string {
         const statsCmd = Settings.getSetting(settingNames.STATS_CMD);
-        return symbol + statsCmd;
+        return statsCmd;
     }
 
     /**

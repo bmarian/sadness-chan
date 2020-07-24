@@ -1,7 +1,6 @@
 enum SettingEnum {
     FAIL_CHANCE = 'failComChance',
     SUCCESS_CHANCE = 'successComChance',
-    CMD_SYMBOL = 'cmdSymbol',
     STATS_CMD = 'statsCmd',
     DIE_TYPE = 'dieType',
     CRT_FAIL = 'crtFail',
@@ -9,6 +8,7 @@ enum SettingEnum {
     COUNTER = 'counter',
     LISTS = 'lists',
     LISTS_EDITOR = 'listsEditor',
+    RESET_CMD = 'reset',
 }
 
 export default SettingEnum;

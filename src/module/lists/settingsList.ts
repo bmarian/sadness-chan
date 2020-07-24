@@ -10,23 +10,11 @@ export default [
         },
     },
     {
-        key: "cmdSymbol",
-        data: {
-            name: "Command symbol:",
-            hint: "The character that proceeds the command. (Attention, \"/\" can't be used!).",
-            type: String,
-            default: "!",
-            scope: "world",
-            config: true,
-            restricted: true,
-        }
-    },
-    {
         key: "statsCmd",
         data: {
             name: "Stats command:",
             type: String,
-            default: "sadness",
+            default: "!sadness",
             scope: "world",
             config: true,
             restricted: true,
