@@ -57,7 +57,7 @@ class Settings {
         return game.settings.set(utils.moduleName, key, JSON.stringify(data));
     }
 
-    public resetSettings() {
+    public resetAllSettings() {
         for (const item in defaultValues) {
             this.setSetting(settingNames[item], defaultValues[item]);
         }
