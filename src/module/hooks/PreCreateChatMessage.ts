@@ -16,9 +16,23 @@ class PreCreateChatMessage {
     }
 
     private _executeResetCmd(args: any) {
-        Settings.resetAllSettings();
-        Settings.resetCounter();
-        Settings.resetLists();
+        switch (args){
+            case "settings":
+                Settings.resetAllSettings();
+                ui.notifications.info("Settings have been reset");
+                break;
+            case "counter":
+                Settings.resetCounter();
+                ui.notifications.info("Dice rolls history have been reset");
+                break;
+            case "lists":
+                Settings.resetLists();
+                ui.notifications.info("Settings have been reset");
+                break;
+            default:
+                ui.notifications.error("Invalid arguments");
+                break;
+        }
     }
 
     public executeCommand (args: string, user: any) {
@@ -34,7 +48,7 @@ class PreCreateChatMessage {
         options.chatBubble = false;
     }
 
-    public sendStatsMessage(message: any, options: any, userData: any, userId: string): void {
+    private _sendStatsMessage(message: any, options: any, userData: any, userId: string): void {
         message.content = SadnessChan.getStatsMessage(userData);
         this._prepareMessage(message, options, userId);
     }
@@ -43,7 +57,7 @@ class PreCreateChatMessage {
         const counter = Settings.getCounter();
 
         if (counter && counter[user]) {
-            this.sendStatsMessage(message, options, counter[user], user);
+            this._sendStatsMessage(message, options, counter[user], user);
             Utils.debug('Sad stats displayed.');
         }
     }
