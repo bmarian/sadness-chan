@@ -15,24 +15,27 @@ class PreCreateChatMessage {
         return PreCreateChatMessage._instance;
     }
 
-    public preCreateChatMessageHook(message: any, options: any): void {
-        const content = message?.content;
-        const user = message?.user;
-        const counter = Settings.getCounter();
-        const command = SadnessChan.getCmd();
-        if (!(user && content)) return;
-
-        if (!content.startsWith(command)) return;
-
-        if (content === command) return this._executeStatsCmd(message, options, user);
-
-        const args = content.replace(command + ' ', '');
-        this.executeCommand(args, user);
-    }
-
     private _executeResetCmd(args: any) {
         Settings.resetSettings();
         Settings.resetCounter();
+    }
+
+    public executeCommand (args: string, user: any) {
+        const resetCommand = settingNames.RESET_CMD;
+        if (args.startsWith(settingNames.RESET_CMD)) {
+            return this._executeResetCmd(args.replace(resetCommand + ' ', ''));
+        }
+    }
+
+    private _prepareMessage(message: any, options: any, userId: string): void {
+        message.whisper = [userId];
+        message.speaker = {alias: `${Utils.moduleTitle}`};
+        options.chatBubble = false;
+    }
+
+    public sendStatsMessage(message: any, options: any, userData: any, userId: string): void {
+        message.content = SadnessChan.getStatsMessage(userData);
+        this._prepareMessage(message, options, userId);
     }
 
     private _executeStatsCmd(message: any, options: any, user: any) {
@@ -44,22 +47,18 @@ class PreCreateChatMessage {
         }
     }
 
-    public executeCommand (args: string, user: any) {
-        const resetCommand = settingNames.RESET_CMD;
-        if (args.startsWith(settingNames.RESET_CMD)) {
-            return this._executeResetCmd(args.replace(resetCommand + ' ', ''));
-        }
-    }
+    public preCreateChatMessageHook(message: any, options: any): void {
+        const content = message?.content;
+        const user = message?.user;
+        const command = SadnessChan.getCmd();
+        if (!(user && content)) return;
 
-    public sendStatsMessage(message: any, options: any, userData: any, userId: string): void {
-        message.content = SadnessChan.getStatsMessage(userData);
-        this._prepareMessage(message, options, userId);
-    }
+        if (!content.startsWith(command)) return;
 
-    private _prepareMessage(message: any, options: any, userId: string): void {
-        message.whisper = [userId];
-        message.speaker = {alias: `${Utils.moduleTitle}`};
-        options.chatBubble = false;
+        if (content === command) return this._executeStatsCmd(message, options, user);
+
+        const args = content.replace(command + ' ', '');
+        this.executeCommand(args, user);
     }
 }
 
