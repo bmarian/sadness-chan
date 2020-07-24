@@ -2,6 +2,7 @@ import Settings from "../Settings";
 import SadnessChan from "../SadnessChan";
 import Utils from "../Utils";
 import settingNames from "../lists/settingEnum";
+import { utils } from "pixi.js";
 
 
 class PreCreateChatMessage {
@@ -19,18 +20,18 @@ class PreCreateChatMessage {
         switch (args){
             case "settings":
                 Settings.resetAllSettings();
-                ui.notifications.info("Settings have been reset");
+                Utils.notifyUser("info","Settings have been reset");
                 break;
             case "counter":
                 Settings.resetCounter();
-                ui.notifications.info("Dice rolls history have been reset");
+                Utils.notifyUser("info","Dice rolls history have been reset");
                 break;
             case "lists":
                 Settings.resetLists();
-                ui.notifications.info("Settings have been reset");
+                Utils.notifyUser("info","Settings have been reset");
                 break;
             default:
-                ui.notifications.error("Invalid arguments");
+                Utils.notifyUser("error","Invalid arguments");
                 break;
         }
     }
