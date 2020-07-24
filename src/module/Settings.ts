@@ -57,6 +57,16 @@ class Settings {
         return game.settings.set(utils.moduleName, key, JSON.stringify(data));
     }
 
+    public resetLists() {
+        const defaultList = JSON.stringify({
+            'fail': [...defaultCrtFailCom],
+            'success': [...defaultCrtSuccessCom],
+            'portraits': [],
+        });
+
+        this.setSetting(settingNames.LISTS, defaultList);
+    }
+
     public resetAllSettings() {
         for (const item in defaultValues) {
             this.setSetting(settingNames[item], defaultValues[item]);

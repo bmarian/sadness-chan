@@ -18,6 +18,7 @@ class PreCreateChatMessage {
     private _executeResetCmd(args: any) {
         Settings.resetAllSettings();
         Settings.resetCounter();
+        Settings.resetLists();
     }
 
     public executeCommand (args: string, user: any) {
