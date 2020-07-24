@@ -3,6 +3,7 @@ import SadnessChan from "../SadnessChan";
 import Utils from "../Utils";
 import settingNames from "../lists/settingEnum";
 
+
 class PreCreateChatMessage {
     private static _instance: PreCreateChatMessage;
 
@@ -29,8 +30,9 @@ class PreCreateChatMessage {
         this.executeCommand(args, user);
     }
 
-    private _executeResetCmd(args: any ) {
-        console.log("RESETED" + args);
+    private _executeResetCmd(args: any) {
+        Settings.resetSettings();
+        Settings.resetCounter();
     }
 
     private _executeStatsCmd(message: any, options: any, user: any) {
@@ -45,7 +47,7 @@ class PreCreateChatMessage {
     public executeCommand (args: string, user: any) {
         const resetCommand = settingNames.RESET_CMD;
         if (args.startsWith(settingNames.RESET_CMD)) {
-            return this._executeResetCmd(args.replace(resetCommand+ ' ', ''));
+            return this._executeResetCmd(args.replace(resetCommand + ' ', ''));
         }
     }
 

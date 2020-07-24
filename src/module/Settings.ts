@@ -5,6 +5,7 @@ import ListsEditor from "./apps/ListsEditor";
 
 import defaultCrtFailCom from "./lists/defaultCrtFailCom";
 import defaultCrtSuccessCom from "./lists/defaultCrtSuccessCom";
+import defaultValues from "./lists/defaultsEnum"
 
 class Settings {
     private static _instance: Settings;
@@ -54,6 +55,12 @@ class Settings {
 
     private _setSetting(key: string, data: any): Promise<any> {
         return game.settings.set(utils.moduleName, key, JSON.stringify(data));
+    }
+
+    public resetSettings() {
+        for (const item in defaultValues) {
+            this.setSetting(settingNames[item], defaultValues[item]);
+        }
     }
 
     public resetCounter(): Promise<any> {
