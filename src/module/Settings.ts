@@ -21,8 +21,8 @@ class Settings {
     private _registerMenus(): void {
         // @ts-ignore
         game.settings.registerMenu(utils.moduleName, settingDefaults.SETTING_KEYS.LISTS_EDITOR, {
-            name: "Custom Comments Menu",
-            label: "Open comments editor",
+            name: "Lists editor:",
+            label: "Open list editor",
             icon: "fas fa-edit",
             type: ListsEditor,
             restricted: true,

@@ -18,7 +18,13 @@ export default {
         LISTS: 'lists',
         LISTS_EDITOR: 'listsEditor',
     },
-    ERROR_MESSAGES: {},
+    ERROR_MESSAGES: {
+        NOT_ENOUGH_PERMISSIONS: 'Sorry but this command is only for the big guy.',
+        SETTINGS_RESET: 'Who are you, again?',
+        COUNTER_RESET: 'Are you THAT embarrassed about your rolls?',
+        LISTS_RESET: 'Oh good... I can be myself again (◔_◔)',
+        INVALID_ARGUMENTS: 'Do you even know what you\'re doing?',
+    },
     SETTINGS: [
         {
             key: "counter",
@@ -34,6 +40,7 @@ export default {
             key: "statsCmd",
             data: {
                 name: "Stats command:",
+                hint: "Do you fell happy? I can change that (｡◕‿◕｡)",
                 type: String,
                 default: "!sadness",
                 scope: "world",
@@ -45,8 +52,8 @@ export default {
         {
             key: "dieType",
             data: {
-                name: "Die to observe:",
-                hint: "The number of faces the observed die has.",
+                name: "Observed die:",
+                hint: "How many faces does your shiny fail rock has?",
                 type: Number,
                 default: 20,
                 scope: "world",
@@ -59,7 +66,7 @@ export default {
             key: "crtFail",
             data: {
                 name: "Critical fail value:",
-                hint: "The value considered a critical failure.",
+                hint: "What number makes you the saddest?",
                 type: Number,
                 default: 1,
                 scope: "world",
@@ -72,7 +79,7 @@ export default {
             key: "crtSuccess",
             data: {
                 name: "Critical success value:",
-                hint: "The value considered a critical success.",
+                hint: "You're never gonna see this. Does it even matter?",
                 type: Number,
                 default: 20,
                 scope: "world",
@@ -84,8 +91,8 @@ export default {
         {
             key: "failComChance",
             data: {
-                name: "Message chance on critical fail:",
-                hint: "This is a number between 0 and 1 that represents the percentage change for a message to be sent on a critical fail",
+                name: "Chance for a message on critical fail:",
+                hint: "How often do I have to talk with you? 0 for never, 1 for always, I guess...",
                 type: Number,
                 default: 0.5,
                 scope: "world",
@@ -97,8 +104,8 @@ export default {
         {
             key: "successComChance",
             data: {
-                name: "Message chance on critical success:",
-                hint: "This is a number between 0 and 1 that represents the percentage change for a message to be sent on a critical fail",
+                name: "Chance for a message on critical success:",
+                hint: "Like the other one, you dummy ╰| ⊡ _ ⊡ |╯",
                 type: Number,
                 default: 0.5,
                 scope: "world",

@@ -1,9 +1,11 @@
 import Settings from "../Settings";
 import SadnessChan from "../SadnessChan";
 import Utils from "../Utils";
+import settingsDefaults from "../lists/settingsDefaults";
 
 class PreCreateChatMessage {
     private static _instance: PreCreateChatMessage;
+    private readonly _errorMessages = settingsDefaults.ERROR_MESSAGES;
 
     private constructor() {
     }
@@ -15,24 +17,24 @@ class PreCreateChatMessage {
 
     private _executeResetCmd(args: string) {
         if (!game.user.hasRole(4)) {
-            return Utils.notifyUser("error", "You don't have permissions to execute this command.")
+            return Utils.notifyUser("error", this._errorMessages.NOT_ENOUGH_PERMISSIONS);
         }
 
         switch (args) {
             case "settings":
                 Settings.resetAllSettings();
-                Utils.notifyUser("info", "Settings have been reset.");
+                Utils.notifyUser("info", this._errorMessages.SETTINGS_RESET);
                 break;
             case "counter":
                 Settings.resetCounter();
-                Utils.notifyUser("info", "Dice rolls history has been reset.");
+                Utils.notifyUser("info", this._errorMessages.COUNTER_RESET);
                 break;
             case "lists":
                 Settings.resetLists();
-                Utils.notifyUser("info", "Settings have been reset.");
+                Utils.notifyUser("info", this._errorMessages.LISTS_RESET);
                 break;
             default:
-                Utils.notifyUser("error", "Invalid arguments.");
+                Utils.notifyUser("error", this._errorMessages.INVALID_ARGUMENTS);
                 break;
         }
     }
