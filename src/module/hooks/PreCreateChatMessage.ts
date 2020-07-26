@@ -41,7 +41,7 @@ class PreCreateChatMessage {
 
     private _prepareMessage(message: any, options: any, userId: string): void {
         message.whisper = [userId];
-        message.speaker = {alias: `${Utils.moduleTitle}`};
+        message.speaker = { alias: `${Utils.moduleTitle}` };
         options.chatBubble = false;
     }
 
@@ -86,13 +86,11 @@ class PreCreateChatMessage {
         const rolls = counter[user].rolls;
         if (!(counter && counter[user])) return;
 
-        message.content = '';
-        
-        
-        
-        for(let i = 1; i < rolls.length; i++) {
-            message.content += i + ' ' + rolls[i] + '<br>';
-        }
+        message.content = rolls.reduce((result, element, index) => {
+            if (!index) return '';
+
+            return result + index + ' ' + element + '<br>';
+        }, '');
     }
 }
 export default PreCreateChatMessage.getInstance();
