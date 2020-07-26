@@ -1,7 +1,5 @@
 import Utils from "../Utils";
 import Settings from "../Settings";
-import settingNames from "../lists/settingEnum";
-
 
 export default class ListsEditor extends FormApplication {
     static get defaultOptions(): any {

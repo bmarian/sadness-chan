@@ -50,6 +50,10 @@ class Utils {
     public getRandomItemFromList(list: Array<any>): any {
         return typeof list !== "undefined" && list?.length > 0 ? list[Math.floor(Math.random() * list.length)] : null;
     }
+
+    public notifyUser(type: string, message: string) {
+        ui.notifications[type](message);
+    }
 }
 
 export default Utils.getInstance(true, true);
