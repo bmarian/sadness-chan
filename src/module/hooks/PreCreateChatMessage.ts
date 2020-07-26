@@ -41,7 +41,7 @@ class PreCreateChatMessage {
 
     private _prepareMessage(message: any, options: any, userId: string): void {
         message.whisper = [userId];
-        message.speaker = { alias: `${Utils.moduleTitle}` };
+        message.speaker = {alias: `${Utils.moduleTitle}`};
         options.chatBubble = false;
     }
 
@@ -57,6 +57,18 @@ class PreCreateChatMessage {
             this._sendStatsMessage(message, options, counter[user], user);
             Utils.debug('Sad stats displayed.');
         }
+    }
+
+    private _sendAllRollsMessage(message: any, options: any, userId: any) {
+        const counter = Settings.getCounter();
+        const rolls = counter[userId]?.rolls;
+        if (!(counter && rolls)) return;
+
+        message.content = rolls.reduce((result: string, el: number, index: number): string => {
+            return !index ? '' : result + `${index} ${el}<br>`;
+        }, '');
+
+        this._prepareMessage(message, options, userId);
     }
 
     public executeCommand(args: string, user: any, message: any, options: any) {
@@ -80,17 +92,6 @@ class PreCreateChatMessage {
 
         return this.executeCommand(content.replace(command + ' ', ''), user, message, options);
     }
-
-    private _sendAllRollsMessage(message: any, options: any, user: any) {
-        const counter = Settings.getCounter();
-        const rolls = counter[user].rolls;
-        if (!(counter && counter[user])) return;
-
-        message.content = rolls.reduce((result, element, index) => {
-            if (!index) return '';
-
-            return result + index + ' ' + element + '<br>';
-        }, '');
-    }
 }
+
 export default PreCreateChatMessage.getInstance();
