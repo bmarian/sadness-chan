@@ -59,10 +59,14 @@ class PreCreateChatMessage {
         }
     }
 
-    public executeCommand(args: string) {
+    public executeCommand(args: string, user: any, message: any, options: any) {
         const resetCommand = 'reset';
+        const allCommand = 'all';
         if (args.startsWith(resetCommand)) {
             return this._executeResetCmd(args.replace(resetCommand + ' ', ''));
+        }
+        if (args.startsWith(allCommand)) {
+            return this._sendAllRollsMessage(message, options, user);
         }
     }
 
@@ -74,8 +78,21 @@ class PreCreateChatMessage {
 
         if (content === command) return this._executeStatsCmd(message, options, user);
 
-        return this.executeCommand(content.replace(command + ' ', ''));
+        return this.executeCommand(content.replace(command + ' ', ''), user, message, options);
+    }
+
+    private _sendAllRollsMessage(message: any, options: any, user: any) {
+        const counter = Settings.getCounter();
+        const rolls = counter[user].rolls;
+        if (!(counter && counter[user])) return;
+
+        message.content = '';
+        
+        
+        
+        for(let i = 1; i < rolls.length; i++) {
+            message.content += i + ' ' + rolls[i] + '<br>';
+        }
     }
 }
-
 export default PreCreateChatMessage.getInstance();
