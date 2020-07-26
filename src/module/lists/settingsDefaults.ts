@@ -18,9 +18,7 @@ export default {
         LISTS: 'lists',
         LISTS_EDITOR: 'listsEditor',
     },
-    ERROR_MESSAGES: {
-
-    },
+    ERROR_MESSAGES: {},
     SETTINGS: [
         {
             key: "counter",

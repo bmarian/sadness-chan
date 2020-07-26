@@ -228,11 +228,10 @@ class SadnessChan {
     }
 
     /**
-     * Returns the command for getting the statistics. It is made from the symbom and the name of the command
+     * Returns the root command (!sadness)
      */
     public getCmd(): string {
-        const statsCmd = Settings.getSetting(this._settingKeys.STATS_CMD);
-        return statsCmd;
+        return Settings.getSetting(this._settingKeys.STATS_CMD);
     }
 
     /**

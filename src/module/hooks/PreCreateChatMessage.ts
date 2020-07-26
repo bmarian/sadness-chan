@@ -13,35 +13,27 @@ class PreCreateChatMessage {
         return PreCreateChatMessage._instance;
     }
 
-    private _executeResetCmd(args: any) {
-        if(!game.user.hasRole(4)) {
-            Utils.notifyUser("error", "You don't have permissions to execute this command.")
-            return;
+    private _executeResetCmd(args: string) {
+        if (!game.user.hasRole(4)) {
+            return Utils.notifyUser("error", "You don't have permissions to execute this command.")
         }
 
-        switch (args){
+        switch (args) {
             case "settings":
                 Settings.resetAllSettings();
-                Utils.notifyUser("info","Settings have been reset.");
+                Utils.notifyUser("info", "Settings have been reset.");
                 break;
             case "counter":
                 Settings.resetCounter();
-                Utils.notifyUser("info","Dice rolls history has been reset.");
+                Utils.notifyUser("info", "Dice rolls history has been reset.");
                 break;
             case "lists":
                 Settings.resetLists();
-                Utils.notifyUser("info","Settings have been reset.");
+                Utils.notifyUser("info", "Settings have been reset.");
                 break;
             default:
-                Utils.notifyUser("error","Invalid arguments.");
+                Utils.notifyUser("error", "Invalid arguments.");
                 break;
-        }
-    }
-
-    public executeCommand (args: string, user: any) {
-        const resetCommand = 'reset';
-        if (args.startsWith(resetCommand)) {
-            return this._executeResetCmd(args.replace(resetCommand + ' ', ''));
         }
     }
 
@@ -65,18 +57,22 @@ class PreCreateChatMessage {
         }
     }
 
+    public executeCommand(args: string) {
+        const resetCommand = 'reset';
+        if (args.startsWith(resetCommand)) {
+            return this._executeResetCmd(args.replace(resetCommand + ' ', ''));
+        }
+    }
+
     public preCreateChatMessageHook(message: any, options: any): void {
         const content = message?.content;
         const user = message?.user;
         const command = SadnessChan.getCmd();
-        if (!(user && content)) return;
-
-        if (!content.startsWith(command)) return;
+        if (!(user && content && content.startsWith(command))) return;
 
         if (content === command) return this._executeStatsCmd(message, options, user);
 
-        const args = content.replace(command + ' ', '');
-        this.executeCommand(args, user);
+        this.executeCommand(content.replace(command + ' ', ''));
     }
 }
 
