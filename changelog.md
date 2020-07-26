@@ -14,3 +14,6 @@
 
 # v1.1.1
 - [ ] Count embedded rolls.
+
+# v2.0.0
+- [ ] Support for observing intervals
