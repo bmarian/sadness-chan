@@ -1,14 +1,10 @@
 import utils from "./Utils";
-import settingsList from "./lists/settingsList";
-import settingNames from "./lists/settingEnum";
 import ListsEditor from "./apps/ListsEditor";
-
-import defaultCrtFailCom from "./lists/defaultCrtFailCom";
-import defaultCrtSuccessCom from "./lists/defaultCrtSuccessCom";
+import listDefaults from "./lists/listDefaults";
+import settingDefaults from "./lists/settingsDefaults";
 
 class Settings {
     private static _instance: Settings;
-    private readonly _settingsList = settingsList;
 
     private constructor() {
     }
@@ -24,9 +20,9 @@ class Settings {
 
     private _registerMenus(): void {
         // @ts-ignore
-        game.settings.registerMenu(utils.moduleName, settingNames.LISTS_EDITOR, {
-            name: "Custom Comments Menu",
-            label: "Open comments editor",
+        game.settings.registerMenu(utils.moduleName, settingDefaults.SETTING_KEYS.LISTS_EDITOR, {
+            name: "Lists editor:",
+            label: "Open list editor",
             icon: "fas fa-edit",
             type: ListsEditor,
             restricted: true,
@@ -35,11 +31,11 @@ class Settings {
 
     private _registerLists(): void {
         const defaultList = JSON.stringify({
-            'fail': [...defaultCrtFailCom],
-            'success': [...defaultCrtSuccessCom],
-            'portraits': [],
+            'fail': [...listDefaults.DEFAULT_CRIT_FAIL_COMMENTS],
+            'success': [...listDefaults.DEFAULT_CRIT_SUCCESS_COMMENTS],
+            'portraits': [...listDefaults.DEFAULT_PORTRAITS],
         });
-        this._registerSetting(settingNames.LISTS, {
+        this._registerSetting(settingDefaults.SETTING_KEYS.LISTS, {
             type: String,
             default: defaultList,
             scope: "world",
@@ -56,6 +52,22 @@ class Settings {
         return game.settings.set(utils.moduleName, key, JSON.stringify(data));
     }
 
+    public resetLists(): Promise<any> {
+        const defaultList = JSON.stringify({
+            'fail': [...listDefaults.DEFAULT_CRIT_FAIL_COMMENTS],
+            'success': [...listDefaults.DEFAULT_CRIT_SUCCESS_COMMENTS],
+            'portraits': [...listDefaults.DEFAULT_PORTRAITS],
+        });
+
+        return this.setSetting(settingDefaults.SETTING_KEYS.LISTS, defaultList);
+    }
+
+    public resetAllSettings() {
+        for (const item in settingDefaults.SETTING_DEFAULTS) {
+            const settings = this.setSetting(settingDefaults.SETTING_KEYS[item], settingDefaults.SETTING_DEFAULTS[item]);
+        }
+    }
+
     public resetCounter(): Promise<any> {
         return this.setCounter({});
     }
@@ -63,7 +75,7 @@ class Settings {
     public registerSettings(): void {
         this._registerLists();
         this._registerMenus();
-        this._settingsList.forEach((setting: any): void => {
+        settingDefaults.SETTINGS.forEach((setting: any): void => {
             this._registerSetting(setting.key, setting.data);
         });
 
@@ -79,11 +91,11 @@ class Settings {
     }
 
     public setCounter(counterData: any): Promise<any> {
-        return this._setSetting(settingNames.COUNTER, counterData);
+        return this._setSetting(settingDefaults.SETTING_KEYS.COUNTER, counterData);
     }
 
     public getCounter(): any {
-        const setting = this.getSetting(settingNames.COUNTER);
+        const setting = this.getSetting(settingDefaults.SETTING_KEYS.COUNTER);
         try {
             return JSON.parse(setting);
         } catch (error) {
@@ -92,11 +104,11 @@ class Settings {
     }
 
     public setLists(listsData: any): Promise<any> {
-        return this._setSetting(settingNames.LISTS, listsData);
+        return this._setSetting(settingDefaults.SETTING_KEYS.LISTS, listsData);
     }
 
     public getLists(): any {
-        const setting = this.getSetting(settingNames.LISTS);
+        const setting = this.getSetting(settingDefaults.SETTING_KEYS.LISTS);
         try {
             return JSON.parse(setting);
         } catch (error) {
