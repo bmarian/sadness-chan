@@ -13,9 +13,23 @@ FoundryVTT version 0.7.x: `https://raw.githubusercontent.com/bmarian/sadness-cha
 
 
 # Usage
-Just play, like you would usually do and Sadness Chan will send you 'happy' whispers (50% chance) on natural 1s and natural 20s 😊.
+Just play, like you would usually do and Sadness Chan will send you 'happy' whispers on critical fails and successes 😊.
 
-Or, if you need a 'pick-me-up' just type `!sadness` in the chat and blame the stats on the random algorithm.
+Or, if you need a 'pick-me-up' just type `!sadness` in the chat and blame the stats on the random generator.
+
+### In case you are too special for any of the default settings, you can just change them, I guess...
+![settings](https://i.imgur.com/fR3KLM9.png)
+
+### You can also modify all my 'cute' messages, if any of them are too spicy for you `¯\_(ツ)_/¯`
+![lists](https://i.imgur.com/hQL3pbS.png)
+
+### You can just reset everything if you're too ashamed of what you've done.
+- `!sadness reset settings`
+- `!sadness reset lists`
+- `!sadness reset counter`
+
+# Disclaimer
+This module is a joke, and should be treated as such.
 
 
 # License
