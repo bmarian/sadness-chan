@@ -74,7 +74,7 @@ class PreCreateChatMessage {
 
         if (content === command) return this._executeStatsCmd(message, options, user);
 
-        this.executeCommand(content.replace(command + ' ', ''));
+        return this.executeCommand(content.replace(command + ' ', ''));
     }
 }
 
