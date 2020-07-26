@@ -1,6 +1,6 @@
 import Utils from "./Utils";
 import Settings from "./Settings";
-import settingNames from "./lists/settingEnum";
+import settingDefaults from "./lists/settingsDefaults";
 
 class SadnessChan {
     private static _instance: SadnessChan;
@@ -9,6 +9,7 @@ class SadnessChan {
     private readonly _minDieType = 2;
     private readonly _maxDieType = 1000;
     private readonly _minCrtValue = 1;
+    private readonly _settingKeys = settingDefaults.SETTING_KEYS;
 
     private constructor() {
     }
@@ -104,7 +105,7 @@ class SadnessChan {
      * @param isCrtSuccess
      */
     private _getWhisperChance(isCrtSuccess: boolean): number {
-        const setting = isCrtSuccess ? settingNames.SUCCESS_CHANCE : settingNames.FAIL_CHANCE;
+        const setting = isCrtSuccess ? this._settingKeys.SUCCESS_CHANCE : this._settingKeys.FAIL_CHANCE;
         const chance = Settings.getSetting(setting);
         if (chance < this._minPlayerWhisperChance) {
             this._resetValueInSettings(setting, this._minPlayerWhisperChance);
@@ -195,14 +196,14 @@ class SadnessChan {
      * @param isCrtSuccess - true if you want to get the crit success value, false if you want to get crit fail value
      */
     private _getCrtValue(isCrtSuccess: boolean): number {
-        const crtValue = Settings.getSetting(isCrtSuccess ? settingNames.CRT_SUCCESS : settingNames.CRT_FAIL);
+        const crtValue = Settings.getSetting(isCrtSuccess ? this._settingKeys.CRT_SUCCESS : this._settingKeys.CRT_FAIL);
         const dieType = this.getDieType();
         if (isCrtSuccess && crtValue > dieType) {
-            this._resetValueInSettings(settingNames.CRT_SUCCESS, dieType);
+            this._resetValueInSettings(this._settingKeys.CRT_SUCCESS, dieType);
             return dieType;
         }
         if (!isCrtSuccess && crtValue < this._minCrtValue) {
-            this._resetValueInSettings(settingNames.CRT_SUCCESS, this._minCrtValue);
+            this._resetValueInSettings(this._settingKeys.CRT_SUCCESS, this._minCrtValue);
             return this._minCrtValue;
         }
         return crtValue;
@@ -213,14 +214,14 @@ class SadnessChan {
      * The number of faces must be between 2 and 1000
      */
     public getDieType(): number {
-        const dieType = Settings.getSetting(settingNames.DIE_TYPE);
+        const dieType = Settings.getSetting(this._settingKeys.DIE_TYPE);
 
         if (dieType < this._minDieType) {
-            this._resetValueInSettings(settingNames.DIE_TYPE, this._minDieType);
+            this._resetValueInSettings(this._settingKeys.DIE_TYPE, this._minDieType);
             return this._minDieType;
         }
         if (dieType > this._maxDieType) {
-            this._resetValueInSettings(settingNames.DIE_TYPE, this._maxDieType);
+            this._resetValueInSettings(this._settingKeys.DIE_TYPE, this._maxDieType);
             return this._maxDieType;
         }
         return dieType;
@@ -230,7 +231,7 @@ class SadnessChan {
      * Returns the command for getting the statistics. It is made from the symbom and the name of the command
      */
     public getCmd(): string {
-        const statsCmd = Settings.getSetting(settingNames.STATS_CMD);
+        const statsCmd = Settings.getSetting(this._settingKeys.STATS_CMD);
         return statsCmd;
     }
 

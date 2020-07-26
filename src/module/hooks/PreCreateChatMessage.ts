@@ -1,9 +1,6 @@
 import Settings from "../Settings";
 import SadnessChan from "../SadnessChan";
 import Utils from "../Utils";
-import settingNames from "../lists/settingEnum";
-import { utils } from "pixi.js";
-
 
 class PreCreateChatMessage {
     private static _instance: PreCreateChatMessage;
@@ -18,32 +15,32 @@ class PreCreateChatMessage {
 
     private _executeResetCmd(args: any) {
         if(!game.user.hasRole(4)) {
-            Utils.notifyUser("error", "You dont have permision execute this command")
+            Utils.notifyUser("error", "You don't have permissions to execute this command.")
             return;
         }
 
         switch (args){
             case "settings":
                 Settings.resetAllSettings();
-                Utils.notifyUser("info","Settings have been reset");
+                Utils.notifyUser("info","Settings have been reset.");
                 break;
             case "counter":
                 Settings.resetCounter();
-                Utils.notifyUser("info","Dice rolls history have been reset");
+                Utils.notifyUser("info","Dice rolls history has been reset.");
                 break;
             case "lists":
                 Settings.resetLists();
-                Utils.notifyUser("info","Settings have been reset");
+                Utils.notifyUser("info","Settings have been reset.");
                 break;
             default:
-                Utils.notifyUser("error","Invalid arguments");
+                Utils.notifyUser("error","Invalid arguments.");
                 break;
         }
     }
 
     public executeCommand (args: string, user: any) {
-        const resetCommand = settingNames.RESET_CMD;
-        if (args.startsWith(settingNames.RESET_CMD)) {
+        const resetCommand = 'reset';
+        if (args.startsWith(resetCommand)) {
             return this._executeResetCmd(args.replace(resetCommand + ' ', ''));
         }
     }
