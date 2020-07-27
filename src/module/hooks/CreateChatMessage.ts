@@ -202,13 +202,10 @@ class CreateChatMessage {
         if (!terms) return;
         
         terms.forEach((term: any) => {
-            if (term == '+' || term.faces != dieType) return;
+            if (term === '+' || term.faces !== dieType) return;
 
-            term.results.forEach((element: any) => {
-                recentRolls[element.result] += 1;
-            });
+            term.results.forEach((element: any) => recentRolls[element.result] += 1);
         });
-        
 
         Utils.debug('Analytics extracted from embedded rolls.');
         return recentRolls;
