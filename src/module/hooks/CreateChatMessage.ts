@@ -66,17 +66,14 @@ class CreateChatMessage {
             return await this._extractSimpleAnalytics(_roll, user);
         }
 
-        const embeddedRolls = await this._parseEmbeddedRolls(chatMessage.data.content, user);
-        if (embeddedRolls && embeddedRolls.length > 0) {
-            return embeddedRolls;
+        if (game.data.version > '0.6.5') {
+            const embeddedRolls = await this._parseEmbeddedRolls(chatMessage.data.content, user);
+            if (embeddedRolls && embeddedRolls.length > 0) return embeddedRolls;
         }
          
         if (this._checkIfBR5eIsInstalled() && chatMessage?.data?.content) {
             return await this._extractBR5eAnalytics(chatMessage.data.content, user);
         }
-
-
-        // TODO: Extract analytics from embedded rolls
 
         return [];
     }
@@ -171,18 +168,25 @@ class CreateChatMessage {
      */
     private async _parseEmbeddedRolls (message: any, user: any): Promise<Array<number>> {
         const regexRoll = /roll=\"(.*?)\"/g;
-        const matches = [...message.matchAll(regexRoll)]
+        const matches = [...message.matchAll(regexRoll)];
+        const dieType = SadnessChan.getDieType();
         if (!(matches && matches.length > 0)) return [];
 
-        const rollsEncoded = matches[0][1];
-        const rollsDecoded = decodeURIComponent(rollsEncoded);
+        let allRecentRolls = this._getZeroArray(dieType + 1);
+        matches.forEach((element:any) => {
+            try {
+                const parsedEmbedded = JSON.parse(decodeURIComponent(element[1]));
+                const recentRolls = this._extractEmbeddedRolls(parsedEmbedded, user);
+                recentRolls.forEach((element: any, index: number) => {
+                    allRecentRolls[index] = element;
+                })
+            } catch (error) {
+                return []
+            }
+        });
         
-        try {
-            return await this._extractEmbeddedRolls(JSON.parse(rollsDecoded), user);
-        } catch (error) {
-            return [];
-        }
-
+        await this._updateDiceRolls(allRecentRolls, this._prepareUserDataForStorage(user));
+        return allRecentRolls;
     }
 
     /**
@@ -191,19 +195,20 @@ class CreateChatMessage {
      * @param messageJSON - parsed message
      * @param user - owner of the message
      */
-    private async _extractEmbeddedRolls (messageJSON: any, user: any): Promise<Array<number>> {
+    private _extractEmbeddedRolls (messageJSON: any, user: any): Array<number> {
         const terms = messageJSON.terms;
         const dieType = SadnessChan.getDieType();
         const recentRolls = this._getZeroArray(dieType + 1);
+        if (!terms) return;
         
         terms.forEach((term: any) => {
-            if (term == '+' || term.faces != dieType) return
+            if (term == '+' || term.faces != dieType) return;
 
             term.results.forEach((element: any) => {
                 recentRolls[element.result] += 1;
             });
         });
-        await this._updateDiceRolls(recentRolls, this._prepareUserDataForStorage(user));
+        
 
         Utils.debug('Analytics extracted from embedded rolls.');
         return recentRolls;
