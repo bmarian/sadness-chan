@@ -119,7 +119,8 @@ export default {
         {
             key: "statsWhisperToggle",
             data: {
-                name: "Message visibility",
+                name: "Display stats publicly",
+                hint: "You are worthless and the whole world needs to know it",
                 type: Boolean,
                 default: false,
                 scope: "world",
@@ -130,7 +131,8 @@ export default {
         {
             key: "commentWhisperToggle",
             data: {
-                name: "Comment visibility",
+                name: "Display comments publicly",
+                hint: "If you like to be publicly shamed",
                 type: Boolean,
                 default: false,
                 scope: "world",
