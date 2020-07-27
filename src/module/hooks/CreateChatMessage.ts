@@ -62,13 +62,12 @@ class CreateChatMessage {
      * @return array of rolls
      */
     private async _extractAnalytics(_roll: any, chatMessage: any, user: any): Promise<Array<number>> {
-        
         if (_roll) {
             return await this._extractSimpleAnalytics(_roll, user);
         }
 
-        const embeddedRolls = this._parseEmbeddedRolls(chatMessage.data.content, user);
-        if (embeddedRolls && (await embeddedRolls).length > 0) {
+        const embeddedRolls = await this._parseEmbeddedRolls(chatMessage.data.content, user);
+        if (embeddedRolls && embeddedRolls.length > 0) {
             return embeddedRolls;
         }
          
@@ -164,6 +163,12 @@ class CreateChatMessage {
         return Settings.setCounter(counter);
     }
 
+    /**
+     * Parses embedded rolls to make them JSONs
+     * 
+     * @param message - message send in chat
+     * @param user - author of the message
+     */
     private async _parseEmbeddedRolls (message: any, user: any): Promise<Array<number>> {
         const regexRoll = /roll=\"(.*?)\"/g;
         const matches = [...message.matchAll(regexRoll)]
@@ -180,6 +185,12 @@ class CreateChatMessage {
 
     }
 
+    /**
+     * Extracts rolls from the embedded JSON structure
+     * 
+     * @param messageJSON - parsed message
+     * @param user - owner of the message
+     */
     private async _extractEmbeddedRolls (messageJSON: any, user: any): Promise<Array<number>> {
         const terms = messageJSON.terms;
         const dieType = SadnessChan.getDieType();
