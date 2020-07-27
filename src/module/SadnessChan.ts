@@ -138,11 +138,14 @@ class SadnessChan {
      * @param target - who should receive the message
      * @param content - content of the message
      */
-    private async _createWhisperMessage(target: string, content: string): Promise<any> {
+    private async _createWhisperMessage(origin: string, content: string): Promise<any> {
+        const commentVisibilityKey = settingDefaults.SETTING_KEYS.COMMENT_MESSAGE_VISIBILITY;
+        const isPublic = Settings.getSetting(commentVisibilityKey);
+
         return ChatMessage.create({
-                user: target,
+                user: origin,
                 content: this._sadnessMessage(content),
-                whisper: [target],
+                whisper: isPublic ? '' : [origin],
                 speaker: {
                     alias: `${Utils.moduleTitle}`,
                 },
