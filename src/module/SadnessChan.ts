@@ -144,7 +144,7 @@ class SadnessChan {
         return ChatMessage.create({
                 user: origin,
                 content: this._sadnessMessage(content),
-                whisper: isPublic ? '' : [origin],
+                whisper: isPublic ? [] : [origin],
                 speaker: {
                     alias: `${Utils.moduleTitle}`,
                 },
