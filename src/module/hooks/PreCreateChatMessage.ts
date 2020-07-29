@@ -40,7 +40,9 @@ class PreCreateChatMessage {
     }
 
     private _prepareMessage(message: any, options: any, userId: string): void {
-        message.whisper = [userId];
+        const isPublic = Settings.getSetting(settingsDefaults.SETTING_KEYS.STATS_MESSAGE_VISIBILITY);
+        
+        message.whisper = isPublic ? [] : [userId];
         message.speaker = {alias: `${Utils.moduleTitle}`};
         options.chatBubble = false;
     }
