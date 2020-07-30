@@ -59,10 +59,26 @@ class PreCreateChatMessage {
         }
     }
 
-    public executeCommand(args: string) {
+    private _sendAllRollsMessage(message: any, options: any, userId: any) {
+        const counter = Settings.getCounter();
+        const rolls = counter[userId]?.rolls;
+        if (!(counter && rolls)) return;
+
+        message.content = rolls.reduce((result: string, el: number, index: number): string => {
+            return !index ? '' : result + `${index} ${el}<br>`;
+        }, '');
+
+        this._prepareMessage(message, options, userId);
+    }
+
+    public executeCommand(args: string, user: any, message: any, options: any) {
         const resetCommand = 'reset';
+        const allCommand = 'all';
         if (args.startsWith(resetCommand)) {
             return this._executeResetCmd(args.replace(resetCommand + ' ', ''));
+        }
+        if (args.startsWith(allCommand)) {
+            return this._sendAllRollsMessage(message, options, user);
         }
     }
 
@@ -74,7 +90,7 @@ class PreCreateChatMessage {
 
         if (content === command) return this._executeStatsCmd(message, options, user);
 
-        this.executeCommand(content.replace(command + ' ', ''));
+        return this.executeCommand(content.replace(command + ' ', ''), user, message, options);
     }
 }
 
