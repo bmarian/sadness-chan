@@ -31,7 +31,6 @@ class CreateChatMessage {
 
     private _extractUnparsedRollsFromEmbedded (message: any): any {
         const regexRoll = /roll=\"(.*?)\"/g;
-
         return [...message.matchAll(regexRoll)];
     }
 
@@ -83,7 +82,6 @@ class CreateChatMessage {
             if (extractedURIEmbedded && extractedURIEmbedded.length > 0) {
                 return await this._parseEmbeddedRolls(extractedURIEmbedded, user);
             }
-
         }
          
         if (this._checkIfBR5eIsInstalled() && chatMessage?.data?.content) {
@@ -105,7 +103,7 @@ class CreateChatMessage {
      */
     private async _extractSimpleAnalytics(roll: any, user: any): Promise<Array<number>> {
         const dice = roll._dice && roll._dice.length !== 0 ? roll._dice : roll.dice;
-        if (!(dice && dice.length > 0)) return;
+        if (!(dice?.length > 0)) return;
 
         const dieType = SadnessChan.getDieType();
         const recentRolls = this._getZeroArray(dieType + 1);
@@ -132,7 +130,7 @@ class CreateChatMessage {
      */
     private async _extractBR5eAnalytics(rolls: any, user: string): Promise<Array<number>> {
         const dieType = SadnessChan.getDieType();
-        if (!(rolls.length > 0)) return;
+        if (!(rolls?.length > 0)) return;
 
         const recentRolls = this._getZeroArray(dieType + 1);
         rolls.forEach((roll: any): void => {
@@ -179,7 +177,7 @@ class CreateChatMessage {
     /**
      * Parses embedded rolls to make them JSONs
      * 
-     * @param matches - unparsed URI component
+     * @param matches - URI component
      * @param user - author of the message
      */
     private async _parseEmbeddedRolls (matches: any, user: any): Promise<Array<number>> {
