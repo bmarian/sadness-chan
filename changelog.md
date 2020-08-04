@@ -13,7 +13,9 @@
 - [x] Added a new sad person to the team :)
 
 # v1.1.1
-- [ ] Count embedded rolls.
+- [x] Count embedded rolls.
+- [x] Added reset commands (!sadness reset settings|counter|lists)
+- [x] Added settings to send public messages
 
 # v2.0.0
 - [ ] Support for observing intervals
