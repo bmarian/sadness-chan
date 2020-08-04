@@ -135,14 +135,16 @@ class SadnessChan {
     /**
      * Creates and sends the whisper message
      *
-     * @param target - who should receive the message
+     * @param origin - who should receive the message
      * @param content - content of the message
      */
-    private async _createWhisperMessage(target: string, content: string): Promise<any> {
+    private async _createWhisperMessage(origin: string, content: string): Promise<any> {
+        const isPublic = Settings.getSetting(settingDefaults.SETTING_KEYS.COMMENT_MESSAGE_VISIBILITY);
+
         return ChatMessage.create({
-                user: target,
+                user: origin,
                 content: this._sadnessMessage(content),
-                whisper: [target],
+                whisper: isPublic ? [] : [origin],
                 speaker: {
                     alias: `${Utils.moduleTitle}`,
                 },
@@ -275,6 +277,10 @@ class SadnessChan {
 
         Utils.debug(`Whisper sent to ${user.name}`);
         return this._createWhisperMessage(user._id, content);
+    }
+
+    public generateMessageStructure(content: string): string {
+        return this._sadnessMessage(content);
     }
 }
 

@@ -17,6 +17,8 @@ export default {
         COUNTER: 'counter',
         LISTS: 'lists',
         LISTS_EDITOR: 'listsEditor',
+        STATS_MESSAGE_VISIBILITY: 'statsWhisperToggle',
+        COMMENT_MESSAGE_VISIBILITY: 'commentWhisperToggle',
     },
     ERROR_MESSAGES: {
         NOT_ENOUGH_PERMISSIONS: 'Sorry but this command is only for the big guy.',
@@ -113,6 +115,30 @@ export default {
                 restricted: true,
 
             }
-        }
+        },
+        {
+            key: "statsWhisperToggle",
+            data: {
+                name: "Public stats",
+                hint: "Ok... let the others know your worth.",
+                type: Boolean,
+                default: false,
+                scope: "world",
+                config: true,
+                restricted: true,
+            }
+        },
+        {
+            key: "commentWhisperToggle",
+            data: {
+                name: "Public comments",
+                hint: "You really like public shaming?",
+                type: Boolean,
+                default: false,
+                scope: "world",
+                config: true,
+                restricted: true,
+            }
+        },
     ],
 };
