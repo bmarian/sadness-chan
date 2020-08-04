@@ -278,6 +278,10 @@ class SadnessChan {
         Utils.debug(`Whisper sent to ${user.name}`);
         return this._createWhisperMessage(user._id, content);
     }
+
+    public generateMessageStructure(content: string): string {
+        return this._sadnessMessage(content);
+    }
 }
 
 export default SadnessChan.getInstance();

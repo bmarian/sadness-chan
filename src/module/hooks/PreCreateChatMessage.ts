@@ -15,34 +15,37 @@ class PreCreateChatMessage {
         return PreCreateChatMessage._instance;
     }
 
-    private _executeResetCmd(args: string) {
-        if (!game.user.hasRole(4)) {
-            return Utils.notifyUser("error", this._errorMessages.NOT_ENOUGH_PERMISSIONS);
+    private _executeResetCmd(args: string, message: any, options: any, user: any) {
+        let content = this._errorMessages.NOT_ENOUGH_PERMISSIONS;
+
+        if (game.user.hasRole(4)) {
+            switch (args) {
+                case "settings":
+                    Settings.resetAllSettings();
+                    content = this._errorMessages.SETTINGS_RESET;
+                    break;
+                case "counter":
+                    Settings.resetCounter();
+                    content = this._errorMessages.COUNTER_RESET;
+                    break;
+                case "lists":
+                    Settings.resetLists();
+                    content = this._errorMessages.LISTS_RESET;
+                    break;
+                default:
+                    content = this._errorMessages.INVALID_ARGUMENTS;
+                    break;
+            }
         }
 
-        switch (args) {
-            case "settings":
-                Settings.resetAllSettings();
-                Utils.notifyUser("info", this._errorMessages.SETTINGS_RESET);
-                break;
-            case "counter":
-                Settings.resetCounter();
-                Utils.notifyUser("info", this._errorMessages.COUNTER_RESET);
-                break;
-            case "lists":
-                Settings.resetLists();
-                Utils.notifyUser("info", this._errorMessages.LISTS_RESET);
-                break;
-            default:
-                Utils.notifyUser("error", this._errorMessages.INVALID_ARGUMENTS);
-                break;
-        }
+        message.content = SadnessChan.generateMessageStructure(content);
+        this._prepareMessage(message, options, user, true);
     }
 
-    private _prepareMessage(message: any, options: any, userId: string): void {
+    private _prepareMessage(message: any, options: any, userId: string, sendToAll?: boolean): void {
         const isPublic = Settings.getSetting(settingsDefaults.SETTING_KEYS.STATS_MESSAGE_VISIBILITY);
-        
-        message.whisper = isPublic ? [] : [userId];
+
+        message.whisper = isPublic || sendToAll ? [] : [userId];
         message.speaker = {alias: `${Utils.moduleTitle}`};
         options.chatBubble = false;
     }
@@ -77,7 +80,7 @@ class PreCreateChatMessage {
         const resetCommand = 'reset';
         const allCommand = 'all';
         if (args.startsWith(resetCommand)) {
-            return this._executeResetCmd(args.replace(resetCommand + ' ', ''));
+            return this._executeResetCmd(args.replace(resetCommand + ' ', ''), message, options, user);
         }
         if (args.startsWith(allCommand)) {
             return this._sendAllRollsMessage(message, options, user);
