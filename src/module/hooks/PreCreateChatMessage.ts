@@ -70,10 +70,10 @@ class PreCreateChatMessage {
 
         message.content = '';
         const activeUsers = game.users.entities.filter((user) => user.active);
-        activeUsers.forEach((user) => {
+        activeUsers.forEach((user, index) => {
             // @ts-ignore
             const id = user.data._id;
-            message.content += SadnessChan.getStatsMessage(counter[id], false);
+            message.content += SadnessChan.getStatsMessage(counter[id], index <= 0);
         })
 
         this._prepareMessage(message, options, userId);
