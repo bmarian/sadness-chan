@@ -19,6 +19,7 @@ export default {
         LISTS_EDITOR: 'listsEditor',
         STATS_MESSAGE_VISIBILITY: 'statsWhisperToggle',
         COMMENT_MESSAGE_VISIBILITY: 'commentWhisperToggle',
+        AVERAGE_TOGGLE: 'averageToggle',
     },
     ERROR_MESSAGES: {
         NOT_ENOUGH_PERMISSIONS: 'Sorry but this command is only for the big guy.',
@@ -133,6 +134,18 @@ export default {
             data: {
                 name: "Public comments",
                 hint: "You really like public shaming?",
+                type: Boolean,
+                default: false,
+                scope: "world",
+                config: true,
+                restricted: true,
+            }
+        },
+        {
+            key: "averageToggle",
+            data: {
+                name: "Show average",
+                hint: "You know this is just a random generator, right? If you really want to find out just search google for dice odds (◔_◔)",
                 type: Boolean,
                 default: false,
                 scope: "world",

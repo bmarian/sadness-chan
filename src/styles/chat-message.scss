@@ -47,6 +47,11 @@
             color: #18520b;
             filter: sepia(0.5) hue-rotate(60deg);
           }
+          &.avg {
+            & span {
+              margin-left: -2px;
+            }
+          }
         }
       }
     }

@@ -78,16 +78,26 @@ class SadnessChan {
         const rolls = userData.rolls;
         if (rolls) {
             const crtFail = rolls[failNumber];
+            const averageNumber = this._getAverage(rolls);
             const crtSuccess = rolls[successNumber];
             const rollsClass = `${statsBodyClass}__rolls`;
             const rollClass = `${rollsClass}-roll`;
+            const averageRollDie = () => {
+                if (!Settings.getSetting(this._settingKeys.AVERAGE_TOGGLE)) return '';
+
+                return `<li class="${rollClass}">
+                    <span class="${rollClass}-dice avg"><span>${averageNumber}</span></span>    
+                    <span class="${rollClass}-count">avg</span>    
+                </li>`
+            };
 
             message += `
                 <ol class="${rollsClass}">
                     <li class="${rollClass}">
                         <span class="${rollClass}-dice min">${failNumber}</span>    
                         <span class="${rollClass}-count">${crtFail}</span>    
-                    </li>
+                    </li>    
+                    ${averageRollDie()}
                     <li class="${rollClass}">
                         <span class="${rollClass}-dice max">${successNumber}</span>    
                         <span class="${rollClass}-count">${crtSuccess}</span>
@@ -209,6 +219,21 @@ class SadnessChan {
             return this._minCrtValue;
         }
         return crtValue;
+    }
+
+    /**
+     * Returns the average of all the rolls made by a user
+     *
+     * @private
+     */
+    private _getAverage(rolls: Array<number>): number {
+        let rollsTotal = 0;
+        let numberOfRolls = 0;
+        for (let i = 0; i < rolls.length; i++) {
+            rollsTotal += i * rolls[i];
+            numberOfRolls += rolls[i];
+        }
+        return Utils.roundUp(rollsTotal / numberOfRolls);
     }
 
     /**

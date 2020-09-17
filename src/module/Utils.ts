@@ -50,6 +50,10 @@ class Utils {
     public getRandomItemFromList(list: Array<any>): any {
         return typeof list !== "undefined" && list?.length > 0 ? list[Math.floor(Math.random() * list.length)] : null;
     }
+
+    public roundUp(nr: number): number {
+        return Math.round((nr + Number.EPSILON) * 10) / 10;
+    }
 }
 
 export default Utils.getInstance(true, true);
