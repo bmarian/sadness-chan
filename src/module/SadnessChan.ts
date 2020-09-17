@@ -265,15 +265,16 @@ class SadnessChan {
      * Creates the stats message
      *
      * @param userData - current user
+     * @param displayPortrait -
      */
-    public getStatsMessage(userData: any): string {
+    public getStatsMessage(userData: any, displayPortrait: boolean = true): string {
         const statsClass = `${Utils.moduleName}-chat-stats`;
         const statsHeaderClass = `${statsClass}-header`;
         const statsBodyClass = `${statsClass}-body`
 
         return `
             <div class="${statsClass}">
-                <div class="${statsHeaderClass}">
+                <div class="${statsHeaderClass}" style="display: ${displayPortrait ? '' : 'none'}">
                     ${this._getRandomPortrait(statsHeaderClass)}
                     <h3 class="${statsHeaderClass}__name">
                         ${Utils.moduleTitle}

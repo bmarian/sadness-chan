@@ -66,12 +66,15 @@ class PreCreateChatMessage {
 
     private _sendAllRollsMessage(message: any, options: any, userId: any) {
         const counter = Settings.getCounter();
-        const rolls = counter[userId]?.rolls;
-        if (!(counter && rolls)) return;
+        if (!(counter && game.user.hasRole(4))) return;
 
-        message.content = rolls.reduce((result: string, el: number, index: number): string => {
-            return !index ? '' : result + `${index} ${el}<br>`;
-        }, '');
+        message.content = '';
+        const activeUsers = game.users.entities.filter((user) => user.active);
+        activeUsers.forEach((user) => {
+            // @ts-ignore
+            const id = user.data._id;
+            message.content += SadnessChan.getStatsMessage(counter[id], false);
+        })
 
         this._prepareMessage(message, options, userId);
     }
