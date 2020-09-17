@@ -73,7 +73,7 @@ class PreCreateChatMessage {
         activeUsers.forEach((user, index) => {
             // @ts-ignore
             const id = user.data._id;
-            message.content += SadnessChan.getStatsMessage(counter[id], index <= 0);
+            message.content += SadnessChan.getStatsMessage(counter[id], index === 0);
         })
 
         this._prepareMessage(message, options, userId);
