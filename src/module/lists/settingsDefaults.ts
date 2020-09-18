@@ -27,6 +27,7 @@ export default {
         COUNTER_RESET: 'Are you THAT embarrassed about your rolls?',
         LISTS_RESET: 'Oh good... I can be myself again (◔_◔)',
         INVALID_ARGUMENTS: 'Do you even know what you\'re doing?',
+        NO_DATA: 'Play a little before spamming your friends with your failures -_-',
     },
     SETTINGS: [
         {

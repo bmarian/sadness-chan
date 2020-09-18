@@ -61,6 +61,9 @@ class PreCreateChatMessage {
         if (counter && counter[user]) {
             this._sendStatsMessage(message, options, counter[user], user);
             Utils.debug('Sad stats displayed.');
+        } else {
+            message.content = SadnessChan.generateMessageStructure(this._errorMessages.NO_DATA);
+            this._prepareMessage(message, options, user, true);
         }
     }
 
@@ -72,8 +75,10 @@ class PreCreateChatMessage {
         const activeUsers = game.users.entities.filter((user) => user.active);
         activeUsers.forEach((user, index) => {
             // @ts-ignore
-            const id = user.data._id;
-            message.content += SadnessChan.getStatsMessage(counter[id], index === 0);
+            const userData = counter[user?.data?._id];
+            if (!userData) return;
+
+            message.content += SadnessChan.getStatsMessage(userData, index === 0);
         })
 
         this._prepareMessage(message, options, userId);
@@ -81,12 +86,12 @@ class PreCreateChatMessage {
 
     private _sendHelpMessage (message: any, options: any, userId: any) {
         const command = SadnessChan.getCmd()
-        message.content = `Are you really that useless that you need help? Fine I'll help you: <br>`;
-        message.content += `<p><b>${command}</b> - brings you "happiness" :D </p>`
-        message.content += `<p><b>${command} all</b> - AOE sadness, to show all of you how bad you are ^_^ </p>`
-        message.content += `<p><b>${command} reset settings</b> - you want to make me a normie, sure I guess... </p>`
-        message.content += `<p><b>${command} reset lists</b> -  back to square one, like the retards who made me intended </p>`
-        message.content += `<p><b>${command} reset counter</b> - makes me forget how much of a loser you are, won't delete your browser history tho </p>`
+        message.content = `<p>Are you that useless that you need help? Fine, I'll help you:</p>`;
+        message.content += `<p><b>${command}</b> - "happiness".</p>`
+        message.content += `<p><b>${command} all</b> - AOE "happiness".</p>`
+        message.content += `<p><b>${command} reset settings</b> - you want to make me a normie, sure I guess...</p>`
+        message.content += `<p><b>${command} reset lists</b> -  back to square one, like the retards who made me intended.</p>`
+        message.content += `<p><b>${command} reset counter</b> - makes me forget how much of a disappointment you are. Oh. Wait. I still have your browser history to remind me.</p>`
         this._prepareMessage(message, options, userId);
     }
 
