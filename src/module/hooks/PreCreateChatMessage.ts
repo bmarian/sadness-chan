@@ -79,14 +79,30 @@ class PreCreateChatMessage {
         this._prepareMessage(message, options, userId);
     }
 
+    private _sendHelpMessage (message: any, options: any, userId: any) {
+        const command = SadnessChan.getCmd()
+        message.content = `Are you really that useless that you need help? Fine I'll help you: <br>`;
+        message.content += `<p><b>${command}</b> - brings you "happiness" :D </p>`
+        message.content += `<p><b>${command} all</b> - AOE sadness, to show all of you how bad you are ^_^ </p>`
+        message.content += `<p><b>${command} reset settings</b> - you want to make me a normie, sure I guess... </p>`
+        message.content += `<p><b>${command} reset lists</b> -  back to square one, like the retards who made me intended </p>`
+        message.content += `<p><b>${command} reset counter</b> - makes me forget how much of a loser you are, won't delete your browser history tho </p>`
+        this._prepareMessage(message, options, userId);
+    }
+
+
     public executeCommand(args: string, user: any, message: any, options: any) {
         const resetCommand = 'reset';
         const allCommand = 'all';
+        const helpCommand = 'help';
         if (args.startsWith(resetCommand)) {
             return this._executeResetCmd(args.replace(resetCommand + ' ', ''), message, options, user);
         }
         if (args.startsWith(allCommand)) {
             return this._sendAllRollsMessage(message, options, user);
+        }
+        if (args.startsWith(helpCommand)) {
+            return this._sendHelpMessage(message, options, user);
         }
     }
 
