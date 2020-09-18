@@ -17,5 +17,10 @@
 - [x] Added reset commands (!sadness reset settings|counter|lists)
 - [x] Added settings to send public messages
 
+# v1.1.2
+- [x] Sadness now shows a message when you have no rolls.
+- [x] Added AOE happiness (!sadness all)
+- [x] Added some useless average because it was requested
+
 # v2.0.0
 - [ ] Support for observing intervals

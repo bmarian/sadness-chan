@@ -19,6 +19,7 @@ export default {
         LISTS_EDITOR: 'listsEditor',
         STATS_MESSAGE_VISIBILITY: 'statsWhisperToggle',
         COMMENT_MESSAGE_VISIBILITY: 'commentWhisperToggle',
+        AVERAGE_TOGGLE: 'averageToggle',
     },
     ERROR_MESSAGES: {
         NOT_ENOUGH_PERMISSIONS: 'Sorry but this command is only for the big guy.',
@@ -26,6 +27,7 @@ export default {
         COUNTER_RESET: 'Are you THAT embarrassed about your rolls?',
         LISTS_RESET: 'Oh good... I can be myself again (◔_◔)',
         INVALID_ARGUMENTS: 'Do you even know what you\'re doing?',
+        NO_DATA: 'Play a little before spamming your friends with your failures -_-',
     },
     SETTINGS: [
         {
@@ -133,6 +135,18 @@ export default {
             data: {
                 name: "Public comments",
                 hint: "You really like public shaming?",
+                type: Boolean,
+                default: false,
+                scope: "world",
+                config: true,
+                restricted: true,
+            }
+        },
+        {
+            key: "averageToggle",
+            data: {
+                name: "Show average",
+                hint: "You know this is just a random generator, right? If you really want to find out just search google for dice odds (◔_◔)",
                 type: Boolean,
                 default: false,
                 scope: "world",
