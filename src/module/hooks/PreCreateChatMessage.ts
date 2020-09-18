@@ -69,19 +69,25 @@ class PreCreateChatMessage {
 
     private _sendAllRollsMessage(message: any, options: any, userId: any) {
         const counter = Settings.getCounter();
+        let sendToAll = false;
         if (!(counter && game.user.hasRole(4))) return;
 
-        message.content = '';
-        const activeUsers = game.users.entities.filter((user) => user.active);
-        activeUsers.forEach((user, index) => {
-            // @ts-ignore
-            const userData = counter[user?.data?._id];
-            if (!userData) return;
+        if (Object.keys(counter).length === 0) {
+            message.content = SadnessChan.generateMessageStructure(this._errorMessages.NO_DATA);
+            sendToAll = true;
+        }
+        else {
+            message.content = '';
+            const activeUsers = game.users.entities.filter((user) => user.active);
+            activeUsers.forEach((user, index) => {
+                // @ts-ignore
+                const userData = counter[user?.data?._id];
+                if (!userData) return;
 
-            message.content += SadnessChan.getStatsMessage(userData, index === 0);
-        })
-
-        this._prepareMessage(message, options, userId);
+                message.content += SadnessChan.getStatsMessage(userData, index === 0);
+            })
+        }
+        this._prepareMessage(message, options, userId, sendToAll);
     }
 
     private _sendHelpMessage (message: any, options: any, userId: any) {
