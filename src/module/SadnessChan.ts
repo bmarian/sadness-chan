@@ -22,16 +22,17 @@ class SadnessChan {
     /**
      * Selects a random portrait from portraitsList.ts
      */
-    private _getRandomPortrait(cssClass: string): string {
-        const {portraits} = Settings.getLists();
-        const portrait = Utils.getRandomItemFromList(portraits);
+    private _getRandomPortrait(cssClass: string, isSuccess: boolean = true): string {
+        const {fail_portraits, portraits} = Settings.getLists();
+        const portrait = Utils.getRandomItemFromList(isSuccess ? portraits : fail_portraits);
+        const noBorder = Settings.getSetting(this._settingKeys.IMAGE_BORDER) ? '' : 'no-border';
         if (!portrait) return '';
 
         return `
             <img
                 src="${portrait}"
                 alt="${Utils.moduleName}-portrait"
-                class="${cssClass}__portrait"
+                class="${cssClass}__portrait ${noBorder}"
             />
         `;
     }
@@ -40,8 +41,9 @@ class SadnessChan {
      * Creates the display message
      *
      * @param content - the selected message
+     * @param isSuccess - if this message is for a crit success or fail
      */
-    private _sadnessMessage(content: string): string {
+    private _sadnessMessage(content: string, isSuccess: boolean = true): string {
         const chatMessageClass = `${Utils.moduleName}-chat-message`;
         const chatHeaderClass = `${chatMessageClass}-header`;
         const chatBodyClass = `${chatMessageClass}-body`
@@ -49,9 +51,9 @@ class SadnessChan {
         return `
             <div class="${chatMessageClass}">
                 <div class="${chatHeaderClass}">
-                    ${this._getRandomPortrait(chatHeaderClass)}
+                    ${this._getRandomPortrait(chatHeaderClass, isSuccess)}
                     <h3 class="${chatHeaderClass}__name">
-                        ${Utils.moduleTitle}
+                        ${Settings.getSetting(this._settingKeys.SADNESS_TITLE)}
                     </h3>
                 </div>
                 <div class="${chatBodyClass}">
@@ -147,16 +149,17 @@ class SadnessChan {
      *
      * @param origin - who should receive the message
      * @param content - content of the message
+     * @param isSuccess - if this message is for a crit success or fail
      */
-    private async _createWhisperMessage(origin: string, content: string): Promise<any> {
+    private async _createWhisperMessage(origin: string, content: string, isSuccess: boolean = true): Promise<any> {
         const isPublic = Settings.getSetting(settingDefaults.SETTING_KEYS.COMMENT_MESSAGE_VISIBILITY);
 
         return ChatMessage.create({
                 user: origin,
-                content: this._sadnessMessage(content),
+                content: this._sadnessMessage(content, isSuccess),
                 whisper: isPublic ? [] : [origin],
                 speaker: {
-                    alias: `${Utils.moduleTitle}`,
+                    alias: ' ',
                 },
             },
             {
@@ -173,6 +176,7 @@ class SadnessChan {
     private _updateDynamicMessages(message: string, user: any): string {
         const counter = Settings.getCounter();
         const userStructure = counter[user._id];
+        const scInstance = this;
 
         let messageOutput = message.replace(/\[sc-d([0-9]{1,4})\]/, (_0: string, value: string): string => {
             return userStructure.rolls[value];
@@ -180,6 +184,10 @@ class SadnessChan {
 
         messageOutput = messageOutput.replace(/\[sc-name\]/, (): string => {
             return user.name;
+        });
+
+        messageOutput = messageOutput.replace(/\[sc-avg\]/, (): string => {
+            return String(Math.ceil(scInstance._getAverage(userStructure.rolls)));
         });
 
         return messageOutput;
@@ -278,7 +286,7 @@ class SadnessChan {
             return `<div class="${statsHeaderClass}">
                         ${this._getRandomPortrait(statsHeaderClass)}
                         <h3 class="${statsHeaderClass}__name">
-                            ${Utils.moduleTitle}
+                            ${Settings.getSetting(this._settingKeys.SADNESS_TITLE)}
                         </h3>
                     </div>`;
         }
@@ -305,10 +313,11 @@ class SadnessChan {
         const failNumber = this._getCrtValue(false);
 
         if (!this._shouldIWhisper(rolls, dieType, successNumber, failNumber)) return;
-        const content = rolls[failNumber] > rolls[successNumber] ? this._selectCrtFailComments(user) : this._selectCrtSuccessComments(user);
+        const isSuccess = rolls[failNumber] > rolls[successNumber];
+        const content = isSuccess ? this._selectCrtFailComments(user) : this._selectCrtSuccessComments(user);
 
         Utils.debug(`Whisper sent to ${user.name}`);
-        return this._createWhisperMessage(user._id, content);
+        return this._createWhisperMessage(user._id, content, isSuccess);
     }
 
     public generateMessageStructure(content: string): string {

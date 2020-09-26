@@ -1,3 +1,5 @@
+import Utils from "../Utils";
+
 export default {
     SETTING_DEFAULTS: {
         FAIL_CHANCE: 0.5,
@@ -6,6 +8,11 @@ export default {
         DIE_TYPE: 20,
         CRT_FAIL: 1,
         CRT_SUCCESS: 20,
+        STATS_MESSAGE_VISIBILITY: false,
+        COMMENT_MESSAGE_VISIBILITY: false,
+        AVERAGE_TOGGLE: false,
+        IMAGE_BORDER: true,
+        SADNESS_TITLE: Utils.moduleTitle,
     },
     SETTING_KEYS: {
         FAIL_CHANCE: 'failComChance',
@@ -20,6 +27,8 @@ export default {
         STATS_MESSAGE_VISIBILITY: 'statsWhisperToggle',
         COMMENT_MESSAGE_VISIBILITY: 'commentWhisperToggle',
         AVERAGE_TOGGLE: 'averageToggle',
+        IMAGE_BORDER: 'imageBorder',
+        SADNESS_TITLE: 'sadnessTitle',
     },
     ERROR_MESSAGES: {
         NOT_ENOUGH_PERMISSIONS: 'Sorry but this command is only for the big guy.',
@@ -119,6 +128,18 @@ export default {
             }
         },
         {
+            key: "sadnessTitle",
+            data: {
+                name: "My name",
+                hint: "Call me whatever. I don't care anymore.",
+                type: String,
+                default: Utils.moduleTitle,
+                scope: "world",
+                config: true,
+                restricted: true,
+            }
+        },
+        {
             key: "statsWhisperToggle",
             data: {
                 name: "Public stats",
@@ -149,6 +170,18 @@ export default {
                 hint: "You know this is just a random generator, right? If you really want to find out just search google for dice odds (◔_◔)",
                 type: Boolean,
                 default: false,
+                scope: "world",
+                config: true,
+                restricted: true,
+            }
+        },
+        {
+            key: "imageBorder",
+            data: {
+                name: "Image Border",
+                hint: "Do you hate that pesky little image border?",
+                type: Boolean,
+                default: true,
                 scope: "world",
                 config: true,
                 restricted: true,

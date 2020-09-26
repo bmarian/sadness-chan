@@ -2,7 +2,7 @@
   "name": "sadness-chan",
   "title": "Sadness Chan",
   "description": "A chat 'bot' for FoundryVTT that's full of 'happy' and 'motivational' messages, to pick you up when your rolls let you down.",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "author": "bmarian, HadaIonut",
   "esmodules": [
     "sadness-chan.js"

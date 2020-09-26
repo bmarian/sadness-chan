@@ -33,7 +33,8 @@ class Settings {
         const defaultList = JSON.stringify({
             'fail': [...listDefaults.DEFAULT_CRIT_FAIL_COMMENTS],
             'success': [...listDefaults.DEFAULT_CRIT_SUCCESS_COMMENTS],
-            'portraits': [...listDefaults.DEFAULT_PORTRAITS],
+            'fail_portraits': [...listDefaults.DEFAULT_CRIT_FAIL_PORTRAITS],
+            'portraits': [...listDefaults.DEFAULT_CRIT_SUCCESS_PORTRAITS]
         });
         this._registerSetting(settingDefaults.SETTING_KEYS.LISTS, {
             type: String,
@@ -56,7 +57,8 @@ class Settings {
         const defaultList = JSON.stringify({
             'fail': [...listDefaults.DEFAULT_CRIT_FAIL_COMMENTS],
             'success': [...listDefaults.DEFAULT_CRIT_SUCCESS_COMMENTS],
-            'portraits': [...listDefaults.DEFAULT_PORTRAITS],
+            'fail_portraits': [...listDefaults.DEFAULT_CRIT_FAIL_PORTRAITS],
+            'portraits': [...listDefaults.DEFAULT_CRIT_SUCCESS_PORTRAITS]
         });
 
         return this.setSetting(settingDefaults.SETTING_KEYS.LISTS, defaultList);
