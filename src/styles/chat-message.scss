@@ -9,6 +9,10 @@
       height: 50px;
       margin-bottom: 10px;
       margin-right: 10px;
+
+      &.no-border {
+        border: none;
+      }
     }
   }
 }

@@ -25,13 +25,14 @@ class SadnessChan {
     private _getRandomPortrait(cssClass: string): string {
         const {portraits} = Settings.getLists();
         const portrait = Utils.getRandomItemFromList(portraits);
+        const noBorder = Settings.getSetting(this._settingKeys.IMAGE_BORDER) ? '' : 'no-border';
         if (!portrait) return '';
 
         return `
             <img
                 src="${portrait}"
                 alt="${Utils.moduleName}-portrait"
-                class="${cssClass}__portrait"
+                class="${cssClass}__portrait ${noBorder}"
             />
         `;
     }
