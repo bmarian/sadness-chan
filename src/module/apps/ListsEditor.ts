@@ -22,14 +22,14 @@ export default class ListsEditor extends FormApplication {
     }
 
     public async _updateObject(event: Event | JQuery.Event, formData: any): Promise<any> {
-        const {fail, success, fail_portraits, success_portraits} = formData;
+        const {fail, success, fail_portraits, portraits} = formData;
         const oldLists = Settings.getLists();
 
         const listsData = {
             'fail': this._convertStringToList(fail, oldLists.fail),
             'success': this._convertStringToList(success, oldLists.success),
             'fail_portraits': this._convertStringToList(fail_portraits, oldLists.fail_portraits),
-            'success_portraits': this._convertStringToList(success_portraits, oldLists.success_portraits),
+            'portraits': this._convertStringToList(portraits, oldLists.portraits),
         };
 
         return Settings.setLists(listsData);
@@ -40,12 +40,12 @@ export default class ListsEditor extends FormApplication {
     }
 
     private _prepareListsForDisplay(): any {
-        const {fail, success, fail_portraits, success_portraits} = Settings.getLists();
+        const {fail, success, fail_portraits, portraits} = Settings.getLists();
         return {
             'fail': fail?.length ? fail.join('\n') : '',
             'success': success?.length ? success.join('\n') : '',
             'fail_portraits': fail_portraits?.length ? fail_portraits.join('\n') : '',
-            'success_portraits': success_portraits?.length ? success_portraits.join('\n') : '',
+            'portraits': portraits?.length ? portraits.join('\n') : '',
         }
     }
 

@@ -22,5 +22,11 @@
 - [x] Added AOE happiness (!sadness all)
 - [x] Added some useless average because it was requested
 
+# v1.1.4
+- [x] You can now use [sc-avg] to display user average in a message.
+- [x] Separated the image pools.
+- [x] Added the option to change the name of Sadness Chan.
+- [x] Added an option to remove image borders.
+
 # v2.0.0
 - [ ] Support for observing intervals

@@ -34,7 +34,7 @@ class Settings {
             'fail': [...listDefaults.DEFAULT_CRIT_FAIL_COMMENTS],
             'success': [...listDefaults.DEFAULT_CRIT_SUCCESS_COMMENTS],
             'fail_portraits': [...listDefaults.DEFAULT_CRIT_FAIL_PORTRAITS],
-            'success_portraits': [...listDefaults.DEFAULT_CRIT_SUCCESS_PORTRAITS]
+            'portraits': [...listDefaults.DEFAULT_CRIT_SUCCESS_PORTRAITS]
         });
         this._registerSetting(settingDefaults.SETTING_KEYS.LISTS, {
             type: String,
@@ -58,7 +58,7 @@ class Settings {
             'fail': [...listDefaults.DEFAULT_CRIT_FAIL_COMMENTS],
             'success': [...listDefaults.DEFAULT_CRIT_SUCCESS_COMMENTS],
             'fail_portraits': [...listDefaults.DEFAULT_CRIT_FAIL_PORTRAITS],
-            'success_portraits': [...listDefaults.DEFAULT_CRIT_SUCCESS_PORTRAITS]
+            'portraits': [...listDefaults.DEFAULT_CRIT_SUCCESS_PORTRAITS]
         });
 
         return this.setSetting(settingDefaults.SETTING_KEYS.LISTS, defaultList);

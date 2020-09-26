@@ -23,8 +23,8 @@ class SadnessChan {
      * Selects a random portrait from portraitsList.ts
      */
     private _getRandomPortrait(cssClass: string, isSuccess: boolean = true): string {
-        const {fail_portraits, success_portraits} = Settings.getLists();
-        const portrait = Utils.getRandomItemFromList(isSuccess ? success_portraits : fail_portraits);
+        const {fail_portraits, portraits} = Settings.getLists();
+        const portrait = Utils.getRandomItemFromList(isSuccess ? portraits : fail_portraits);
         const noBorder = Settings.getSetting(this._settingKeys.IMAGE_BORDER) ? '' : 'no-border';
         if (!portrait) return '';
 
