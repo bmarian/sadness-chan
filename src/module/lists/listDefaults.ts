@@ -11,7 +11,8 @@ export default {
         'You realise you are ruining your party\'s fun? Right? ... ',
         'Tell the poor monster you are sorry for wasting it\'s time',
         'You only got [sc-d1] more of those.',
-        'One more fail added to the collection.'
+        'One more fail added to the collection.',
+        'Wow, you rolled over [sc-avg]? It won\'t happen again!'
     ],
     DEFAULT_CRIT_SUCCESS_COMMENTS: [
         'Wow the algorithm is broken, you rolled above a 1. Let\'s fix that.',

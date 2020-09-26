@@ -51,7 +51,7 @@ class SadnessChan {
                 <div class="${chatHeaderClass}">
                     ${this._getRandomPortrait(chatHeaderClass)}
                     <h3 class="${chatHeaderClass}__name">
-                        ${Utils.moduleTitle}
+                        ${Settings.getSetting(this._settingKeys.SADNESS_TITLE)}
                     </h3>
                 </div>
                 <div class="${chatBodyClass}">
@@ -156,7 +156,7 @@ class SadnessChan {
                 content: this._sadnessMessage(content),
                 whisper: isPublic ? [] : [origin],
                 speaker: {
-                    alias: `${Utils.moduleTitle}`,
+                    alias: ' ',
                 },
             },
             {
@@ -173,6 +173,7 @@ class SadnessChan {
     private _updateDynamicMessages(message: string, user: any): string {
         const counter = Settings.getCounter();
         const userStructure = counter[user._id];
+        const scInstance = this;
 
         let messageOutput = message.replace(/\[sc-d([0-9]{1,4})\]/, (_0: string, value: string): string => {
             return userStructure.rolls[value];
@@ -180,6 +181,10 @@ class SadnessChan {
 
         messageOutput = messageOutput.replace(/\[sc-name\]/, (): string => {
             return user.name;
+        });
+
+        messageOutput = messageOutput.replace(/\[sc-avg\]/, (): string => {
+            return String(Math.ceil(scInstance._getAverage(userStructure.rolls)));
         });
 
         return messageOutput;
@@ -278,7 +283,7 @@ class SadnessChan {
             return `<div class="${statsHeaderClass}">
                         ${this._getRandomPortrait(statsHeaderClass)}
                         <h3 class="${statsHeaderClass}__name">
-                            ${Utils.moduleTitle}
+                            ${Settings.getSetting(this._settingKeys.SADNESS_TITLE)}
                         </h3>
                     </div>`;
         }
