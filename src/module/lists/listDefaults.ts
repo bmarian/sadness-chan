@@ -25,15 +25,26 @@ export default {
         'Do that again... oh you can\'t ?',
         'What are you trying to prove?'
     ],
-    DEFAULT_PORTRAITS: [
+    DEFAULT_CRIT_FAIL_PORTRAITS: [
         'https://cdnb.artstation.com/p/assets/images/images/017/397/657/large/milvinke-madiharpart-dtiys-150-rosado.jpg?1555825697',
-        'https://i.pinimg.com/280x280_RS/3c/4f/b8/3c4fb81ed9ff5a5f19039f2a21eb8dec.jpg',
-        'https://i.kym-cdn.com/photos/images/newsfeed/001/247/227/172.png',
-        'https://i.imgur.com/hQrtSiW.jpg',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQvZXwW3u9rnQHzhwvhynAmqoeMZceswSeSVQ&usqp=CAU',
-        'https://i.imgur.com/MlLWHFW.jpg',
-        'https://selfie2anime.com/img/carousel/2.jpg',
-        'https://i.pinimg.com/236x/ef/57/a5/ef57a50d6ea1e1c0105aec30e4ce1278.jpg',
+        // 'https://i.pinimg.com/280x280_RS/3c/4f/b8/3c4fb81ed9ff5a5f19039f2a21eb8dec.jpg',
+        // 'https://i.kym-cdn.com/photos/images/newsfeed/001/247/227/172.png',
+        // 'https://i.imgur.com/hQrtSiW.jpg',
+        // 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQvZXwW3u9rnQHzhwvhynAmqoeMZceswSeSVQ&usqp=CAU',
+        // 'https://i.imgur.com/MlLWHFW.jpg',
+        // 'https://selfie2anime.com/img/carousel/2.jpg',
+        // 'https://i.pinimg.com/236x/ef/57/a5/ef57a50d6ea1e1c0105aec30e4ce1278.jpg',
+        // 'https://data.whicdn.com/images/327174657/original.jpg'
+    ],
+    DEFAULT_CRIT_SUCCESS_PORTRAITS: [
+        // 'https://cdnb.artstation.com/p/assets/images/images/017/397/657/large/milvinke-madiharpart-dtiys-150-rosado.jpg?1555825697',
+        // 'https://i.pinimg.com/280x280_RS/3c/4f/b8/3c4fb81ed9ff5a5f19039f2a21eb8dec.jpg',
+        // 'https://i.kym-cdn.com/photos/images/newsfeed/001/247/227/172.png',
+        // 'https://i.imgur.com/hQrtSiW.jpg',
+        // 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQvZXwW3u9rnQHzhwvhynAmqoeMZceswSeSVQ&usqp=CAU',
+        // 'https://i.imgur.com/MlLWHFW.jpg',
+        // 'https://selfie2anime.com/img/carousel/2.jpg',
+        // 'https://i.pinimg.com/236x/ef/57/a5/ef57a50d6ea1e1c0105aec30e4ce1278.jpg',
         'https://data.whicdn.com/images/327174657/original.jpg'
     ],
 };
