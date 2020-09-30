@@ -17,7 +17,8 @@ class PreCreateChatMessage {
 
     private _executeResetCmd(args: string, message: any, options: any, userID: any) {
         let content = this._errorMessages.NOT_ENOUGH_PERMISSIONS;
-        const resetPermissionLevel = Settings.getPermissionLevel()
+        const resetPermissionLevel = Settings.getPermissionLevel();
+        const playersDetails = Utils.getAllPlayerNamesAndIDs();
 
         if (game.user.hasRole(4)) {
             switch (args) {
@@ -34,7 +35,10 @@ class PreCreateChatMessage {
                     content = this._errorMessages.LISTS_RESET;
                     break
                 default:
-                    content = this._errorMessages.INVALID_ARGUMENTS;
+                    if (Object.keys(playersDetails).includes(args)) {
+                        Settings.resetUserCounter(playersDetails[args]);
+                        content = this._errorMessages.RESET_SOMEONE_ELSE;
+                    } else content = this._errorMessages.INVALID_ARGUMENTS;
                     break;
             }
         }

@@ -54,6 +54,15 @@ class Utils {
     public roundUp(nr: number): number {
         return Math.round((nr + Number.EPSILON) * 10) / 10;
     }
+
+    public getAllPlayerNamesAndIDs() {
+        const users = game.users.entities;
+        const playerData = {};
+        users.map((user: any) => {
+            playerData[user.data.name] = user.data._id;
+        })
+        return playerData;
+    }
 }
 
 export default Utils.getInstance(true, true);

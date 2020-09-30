@@ -33,6 +33,7 @@ export default {
     },
     ERROR_MESSAGES: {
         NOT_ENOUGH_PERMISSIONS: 'Sorry but this command is only for the big guy.',
+        RESET_SOMEONE_ELSE: `Wow, covering up for someone else. Normally i would say you are a really nice guy, but I know you are a degenerate so...`,
         SETTINGS_RESET: 'Who are you, again?',
         COUNTER_RESET: 'Are you THAT embarrassed about your rolls?',
         LISTS_RESET: 'Oh good... I can be myself again (◔_◔)',
