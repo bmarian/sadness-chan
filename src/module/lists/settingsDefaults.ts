@@ -29,6 +29,7 @@ export default {
         AVERAGE_TOGGLE: 'averageToggle',
         IMAGE_BORDER: 'imageBorder',
         SADNESS_TITLE: 'sadnessTitle',
+        RESET_LEVEL: 'resetLevel'
     },
     ERROR_MESSAGES: {
         NOT_ENOUGH_PERMISSIONS: 'Sorry but this command is only for the big guy.',
@@ -46,7 +47,7 @@ export default {
                 default: "{}",
                 scope: "world",
                 config: false,
-                restricted: true,
+                restricted: false,
             },
         },
         {
@@ -182,6 +183,24 @@ export default {
                 hint: "Do you hate that pesky little image border?",
                 type: Boolean,
                 default: true,
+                scope: "world",
+                config: true,
+                restricted: true,
+            }
+        },
+        {
+            key: "resetLevel",
+            data: {
+                name: "Reset me permission: ",
+                hint: "Should I let the plebs reset their counter? WARNING: this setting only works if the user category has the permission to \"Modify Configuration Settings\". Not sassy here, you'll get errors that aren't my fault. Don't message me or the idiots that made me about them -_-",
+                type: Number,
+                choices: {
+                    1: "Plebs",
+                    2: "Trusted Plebs",
+                    3: "Big Man JR",
+                    4: "Big Man"
+                },
+                default: 1,
                 scope: "world",
                 config: true,
                 restricted: true,

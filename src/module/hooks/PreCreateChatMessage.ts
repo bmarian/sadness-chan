@@ -15,8 +15,9 @@ class PreCreateChatMessage {
         return PreCreateChatMessage._instance;
     }
 
-    private _executeResetCmd(args: string, message: any, options: any, user: any) {
+    private _executeResetCmd(args: string, message: any, options: any, userID: any) {
         let content = this._errorMessages.NOT_ENOUGH_PERMISSIONS;
+        const resetPermissionLevel = Settings.getPermissionLevel()
 
         if (game.user.hasRole(4)) {
             switch (args) {
@@ -31,15 +32,23 @@ class PreCreateChatMessage {
                 case "lists":
                     Settings.resetLists();
                     content = this._errorMessages.LISTS_RESET;
-                    break;
+                    break
                 default:
                     content = this._errorMessages.INVALID_ARGUMENTS;
                     break;
             }
         }
 
+        if (game.user.hasRole(resetPermissionLevel)) {
+            switch (args) {
+                case "me":
+                    Settings.resetUserCounter(userID);
+                    content = this._errorMessages.COUNTER_RESET;
+                    break;
+            }
+        }
         message.content = SadnessChan.generateMessageStructure(content);
-        this._prepareMessage(message, options, user, true);
+        this._prepareMessage(message, options, userID, true);
     }
 
     private _prepareMessage(message: any, options: any, userId: string, sendToAll?: boolean): void {
