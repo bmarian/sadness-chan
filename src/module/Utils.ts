@@ -58,7 +58,7 @@ class Utils {
     public getAllPlayerNamesAndIDs() {
         const users = game.users.entities;
         const playerData = {};
-        users.map((user: any) => {
+        users.forEach((user: any) => {
             playerData[user.data.name] = user.data._id;
         })
         return playerData;

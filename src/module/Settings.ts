@@ -124,7 +124,7 @@ class Settings {
 
     public resetUserCounter (userID) {
         const counter = this.getCounter();
-        counter[userID].rolls.fill(0);
+        counter[userID]?.rolls?.fill(0);
         this.setCounter(counter);
     }
 }
