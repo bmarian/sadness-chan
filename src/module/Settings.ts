@@ -118,6 +118,15 @@ class Settings {
         }
     }
 
+    public getPermissionLevel (): number {
+        return this.getSetting(settingDefaults.SETTING_KEYS.RESET_LEVEL) ;
+    }
+
+    public resetUserCounter (userID) {
+        const counter = this.getCounter();
+        counter[userID]?.rolls?.fill(0);
+        this.setCounter(counter);
+    }
 }
 
 export default Settings.getInstance();
