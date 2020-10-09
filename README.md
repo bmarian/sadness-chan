@@ -1,4 +1,8 @@
 # Sadness Chan
+![License](https://img.shields.io/github/license/bmarian/sadness-chan?style=for-the-badge)
+![GitHub Latest Release](https://img.shields.io/github/release/bmarian/sadness-chan?style=for-the-badge)
+![Foundry Version](https://img.shields.io/badge/FoundryVTT-0.6.6-blueviolet?style=for-the-badge)
+
 A chat 'bot' for FoundryVTT that's full of 'happy' and 'motivational' messages, to pick you up when your rolls let you down. 
 
 
