@@ -105,12 +105,15 @@ class PreCreateChatMessage {
 
     private _sendHelpMessage (message: any, options: any, userId: any) {
         const command = SadnessChan.getCmd()
-        message.content = `<p>Are you that useless that you need help? Fine, I'll help you:</p>`;
-        message.content += `<p><b>${command}</b> - "happiness".</p>`
-        message.content += `<p><b>${command} all</b> - AOE "happiness".</p>`
-        message.content += `<p><b>${command} reset settings</b> - you want to make me a normie, sure I guess...</p>`
-        message.content += `<p><b>${command} reset lists</b> -  back to square one, like the retards who made me intended.</p>`
-        message.content += `<p><b>${command} reset counter</b> - makes me forget how much of a disappointment you are. Oh. Wait. I still have your browser history to remind me.</p>`
+        message.content = `
+            <p>Are you that useless that you need help? Fine, I'll help you:</p>
+            <p><b>${command}</b> - "happiness".</p>
+            <p><b>${command} all</b> - AOE "happiness".</p>
+            <p><b>${command} reset settings</b> - you want to make me a normie, sure I guess...</p>
+            <p><b>${command} reset lists</b> -  back to square one, like the retards who made me intended.</p>
+            <p><b>${command} reset counter</b> - makes me forget how much of a disappointment you are. Oh. Wait. I still have your browser history to remind me.</p>
+            <p><b>${command} reset &lt;username&gt;</b> - reset someone's life.</p>
+        `;
         this._prepareMessage(message, options, userId);
     }
 

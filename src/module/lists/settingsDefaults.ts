@@ -201,7 +201,7 @@ export default {
                     3: "Big Man JR",
                     4: "Big Man"
                 },
-                default: 1,
+                default: 4,
                 scope: "world",
                 config: true,
                 restricted: true,

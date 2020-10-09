@@ -241,7 +241,7 @@ class SadnessChan {
             rollsTotal += i * rolls[i];
             numberOfRolls += rolls[i];
         }
-        return Utils.roundUp(rollsTotal / numberOfRolls);
+        return Utils.roundUp(rollsTotal / numberOfRolls) || 0;
     }
 
     /**
