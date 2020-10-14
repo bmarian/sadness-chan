@@ -32,5 +32,8 @@
 - [x] Bug fixing
 - [x] Added a reset <username> option
 
+# v1.1.6
+- [x] I mean... it works in 0.7.4
+
 # v2.0.0
 - [ ] Support for observing intervals

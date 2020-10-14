@@ -1,4 +1,5 @@
 # Sadness Chan
+![Downloads](https://img.shields.io/github/downloads/bmarian/sadness-chan/total?style=for-the-badge)
 ![License](https://img.shields.io/github/license/bmarian/sadness-chan?style=for-the-badge)
 ![GitHub Latest Release](https://img.shields.io/github/release/bmarian/sadness-chan?style=for-the-badge)
 ![Foundry Version](https://img.shields.io/badge/FoundryVTT-0.6.6-blueviolet?style=for-the-badge)
