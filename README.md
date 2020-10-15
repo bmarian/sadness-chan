@@ -9,9 +9,8 @@ A chat 'bot' for FoundryVTT that's full of 'happy' and 'motivational' messages, 
 
 
 # Installation
-Like any other module, you dummy. Just go in the `Add-on Modules` section and click `Install Module`, if you don't find me there use one of these useful  links:
-- FoundryVTT version <= 0.6.5: https://raw.githubusercontent.com/bmarian/sadness-chan/master/src/module.json
-- FoundryVTT version >= 0.6.6: https://raw.githubusercontent.com/bmarian/sadness-chan/f-0.7.x/src/module.json
+Like any other module, you dummy. Just go in the `Add-on Modules` section and click `Install Module`, if you don't find me there, use this link: 
+https://raw.githubusercontent.com/bmarian/sadness-chan/master/src/module.json
 
 # Usage
 Just play as you would usually do and Sadness Chan will send you 'happy' whispers if anything noteworthy happens.
