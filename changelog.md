@@ -35,5 +35,9 @@
 # v1.1.6
 - [x] I mean... it works in 0.7.4
 
+# v1.1.7
+- [x] Bumped the version to maybe fix the install link
+- [x] Removed old versions
+
 # v2.0.0
 - [ ] Support for observing intervals
