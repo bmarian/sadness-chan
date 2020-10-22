@@ -110,7 +110,8 @@ class CreateChatMessage {
 
         dice.forEach((die: Die): void => {
             if (die.faces !== dieType) return;
-            die.rolls.forEach((roll: any): void => {
+            const results = die.results || die.rolls;
+            results.forEach((roll: any): void => {
                 const r = roll.roll || roll.result;
                 recentRolls[r] += 1;
             });
