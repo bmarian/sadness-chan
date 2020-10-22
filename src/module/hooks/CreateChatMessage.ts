@@ -102,7 +102,7 @@ class CreateChatMessage {
      * @return an array with all the recent rolls
      */
     private async _extractSimpleAnalytics(roll: any, user: any): Promise<Array<number>> {
-        const dice = roll._dice && roll._dice.length !== 0 ? roll._dice : roll.dice;
+        const dice = roll.dice && roll.dice.length !== 0 ? roll.dice : roll._dice;
         if (!(dice?.length > 0)) return;
 
         const dieType = SadnessChan.getDieType();
@@ -110,8 +110,9 @@ class CreateChatMessage {
 
         dice.forEach((die: Die): void => {
             if (die.faces !== dieType) return;
-            die.rolls.forEach((roll: any): void => {
-                const r = roll.roll || roll.result;
+            const results = die.results || die.rolls;
+            results.forEach((roll: any): void => {
+                const r = roll.result || roll.roll;
                 recentRolls[r] += 1;
             });
         });
