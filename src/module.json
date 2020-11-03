@@ -13,7 +13,7 @@
   "minimumCoreVersion": "0.6.4",
   "compatibleCoreVersion": "0.7.5",
   "url": "https://github.com/bmarian/sadness-chan",
-  "manifest": "https://raw.githubusercontent.com/bmarian/sadness-chan/master/package/module-v1.1.8.json",
+  "manifest": "https://raw.githubusercontent.com/bmarian/sadness-chan/master/src/module.json",
   "download": "https://github.com/bmarian/sadness-chan/releases/download/v1.1.8/sadness-chan-v1.1.8.zip",
   "changelog": "https://github.com/bmarian/sadness-chan/releases"
 }
