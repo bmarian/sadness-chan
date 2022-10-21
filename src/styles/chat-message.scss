@@ -54,6 +54,7 @@
           &.avg {
             & span {
               margin-left: -2px;
+              white-space: nowrap;
             }
           }
         }

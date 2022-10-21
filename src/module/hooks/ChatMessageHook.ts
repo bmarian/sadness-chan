@@ -3,16 +3,16 @@ import SadnessChan from "../SadnessChan";
 import Utils from "../Utils";
 import settingsDefaults from "../lists/settingsDefaults";
 
-class PreCreateChatMessage {
-    private static _instance: PreCreateChatMessage;
+class ChatMessageHook {
+    private static _instance: ChatMessageHook;
     private readonly _errorMessages = settingsDefaults.ERROR_MESSAGES;
 
     private constructor() {
     }
 
-    public static getInstance(): PreCreateChatMessage {
-        if (!PreCreateChatMessage._instance) PreCreateChatMessage._instance = new PreCreateChatMessage();
-        return PreCreateChatMessage._instance;
+    public static getInstance(): ChatMessageHook {
+        if (!ChatMessageHook._instance) ChatMessageHook._instance = new ChatMessageHook();
+        return ChatMessageHook._instance;
     }
 
     private _executeResetCmd(args: string, message: any, options: any, userID: any) {
@@ -51,8 +51,10 @@ class PreCreateChatMessage {
                     break;
             }
         }
+        message = {}
         message.content = SadnessChan.generateMessageStructure(content);
         this._prepareMessage(message, options, userID, true);
+        ChatMessage.create(message, options)
     }
 
     private _prepareMessage(message: any, options: any, userId: string, sendToAll?: boolean): void {
@@ -64,8 +66,10 @@ class PreCreateChatMessage {
     }
 
     private _sendStatsMessage(message: any, options: any, userData: any, userId: string): void {
+        message = {}
         message.content = SadnessChan.getStatsMessage(userData);
         this._prepareMessage(message, options, userId);
+        ChatMessage.create(message, options)
     }
 
     private _executeStatsCmd(message: any, options: any, user: any) {
@@ -91,16 +95,17 @@ class PreCreateChatMessage {
         }
         else {
             message.content = '';
-            const activeUsers = game.users.entities.filter((user) => user.active);
+            const activeUsers = game.users.filter(u => u.active);
             activeUsers.forEach((user, index) => {
                 // @ts-ignore
-                const userData = counter[user?.data?._id];
+                const userData = counter[user._id];
                 if (!userData) return;
 
                 message.content += SadnessChan.getStatsMessage(userData, index === 0);
             })
         }
         this._prepareMessage(message, options, userId, sendToAll);
+        ChatMessage.create(message, options)
     }
 
     private _sendHelpMessage (message: any, options: any, userId: any) {
@@ -115,6 +120,7 @@ class PreCreateChatMessage {
             <p><b>${command} reset &lt;username&gt;</b> - reset someone's life.</p>
         `;
         this._prepareMessage(message, options, userId);
+        ChatMessage.create(message, options)
     }
 
 
@@ -126,23 +132,25 @@ class PreCreateChatMessage {
             return this._executeResetCmd(args.replace(resetCommand + ' ', ''), message, options, user);
         }
         if (args.startsWith(allCommand)) {
-            return this._sendAllRollsMessage(message, options, user);
+            return this._sendAllRollsMessage({}, options, user);
         }
         if (args.startsWith(helpCommand)) {
-            return this._sendHelpMessage(message, options, user);
+            return this._sendHelpMessage({}, options, user);
         }
     }
-
-    public preCreateChatMessageHook(message: any, options: any): void {
-        const content = message?.content;
-        const user = message?.user;
+    
+    public chatMessageHook(chatLog: any, message: string, options: any): boolean {
         const command = SadnessChan.getCmd();
-        if (!(user && content && content.startsWith(command))) return;
+        const userId = options.user
+        if (!(userId && message && message.startsWith(command))) return true;
+        if (message === command) {
+            this._executeStatsCmd({}, options, userId);
+            return false
+        }
 
-        if (content === command) return this._executeStatsCmd(message, options, user);
-
-        return this.executeCommand(content.replace(command + ' ', ''), user, message, options);
+        this.executeCommand(message.replace(command + ' ', ''), userId, message, options);
+        return false
     }
 }
 
-export default PreCreateChatMessage.getInstance();
+export default ChatMessageHook.getInstance();
