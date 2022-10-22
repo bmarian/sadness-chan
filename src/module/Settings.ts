@@ -2,6 +2,7 @@ import utils from "./Utils";
 import ListsEditor from "./apps/ListsEditor";
 import listDefaults from "./lists/listDefaults";
 import settingDefaults from "./lists/settingsDefaults";
+import ImportExport from "./apps/ImportExport";
 
 class Settings {
     private static _instance: Settings;
@@ -27,6 +28,14 @@ class Settings {
             type: ListsEditor,
             restricted: true,
         });
+        
+        game.settings.registerMenu(utils.moduleName, settingDefaults.SETTING_KEYS.IMPORT_EXPORT, {
+            name: "Import/Export rolls history:",
+            label: "Open history editor",
+            icon: "fa-solid fa-database",
+            type: ImportExport,
+            restricted: true,
+        })
     }
 
     private _registerLists(): void {

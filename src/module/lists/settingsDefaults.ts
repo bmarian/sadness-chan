@@ -29,7 +29,8 @@ export default {
         AVERAGE_TOGGLE: 'averageToggle',
         IMAGE_BORDER: 'imageBorder',
         SADNESS_TITLE: 'sadnessTitle',
-        RESET_LEVEL: 'resetLevel'
+        RESET_LEVEL: 'resetLevel',
+        IMPORT_EXPORT: 'importExport',
     },
     ERROR_MESSAGES: {
         NOT_ENOUGH_PERMISSIONS: 'Sorry but this command is only for the big guy.',
