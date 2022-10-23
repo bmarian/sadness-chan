@@ -179,6 +179,18 @@ export default {
             }
         },
         {
+            key: "plotting",
+            data: {
+                name: "Plot",
+                hint: "Show fancy plots?",
+                type: Boolean,
+                default: false,
+                scope: "world",
+                config: true,
+                restricted: true,
+            }
+        },
+        {
             key: "imageBorder",
             data: {
                 name: "Image Border",

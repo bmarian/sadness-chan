@@ -15,6 +15,46 @@
       }
     }
   }
+  .sc-histogram {
+    display: flex;
+    height: 80px;
+    align-items: flex-end;
+    padding-bottom: 20px;
+    padding-top: 13px;
+    //width: -moz-fit-content;
+    //width: fit-content;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    flex-wrap: nowrap;
+    
+    .bar {
+      background: #955c8b;
+      position: relative;
+      border-bottom: 1px solid black;
+      flex-grow: 1;
+      
+      .sc-bar-value, .sc-bar-index {
+        text-align: center;
+        white-space: nowrap;
+        font-size: 10px;
+      }
+      .sc-bar-value {
+        position: relative;
+        top: -13px;
+      }
+      .sc-bar-index {
+        position: absolute;
+        bottom: -20px;
+      }
+      
+    }
+    
+    .bar[data-value="0"] .sc-bar-value {
+      visibility: hidden;
+    }
+  }
+  
 }
 
 .#{$module-name}-chat-stats {
