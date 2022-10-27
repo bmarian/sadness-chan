@@ -21,8 +21,8 @@
     "minimum": 10,
     "verified": 10
   },
-  "url": "https://github.com/clipplerblood/sadness-chan",
-  "manifest": "https://raw.githubusercontent.com/clipplerblood/sadness-chan/master/src/module.json",
-  "download": "https://github.com/clipplerblood/sadness-chan/releases/download/1.1.9/sadness-chan-v1.1.9.zip",
+  "url": "https://github.com/bmarian/sadness-chan",
+  "manifest": "https://raw.githubusercontent.com/bmarian/sadness-chan/master/src/module.json",
+  "download": "https://github.com/bmarian/sadness-chan/releases/download/1.1.9/sadness-chan-v1.1.9.zip",
   "changelog": "https://github.com/bmarian/sadness-chan/releases"
 }
