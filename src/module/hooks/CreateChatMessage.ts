@@ -14,10 +14,11 @@ class CreateChatMessage {
     }
 
     public async createChatMessageHook(chatMessage: any): Promise<void> {
-        const user = chatMessage?.user?.data;
+        if (!chatMessage) return 
+        const user = chatMessage.user;
         if (!(user && game.user.hasRole(4))) return;
 
-        const result = await this._extractAnalytics(chatMessage?._roll, chatMessage, user);
+        const result = await this._extractAnalytics(chatMessage.rolls, chatMessage, user);
         if (!result) return;
         return await SadnessChan.whisper(result, user);
     }
@@ -67,23 +68,26 @@ class CreateChatMessage {
     /**
      * Extracts rolls from the current message and returns an array with them
      *
-     * @param _roll - a list of rolls for this message (not available in better5erolls
+     * @param rolls - a list of rolls for this message (not available in better5erolls
      * @param chatMessage - chat message data
      * @param user - current user
      * @return array of rolls
      */
-    private async _extractAnalytics(_roll: any, chatMessage: any, user: any): Promise<Array<number>> {
-        if (_roll) {
-            return await this._extractSimpleAnalytics(_roll, user);
-        }
-
-        if (game.data.version > '0.6.5') {
-            const extractedURIEmbedded = this._extractUnparsedRollsFromEmbedded (chatMessage.data.content);
-            if (extractedURIEmbedded && extractedURIEmbedded.length > 0) {
-                return await this._parseEmbeddedRolls(extractedURIEmbedded, user);
+    private async _extractAnalytics(rolls: any, chatMessage: any, user: any): Promise<Array<number>> {
+        let analytics = []
+        if (rolls instanceof Array) {
+            let rollAnalytics = []
+            for (const roll of rolls) {
+                rollAnalytics.push(await this._extractSimpleAnalytics(roll, user))
+            }
+            
+            rollAnalytics = rollAnalytics.filter(a => a != null && a instanceof Array)
+            analytics = rollAnalytics.splice(0, 1)[0]
+            for (const a of rollAnalytics) {
+                a.forEach((v, i) => analytics[i] += v)
             }
         }
-         
+        
         if (this._checkIfBR5eIsInstalled() && chatMessage?.data?.content) {
             const extractedStringsFromBR5e = this._extractUnparsedRollsFromBR5e (chatMessage?.data?.content)
             if (extractedStringsFromBR5e && extractedStringsFromBR5e.length > 0) {
@@ -91,7 +95,7 @@ class CreateChatMessage {
             }
         }
 
-        return [];
+        return analytics
     }
 
     /**
@@ -102,7 +106,7 @@ class CreateChatMessage {
      * @return an array with all the recent rolls
      */
     private async _extractSimpleAnalytics(roll: any, user: any): Promise<Array<number>> {
-        const dice = roll.dice && roll.dice.length !== 0 ? roll.dice : roll._dice;
+        const dice = roll.dice
         if (!(dice?.length > 0)) return;
 
         const dieType = SadnessChan.getDieType();
@@ -110,7 +114,7 @@ class CreateChatMessage {
 
         dice.forEach((die: Die): void => {
             if (die.faces !== dieType) return;
-            const results = die.results || die.rolls;
+            const results = die.results //|| die.rolls;
             results.forEach((roll: any): void => {
                 const r = roll.result || roll.roll;
                 recentRolls[r] += 1;

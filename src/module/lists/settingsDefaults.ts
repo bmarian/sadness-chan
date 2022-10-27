@@ -29,7 +29,8 @@ export default {
         AVERAGE_TOGGLE: 'averageToggle',
         IMAGE_BORDER: 'imageBorder',
         SADNESS_TITLE: 'sadnessTitle',
-        RESET_LEVEL: 'resetLevel'
+        RESET_LEVEL: 'resetLevel',
+        IMPORT_EXPORT: 'importExport',
     },
     ERROR_MESSAGES: {
         NOT_ENOUGH_PERMISSIONS: 'Sorry but this command is only for the big guy.',
@@ -170,6 +171,18 @@ export default {
             data: {
                 name: "Show average",
                 hint: "You know this is just a random generator, right? If you really want to find out just search google for dice odds (◔_◔)",
+                type: Boolean,
+                default: false,
+                scope: "world",
+                config: true,
+                restricted: true,
+            }
+        },
+        {
+            key: "plotting",
+            data: {
+                name: "Plot",
+                hint: "Show fancy plots?",
                 type: Boolean,
                 default: false,
                 scope: "world",

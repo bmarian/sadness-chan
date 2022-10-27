@@ -1,5 +1,5 @@
 import CreateChatMessage from "./module/hooks/CreateChatMessage"
-import PreCreateChatMessage from "./module/hooks/PreCreateChatMessage";
+import ChatMessageHook from "./module/hooks/ChatMessageHook";
 import Init from "./module/hooks/Init";
 
 Hooks.once('init', Init.initHook.bind(Init));
@@ -8,7 +8,7 @@ Hooks.once('init', Init.initHook.bind(Init));
  * This hook is used to add the command !sadness
  * The command will modify the message to be a whisper with some sad stats ◔w◔
  */
-Hooks.on('preCreateChatMessage', PreCreateChatMessage.preCreateChatMessageHook.bind(PreCreateChatMessage));
+Hooks.on('chatMessage', ChatMessageHook.chatMessageHook.bind(ChatMessageHook))
 
 /**
  * This hook is used to extract roll information from a message

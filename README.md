@@ -23,5 +23,11 @@ But if you need more help just type `!sadness help` in the chat, and I will give
 ### You can also modify all my 'cute' messages if any of them are too spicy for you `¯\_(ツ)_/¯`
 ![lists](https://i.imgur.com/IaLYF9u.png)
 
+ 
+Available templates:
+- `[sc-name]`: name of the user that made the roll
+- `[sc-avg]`: average rolled value by the user, rounded up to the nearest integer.
+- `[sc-d<x>]`: number of rolled `<x>`. For example, `[sc-d20]` is the number of natural 20s, while `[sc-d1]` is the number of natural 1s.
+
 # Disclaimer
 This module is a joke, and should be treated as such.

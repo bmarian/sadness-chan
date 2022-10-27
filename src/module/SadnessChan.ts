@@ -1,6 +1,7 @@
 import Utils from "./Utils";
 import Settings from "./Settings";
 import settingDefaults from "./lists/settingsDefaults";
+import settings from "./Settings";
 
 class SadnessChan {
     private static _instance: SadnessChan;
@@ -92,7 +93,7 @@ class SadnessChan {
                     <span class="${rollClass}-count">avg</span>    
                 </li>`
             };
-
+            
             message += `
                 <ol class="${rollsClass}">
                     <li class="${rollClass}">
@@ -105,10 +106,34 @@ class SadnessChan {
                         <span class="${rollClass}-count">${crtSuccess}</span>
                     </li>
                 </ol>
+                ${this._getStatsHistogram(rolls)}
             `;
         }
 
         return message;
+    }
+
+    /**
+     * Generate HTML string displaying a histogram from the rolls data
+     * @param rolls
+     * @private
+     */
+    private _getStatsHistogram(rolls: number[]): string {
+        if (!rolls || rolls.length == 0 || !settings.getSetting('plotting')) return ''
+        const max = rolls.reduce((a, b) => Math.max(a, b), 0)
+        const normalizedPerc = rolls.map(r => r / max * 100)
+        let plot = `<div class="sc-histogram">`
+        for (let i = 1; i < rolls.length; i++) {
+            plot += `
+                <div class="bar" style="height: ${normalizedPerc[i]}%" data-value="${rolls[i]}">
+                    <!-- <div class="sc-bar-value">${rolls[i]}</div>-->
+                    <div class="sc-bar-index">${i}</div>
+                </div>
+            `;
+        }
+        plot += `</div>`
+        console.log(max, normalizedPerc)
+        return plot
     }
 
     /**

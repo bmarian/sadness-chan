@@ -52,14 +52,13 @@ class Utils {
     }
 
     public roundUp(nr: number): number {
-        return Math.round((nr + Number.EPSILON) * 10) / 10;
+        return Math.ceil(nr * 10) / 10;
     }
 
     public getAllPlayerNamesAndIDs() {
-        const users = game.users.entities;
         const playerData = {};
-        users.forEach((user: any) => {
-            playerData[user.data.name] = user.data._id;
+        game.users.forEach((user: any) => {
+            playerData[user.name] = user.id;
         })
         return playerData;
     }
