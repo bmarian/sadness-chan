@@ -2,7 +2,7 @@
 ![Downloads](https://img.shields.io/github/downloads/bmarian/sadness-chan/total?style=for-the-badge)
 ![License](https://img.shields.io/github/license/bmarian/sadness-chan?style=for-the-badge)
 ![GitHub Latest Release](https://img.shields.io/github/release/bmarian/sadness-chan?style=for-the-badge)
-![Foundry Version](https://img.shields.io/badge/FoundryVTT-0.7.4-blueviolet?style=for-the-badge)
+![Foundry Version](https://img.shields.io/badge/FoundryVTT-10-blueviolet?style=for-the-badge)
 
 ### This module is no longer in active development. We only plan to fix bugs or problems introduced by new foundry versions. If anyone want's to fork this module and add any features, feel free, you have our blessings.
 A chat 'bot' for FoundryVTT that's full of 'happy' and 'motivational' messages, to pick you up when your rolls let you down. 
