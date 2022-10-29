@@ -23,6 +23,6 @@
   },
   "url": "https://github.com/bmarian/sadness-chan",
   "manifest": "https://raw.githubusercontent.com/bmarian/sadness-chan/master/src/module.json",
-  "download": "https://github.com/bmarian/sadness-chan/releases/download/1.1.9/sadness-chan-v1.1.9.zip",
+  "download": "https://github.com/bmarian/sadness-chan/releases/download/v1.1.9/sadness-chan-v1.1.9.zip",
   "changelog": "https://github.com/bmarian/sadness-chan/releases"
 }
